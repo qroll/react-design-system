@@ -7,7 +7,7 @@ import { Alert } from "../alert";
 import { Markup } from "../markup";
 import { TextList } from "../text-list";
 import { useApplyStyle } from "../theme";
-import * as Typography from "../typography";
+import { Typography } from "../typography";
 import { SimpleIdGenerator } from "../util";
 import * as styles from "./toggle.styles";
 import type { ToggleIconType } from "./toggle-icon";
@@ -151,9 +151,10 @@ export const Toggle = ({
     const getContainerStateClass = (() => {
         if (styleType === "no-border") {
             if (error) {
-                return disabled
-                    ? styles.colorBorderError
-                    : styles.toggleContainerNoBorderError;
+                return clsx(
+                    styles.colorBorderError,
+                    !disabled && styles.toggleContainerError
+                );
             }
 
             if (disabled) {
@@ -389,7 +390,7 @@ export const Toggle = ({
     const renderErrorList = (errors: string[]) => {
         return (
             <>
-                <Typography.Typography.BodyMD
+                <Typography.BodyMD
                     weight="semibold"
                     className={clsx(
                         styles.colorTextError,
@@ -397,7 +398,7 @@ export const Toggle = ({
                     )}
                 >
                     Error
-                </Typography.Typography.BodyMD>
+                </Typography.BodyMD>
                 <TextList.Ul
                     className={clsx(
                         styles.colorTextError,
@@ -410,7 +411,7 @@ export const Toggle = ({
                                 key={index}
                                 id={`${generatedId}-error-list-item-${index}`}
                             >
-                                <Typography.Typography.BodyMD
+                                <Typography.BodyMD
                                     weight="semibold"
                                     className={clsx(
                                         styles.colorTextError,
@@ -418,7 +419,7 @@ export const Toggle = ({
                                     )}
                                 >
                                     {item}
-                                </Typography.Typography.BodyMD>
+                                </Typography.BodyMD>
                             </li>
                         );
                     })}

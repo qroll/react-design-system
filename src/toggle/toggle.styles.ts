@@ -69,8 +69,6 @@ export const colorBorderError = css`
 `;
 
 export const toggleContainerNoBorderError = css`
-    border-color: ${Colour["border-error"]};
-
     &:has(.${headerContainer}:hover) {
         @media (pointer: fine) {
             background: ${Colour["bg-hover-subtle"]};
