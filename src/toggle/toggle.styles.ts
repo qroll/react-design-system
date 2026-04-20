@@ -308,3 +308,8 @@ export const colorTextDisabled = css`
 export const colorTextError = css`
     color: ${Colour["text-error"]};
 `;
+
+export const alertContainer = css`
+    width: 100%;
+    user-select: none;
+`;

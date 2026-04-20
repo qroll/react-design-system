@@ -5,9 +5,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Alert } from "../alert";
 import { Markup } from "../markup";
-import { UnorderedList } from "../text-list/unordered-list";
+import { TextList } from "../text-list";
 import { useApplyStyle } from "../theme";
-import * as Typography from "../typography/typography";
+import * as Typography from "../typography";
 import { SimpleIdGenerator } from "../util";
 import * as styles from "./toggle.styles";
 import type { ToggleIconType } from "./toggle-icon";
@@ -389,7 +389,7 @@ export const Toggle = ({
     const renderErrorList = (errors: string[]) => {
         return (
             <>
-                <Typography.BodyMD
+                <Typography.Typography.BodyMD
                     weight="semibold"
                     className={clsx(
                         styles.colorTextError,
@@ -397,8 +397,8 @@ export const Toggle = ({
                     )}
                 >
                     Error
-                </Typography.BodyMD>
-                <UnorderedList
+                </Typography.Typography.BodyMD>
+                <TextList.Ul
                     className={clsx(
                         styles.colorTextError,
                         disabled && styles.colorTextDisabled
@@ -410,7 +410,7 @@ export const Toggle = ({
                                 key={index}
                                 id={`${generatedId}-error-list-item-${index}`}
                             >
-                                <Typography.BodyMD
+                                <Typography.Typography.BodyMD
                                     weight="semibold"
                                     className={clsx(
                                         styles.colorTextError,
@@ -418,11 +418,11 @@ export const Toggle = ({
                                     )}
                                 >
                                     {item}
-                                </Typography.BodyMD>
+                                </Typography.Typography.BodyMD>
                             </li>
                         );
                     })}
-                </UnorderedList>
+                </TextList.Ul>
             </>
         );
     };
@@ -442,7 +442,7 @@ export const Toggle = ({
                 >
                     <Alert
                         type={disabled ? "description" : "error"}
-                        className={className}
+                        className={styles.alertContainer}
                         showIcon
                     >
                         {Array.isArray(errors)

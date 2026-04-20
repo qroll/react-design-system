@@ -25,7 +25,7 @@ export const ToggleIcon = ({
 }: ToggleIconProps) => {
     let component: JSX.Element | null;
 
-    const getWrapperStateClass = (() => {
+    const getWrapperStateClass = () => {
         if (active && disabled) {
             return styles.wrapperActiveDisabled;
         }
@@ -39,7 +39,7 @@ export const ToggleIcon = ({
         }
 
         return undefined;
-    })();
+    };
 
     switch (type) {
         case "checkbox":
@@ -63,7 +63,7 @@ export const ToggleIcon = ({
         <div
             className={clsx(
                 styles.wrapperBase,
-                getWrapperStateClass,
+                getWrapperStateClass(),
                 className
             )}
             aria-hidden
