@@ -1,4 +1,5 @@
 import type { OpenChangeReason } from "@floating-ui/react";
+import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import * as styles from "../../form/form-label.styles";
@@ -477,16 +478,20 @@ export const ComboboxPicker = ({
         // Only display internal error message if user does not provide one
         !error &&
         validationError && (
-            <styles.ErrorMessageContainer>
-                <styles.ErrorIcon aria-hidden />
-                <styles.ErrorMessage
+            <div className={styles.errorMessageContainer}>
+                <ExclamationCircleFillIcon
+                    className={styles.errorIcon}
+                    aria-hidden
+                />
+                <p
                     id={errorId}
+                    className={styles.errorMessage}
                     tabIndex={0}
                     data-testid={id ? `${id}-error-message` : "error-message"}
                 >
                     {validationError}
-                </styles.ErrorMessage>
-            </styles.ErrorMessageContainer>
+                </p>
+            </div>
         );
 
     return (

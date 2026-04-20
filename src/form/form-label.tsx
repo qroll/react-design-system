@@ -1,3 +1,5 @@
+import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
+import clsx from "clsx";
 import type React from "react";
 
 import { Markup } from "../markup";
@@ -28,28 +30,29 @@ export const FormLabel = ({
     };
 
     return (
-        <styles.LabelContainer
-            className={className}
+        <div
+            className={clsx(styles.labelContainer, className)}
             style={style}
             data-testid={testId}
         >
-            <styles.Label id={id} {...otherProps}>
+            <label id={id} className={styles.label} {...otherProps}>
                 <Markup inline>
                     {children}
                     {addon && addon.type && renderAddon()}
                 </Markup>
-            </styles.Label>
+            </label>
             {typeof subtitle === "string" ? (
-                <styles.Subtitle
+                <span
                     id={id ? `${id}-subtitle` : undefined}
+                    className={styles.subtitle}
                     data-testid={testId ? `${testId}-subtitle` : "subtitle"}
                 >
                     {subtitle}
-                </styles.Subtitle>
+                </span>
             ) : (
                 subtitle
             )}
-        </styles.LabelContainer>
+        </div>
     );
 };
 
@@ -57,9 +60,12 @@ export const FormErrorMessage = (
     props: React.HTMLAttributes<HTMLElement>
 ): JSX.Element => {
     return (
-        <styles.ErrorMessageContainer>
-            <styles.ErrorIcon aria-hidden />
-            <styles.ErrorMessage {...props} />
-        </styles.ErrorMessageContainer>
+        <div className={styles.errorMessageContainer}>
+            <ExclamationCircleFillIcon
+                className={styles.errorIcon}
+                aria-hidden
+            />
+            <p {...props} />
+        </div>
     );
 };

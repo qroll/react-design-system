@@ -4,6 +4,7 @@
  *
  */
 
+import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
 import type { ComponentType } from "react";
 import { Children, cloneElement, useState } from "react";
 
@@ -174,10 +175,14 @@ export const FormWrapper = ({
             {label && renderFormLabel()}
             {renderChildren()}
             {errorMessage && (
-                <labelStyles.ErrorMessageContainer>
-                    <labelStyles.ErrorIcon aria-hidden />
-                    <labelStyles.ErrorMessage
+                <div className={labelStyles.errorMessageContainer}>
+                    <ExclamationCircleFillIcon
+                        className={labelStyles.errorIcon}
+                        aria-hidden
+                    />
+                    <p
                         id={errorMessageId}
+                        className={labelStyles.errorMessage}
                         tabIndex={0}
                         data-testid={
                             errorTestId ??
@@ -187,8 +192,8 @@ export const FormWrapper = ({
                         }
                     >
                         {errorMessage}
-                    </labelStyles.ErrorMessage>
-                </labelStyles.ErrorMessageContainer>
+                    </p>
+                </div>
             )}
         </ContainerComponent>
     );

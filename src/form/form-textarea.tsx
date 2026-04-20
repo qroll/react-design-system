@@ -1,3 +1,5 @@
+import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
 import { TextareaBase } from "../input-textarea/textarea";
@@ -73,16 +75,23 @@ const FormTextareaComponent = (
     const renderBottomLabels = () => {
         if (!errorMessage && !otherProps.maxLength) return <></>;
         return (
-            <textAreaStyles.LabelContainer>
+            <div className={textAreaStyles.labelContainer}>
                 {errorMessage && (
-                    <textAreaStyles.ErrorMessageContainer>
-                        <labelStyles.ErrorIcon aria-hidden />
-                        <textAreaStyles.ErrorMessageLabel
+                    <div className={textAreaStyles.errorMessageContainer}>
+                        <ExclamationCircleFillIcon
+                            className={labelStyles.errorIcon}
+                            aria-hidden
+                        />
+                        <p
+                            className={clsx(
+                                labelStyles.errorMessage,
+                                textAreaStyles.errorMessageLabel
+                            )}
                             data-testid={getErrorTestMessageId()}
                         >
                             {errorMessage}
-                        </textAreaStyles.ErrorMessageLabel>
-                    </textAreaStyles.ErrorMessageContainer>
+                        </p>
+                    </div>
                 )}
                 {otherProps.maxLength && (
                     <TextareaCounter
@@ -91,7 +100,7 @@ const FormTextareaComponent = (
                         renderCustomCounter={otherProps.renderCustomCounter}
                     />
                 )}
-            </textAreaStyles.LabelContainer>
+            </div>
         );
     };
 

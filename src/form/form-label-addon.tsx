@@ -28,7 +28,7 @@ export const PopoverAddon = ({
     // RENDER FUNCTION
     // =========================================================================
     return (
-        <styles.AddonWrapper>
+        <div className={styles.addonWrapper}>
             <PopoverInline
                 trigger="click"
                 id={id}
@@ -39,6 +39,6 @@ export const PopoverAddon = ({
                 icon={icon ?? <ICircleFillIcon data-testid={`${type}-icon`} />}
                 ariaLabel="More info"
             />
-        </styles.AddonWrapper>
+        </div>
     );
 };
