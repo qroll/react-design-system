@@ -1,25 +1,19 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { Border, Colour, Font, MediaQuery, Radius } from "../theme";
-import type { TagColorType, TagType } from "./types";
 
 // =============================================================================
 // STYLING
 // =============================================================================
-interface StyleProps {
-    $type: TagType;
-    $color: TagColorType;
-    $interactive: boolean;
-}
 
-export const Wrapper = styled.div<StyleProps>`
+export const Wrapper = styled.div`
     border-radius: ${Radius["sm"]};
     padding: 0.125rem 0.5rem;
     width: fit-content;
     max-width: 100%;
     ${Font["body-xs-semibold"]}
     transition: all 200ms ease;
-    cursor: ${({ $interactive }) => ($interactive ? "pointer" : "default")};
+    cursor: default;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -28,117 +22,252 @@ export const Wrapper = styled.div<StyleProps>`
         flex-shrink: 0;
     }
 
-    ${(props) => {
-        let backgroundColor: string;
-        let borderColor: string | undefined;
-        let color: string;
-        let hoverBackgroundColor: string;
-        let hoverBorderColor: string | undefined;
+    &.wrapperSolidGrey {
+        background: ${Colour["bg-inverse-subtler"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
 
-        if (props.$type === "solid") {
-            color = Colour["text-inverse"];
-            switch (props.$color) {
-                case "grey":
-                    backgroundColor = Colour["bg-inverse-subtler"];
-                    hoverBackgroundColor = Colour["bg-inverse-hover"];
-                    break;
-                case "green":
-                    backgroundColor = Colour["bg-success-strong"];
-                    hoverBackgroundColor = Colour["bg-success-strong-hover"];
-                    break;
-                case "yellow":
-                    backgroundColor = Colour["bg-warning-strong"];
-                    hoverBackgroundColor = Colour["bg-warning-strong-hover"];
-                    break;
-                case "red":
-                    backgroundColor = Colour["bg-error-strong"];
-                    hoverBackgroundColor = Colour["bg-error-strong-hover"];
-                    break;
-                case "blue":
-                    backgroundColor = Colour["bg-info-strong"];
-                    hoverBackgroundColor = Colour["bg-info-strong-hover"];
-                    break;
-                case "primary":
-                    backgroundColor = Colour["bg-primary"];
-                    hoverBackgroundColor = Colour["bg-primary-hover"];
-                    break;
-                default:
-                    backgroundColor = Colour["bg-inverse"];
-                    hoverBackgroundColor = Colour["bg-inverse-hover"];
-                    break;
-            }
-        } else {
-            switch (props.$color) {
-                case "grey":
-                    backgroundColor = Colour["bg-strong"];
-                    borderColor = Colour["border-strong"];
-                    color = Colour["text-subtle"];
-                    hoverBackgroundColor = Colour["bg-hover-neutral-strong"];
-                    break;
-                case "green":
-                    backgroundColor = Colour["bg-success"];
-                    borderColor = Colour["border-success"];
-                    color = Colour["text-success"];
-                    hoverBackgroundColor = Colour["bg-success-hover"];
-                    break;
-                case "yellow":
-                    backgroundColor = Colour["bg-warning"];
-                    borderColor = Colour["border-warning"];
-                    color = Colour["text-warning"];
-                    hoverBackgroundColor = Colour["bg-warning-hover"];
-                    break;
-                case "red":
-                    backgroundColor = Colour["bg-error"];
-                    borderColor = Colour["border-error"];
-                    color = Colour["text-error"];
-                    hoverBackgroundColor = Colour["bg-error-hover"];
-                    break;
-                case "blue":
-                    backgroundColor = Colour["bg-info"];
-                    borderColor = Colour["border-info"];
-                    color = Colour["text-info"];
-                    hoverBackgroundColor = Colour["bg-info-hover"];
-                    break;
-                case "primary":
-                    backgroundColor = Colour["bg-primary-subtlest"];
-                    borderColor = Colour["border-primary"];
-                    color = Colour["text-primary"];
-                    hoverBackgroundColor = Colour["bg-primary-hover"];
-                    break;
-                default:
-                    backgroundColor = Colour.bg;
-                    borderColor = Colour.border;
-                    color = Colour.text;
-                    hoverBackgroundColor = Colour["bg-hover-neutral"];
-                    break;
-            }
-        }
-        return css`
-            background: ${backgroundColor};
-            border: ${Border["width-010"]} ${Border.solid} ${borderColor};
-            color: ${color};
+        &.wrapperInteractive {
+            cursor: pointer;
+
             @media (hover: hover) {
                 &:hover {
-                    ${props.$interactive &&
-                    hoverBackgroundColor &&
-                    `background: ${hoverBackgroundColor};`}
-                    ${props.$interactive &&
-                    hoverBorderColor &&
-                    `border-color: ${hoverBorderColor};`}
+                    background: ${Colour["bg-inverse-hover"]};
                 }
             }
-        `;
-    }}
+        }
+    }
+
+    /* Solid type - green */
+    &.wrapperSolidGreen {
+        background: ${Colour["bg-success-strong"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-success-strong-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Solid type - red */
+    &.wrapperSolidRed {
+        background: ${Colour["bg-error-strong"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-error-strong-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Solid type - blue */
+    &.wrapperSolidBlue {
+        background: ${Colour["bg-info-strong"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-info-strong-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Solid type - primary */
+    &.wrapperSolidPrimary {
+        background: ${Colour["bg-primary"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-primary-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Solid type - yellow */
+    &.wrapperSolidYellow {
+        background: ${Colour["bg-warning-strong"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-warning-strong-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Solid type - default (black) */
+    &.wrapperSolidBlack {
+        background: ${Colour["bg-inverse"]};
+        border: ${Border["width-010"]} ${Border.solid} transparent;
+        color: ${Colour["text-inverse"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-inverse-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - grey */
+    &.wrapperOutlineGrey {
+        background: ${Colour["bg-strong"]};
+        border: ${Border["width-010"]} ${Border.solid}
+            ${Colour["border-strong"]};
+        color: ${Colour["text-subtle"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-hover-neutral-strong"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - green */
+    &.wrapperOutlineGreen {
+        background: ${Colour["bg-success"]};
+        border: ${Border["width-010"]} ${Border.solid}
+            ${Colour["border-success"]};
+        color: ${Colour["text-success"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-success-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - yellow */
+    &.wrapperOutlineYellow {
+        background: ${Colour["bg-warning"]};
+        border: ${Border["width-010"]} ${Border.solid}
+            ${Colour["border-warning"]};
+        color: ${Colour["text-warning"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-warning-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - red */
+    &.wrapperOutlineRed {
+        background: ${Colour["bg-error"]};
+        border: ${Border["width-010"]} ${Border.solid} ${Colour["border-error"]};
+        color: ${Colour["text-error"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-error-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - blue */
+    &.wrapperOutlineBlue {
+        background: ${Colour["bg-info"]};
+        border: ${Border["width-010"]} ${Border.solid} ${Colour["border-info"]};
+        color: ${Colour["text-info"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-info-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - primary */
+    &.wrapperOutlinePrimary {
+        background: ${Colour["bg-primary-subtlest"]};
+        border: ${Border["width-010"]} ${Border.solid}
+            ${Colour["border-primary"]};
+        color: ${Colour["text-primary"]};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-primary-hover"]};
+                }
+            }
+        }
+    }
+
+    /* Outline type - default (black) */
+    &.wrapperOutlineBlack {
+        background: ${Colour.bg};
+        border: ${Border["width-010"]} ${Border.solid} ${Colour.border};
+        color: ${Colour.text};
+
+        &.wrapperInteractive {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    background: ${Colour["bg-hover-neutral"]};
+                }
+            }
+        }
+    }
 
     ${MediaQuery.MaxWidth.lg} {
-        ${({ $interactive }) => {
-            if ($interactive) {
-                return css`
-                    ${Font["body-md-semibold"]}
-                    padding: calc(0.5rem - 1px) 1rem;
-                `;
-            }
-        }}
+        &.wrapperInteractive {
+            ${Font["body-md-semibold"]}
+            padding: calc(0.5rem - 1px) 1rem;
+        }
     }
 `;
 
