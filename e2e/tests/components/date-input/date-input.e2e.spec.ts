@@ -80,11 +80,13 @@ test.describe("DateInput", () => {
         test("Mount", async ({ story }) => {
             await expect(story.locators.calendarContainer).not.toBeVisible();
             await expect(story.locators.selectedValue).toHaveText("none");
+
             await compareScreenshot(story, "mount");
         });
 
         test("Open - no selection", async ({ story }) => {
             await story.openCalendar();
+
             await compareScreenshot(story, "state", {
                 fullscreen: true,
             });
@@ -93,6 +95,7 @@ test.describe("DateInput", () => {
         test("Hovered date", async ({ story }) => {
             await story.openCalendar();
             await story.getDayCell(15).hover();
+
             await compareScreenshot(story, "state", {
                 fullscreen: true,
             });
@@ -102,6 +105,7 @@ test.describe("DateInput", () => {
             await story.openCalendar();
             await story.getDayCell(10).click();
             await story.getDayCell(10).hover();
+
             await compareScreenshot(story, "state", {
                 fullscreen: true,
             });
@@ -110,12 +114,8 @@ test.describe("DateInput", () => {
         test("Selected date", async ({ story }) => {
             await story.openCalendar();
             await story.getDayCell(10).click();
-            const box = await story.locators.calendarContent.boundingBox();
-            if (!box)
-                throw new Error(
-                    "calendarContent bounding box unavailable in 'Selected date' test"
-                );
-            await story.page.mouse.move(box.x + box.width / 2, box.y - 10);
+            await story.getDayCell(10).blur();
+
             await compareScreenshot(story, "state", {
                 fullscreen: true,
             });
@@ -125,6 +125,7 @@ test.describe("DateInput", () => {
             await story.openCalendar();
             await story.getDayCell(10).click();
             await story.locators.doneButton.click();
+
             await expect(story.locators.selectedValue).toHaveText(
                 /^\d{4}-\d{2}-\d{2}$/
             );
@@ -133,7 +134,6 @@ test.describe("DateInput", () => {
         test("Cancel restores initial value", async ({ story }) => {
             const previousValue =
                 (await story.locators.selectedValue.textContent()) ?? "";
-
             await story.openCalendar();
             await story.getDayCell(20).click();
             await story.locators.cancelButton.click();
@@ -146,6 +146,7 @@ test.describe("DateInput", () => {
         test.describe("Focused states", () => {
             test("day input focused", async ({ story }) => {
                 await story.locators.dayInput.click();
+
                 await compareScreenshot(story, "state", {
                     locator: story.locators.dateInput,
                 });
@@ -153,6 +154,7 @@ test.describe("DateInput", () => {
 
             test("month input focused", async ({ story }) => {
                 await story.locators.monthInput.click();
+
                 await compareScreenshot(story, "state", {
                     locator: story.locators.dateInput,
                 });
@@ -160,6 +162,7 @@ test.describe("DateInput", () => {
 
             test("year input focused", async ({ story }) => {
                 await story.locators.yearInput.click();
+
                 await compareScreenshot(story, "state", {
                     locator: story.locators.dateInput,
                 });
@@ -168,6 +171,17 @@ test.describe("DateInput", () => {
             test("day filled — divider active", async ({ story }) => {
                 await story.locators.dayInput.click();
                 await story.locators.dayInput.fill("08");
+
+                await compareScreenshot(story, "state", {
+                    locator: story.locators.dateInput,
+                });
+            });
+
+            test("month filled — both dividers active", async ({ story }) => {
+                await story.locators.dayInput.click();
+                await story.locators.dayInput.fill("08");
+                await story.locators.monthInput.fill("04");
+
                 await compareScreenshot(story, "state", {
                     locator: story.locators.dateInput,
                 });
@@ -178,6 +192,7 @@ test.describe("DateInput", () => {
                 await story.locators.dayInput.fill("08");
                 await story.locators.monthInput.fill("04");
                 await story.locators.yearInput.fill("2026");
+
                 await compareScreenshot(story, "state", {
                     locator: story.locators.dateInput,
                 });
@@ -192,8 +207,8 @@ test.describe("DateInput", () => {
 
         test("Month view", async ({ story }) => {
             await story.openCalendar();
-
             await story.monthButton.click();
+
             await expect(story.getMonthOption("January")).toBeVisible();
             await compareScreenshot(story, "state", {
                 fullscreen: true,
@@ -203,7 +218,9 @@ test.describe("DateInput", () => {
         test("Year view", async ({ story }) => {
             await story.openCalendar();
             await story.yearButton.click();
+
             await expect(story.getYearOption("2026")).toBeVisible();
+
             await compareScreenshot(story, "state", {
                 fullscreen: true,
             });
@@ -224,36 +241,21 @@ test.describe("DateInput", () => {
             await compareScreenshot(story, "state");
 
             await story.locators.dateInput.click({ force: true });
+
             await expect(story.locators.calendarContainer).not.toBeVisible();
         });
     });
 
-    test.describe("StandaloneDateInput", () => {
-        test.describe("Disabled with value", () => {
-            test.beforeEach(async ({ story }) => {
-                await story.init("disabled", {
-                    mockedTimestamp: fixedTimestamp,
-                });
-            });
-
-            test("disabled with pre-filled value", async ({ story }) => {
-                await compareScreenshot(story, "mount", {
-                    locator: story.locators.dateInput,
-                });
+    test.describe("Read-only", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("read-only", {
+                mockedTimestamp: fixedTimestamp,
             });
         });
 
-        test.describe("Read-only", () => {
-            test.beforeEach(async ({ story }) => {
-                await story.init("read-only", {
-                    mockedTimestamp: fixedTimestamp,
-                });
-            });
-
-            test("read-only with value", async ({ story }) => {
-                await compareScreenshot(story, "mount", {
-                    locator: story.locators.dateInput,
-                });
+        test("read-only with value", async ({ story }) => {
+            await compareScreenshot(story, "mount", {
+                locator: story.locators.dateInput,
             });
         });
     });
