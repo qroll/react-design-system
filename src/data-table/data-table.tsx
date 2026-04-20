@@ -61,7 +61,7 @@ export const DataTable = ({
     const headerRef = useRef<HTMLTableSectionElement>(null);
     const actionBarRef = useRef<HTMLDivElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const internalId = useRef(id || SimpleIdGenerator.generate());
+    const [internalId] = useState(() => SimpleIdGenerator.generate());
     const keyColumns = headers.filter(
         (header): header is Exclude<HeaderProps, string> => {
             return typeof header !== "string" && !!header.keyColumn;
@@ -159,11 +159,6 @@ export const DataTable = ({
         return headers.length + (enableMultiSelect ? 1 : 0);
     };
 
-    const getHeaderCheckboxAriaLabel = (): string => {
-        const totalColumns = getTotalColumns();
-        return `Select all rows, Column 1 of ${totalColumns}`;
-    };
-
     const getSortDirection = (fieldKey: string) => {
         return sortIndicators?.[fieldKey];
     };
@@ -186,23 +181,18 @@ export const DataTable = ({
     };
 
     const getHeaderWrapperId = (fieldKey: string) => {
-        return `${internalId.current}-header-${fieldKey}`;
+        return `${internalId}-header-${fieldKey}`;
     };
-
-    const getRowPositionId = (rowId: string) => {
-        return `${internalId.current}-row-${rowId}-position`;
-    };
-
-    const getKeyColumnCellId = (rowId: string, fieldKey: string) => {
-        return `${internalId.current}-row-${rowId}-${fieldKey}-key-column`;
+    const getCellId = (rowId: string, fieldKey: string) => {
+        return `${internalId}-row-${rowId}-${fieldKey}-key-column`;
     };
 
     const getRowCheckboxAriaLabelledBy = (rowId: string) => {
         const keyColumnIds = keyColumns.map((header) =>
-            getKeyColumnCellId(rowId, header.fieldKey)
+            getCellId(rowId, header.fieldKey)
         );
 
-        return concatIds(getRowPositionId(rowId), ...keyColumnIds);
+        return concatIds(...keyColumnIds);
     };
 
     const calculateFixedInViewport = () => {
@@ -284,7 +274,7 @@ export const DataTable = ({
             : header;
 
         const isSortable = !!getSortDirection(fieldKey);
-        const wrapperId = getHeaderWrapperId(fieldKey);
+        const headerCellWrapperId = getHeaderWrapperId(fieldKey);
 
         return (
             <HeaderCell
@@ -296,18 +286,7 @@ export const DataTable = ({
                 style={style}
                 $isCheckbox={false}
             >
-                {(clickable || isSortable) && (
-                    <VisuallyHidden>
-                        <button
-                            type="button"
-                            aria-labelledby={wrapperId}
-                            onClick={() => onHeaderClick?.(fieldKey)}
-                        />
-                    </VisuallyHidden>
-                )}
-
-                <HeaderCellWrapper id={wrapperId}>
-                    {isSortable && <VisuallyHidden>{"Sort "}</VisuallyHidden>}
+                <HeaderCellWrapper id={headerCellWrapperId}>
                     {typeof label === "string" ? (
                         <Typography.BodyBL weight="bold">
                             {label}
@@ -316,12 +295,16 @@ export const DataTable = ({
                         label
                     )}
                     {renderSortedArrow(fieldKey)}
-                    {isSortable && (
-                        <VisuallyHidden>
-                            {getSortButtonAriaLabel(fieldKey)}
-                        </VisuallyHidden>
-                    )}
                 </HeaderCellWrapper>
+                {(clickable || isSortable) && (
+                    <VisuallyHidden>
+                        <button onClick={() => onHeaderClick?.(fieldKey)}>
+                            {isSortable && "Sort "}
+                            <span aria-labelledby={headerCellWrapperId} />
+                            {isSortable && getSortButtonAriaLabel(fieldKey)}
+                        </button>
+                    </VisuallyHidden>
+                )}
             </HeaderCell>
         );
     };
@@ -360,7 +343,7 @@ export const DataTable = ({
                         <Checkbox
                             checked={isAllCheckboxSelected()}
                             indeterminate={isIndeterminateCheckbox()}
-                            aria-label={getHeaderCheckboxAriaLabel()}
+                            aria-label="Select all rows"
                             onClick={() => {
                                 if (onSelectAll) {
                                     onSelectAll(isAllCheckboxSelected());
@@ -392,7 +375,7 @@ export const DataTable = ({
                         $isSelectable={enableMultiSelect}
                         $isSelected={isRowSelected(row.id.toString())}
                     >
-                        {enableMultiSelect && renderRowCheckBox(row, index)}
+                        {enableMultiSelect && renderRowCheckBox(row)}
 
                         {headers.map((header) => renderRowCell(header, row))}
                     </BodyRow>
@@ -412,7 +395,7 @@ export const DataTable = ({
             <BodyCell
                 data-testid={getDataTestId(`row-${cellId}`)}
                 key={cellId}
-                id={getKeyColumnCellId(rowId, fieldKey)}
+                id={getCellId(rowId, fieldKey)}
                 style={style}
                 $isCheckbox={false}
             >
@@ -428,7 +411,7 @@ export const DataTable = ({
         );
     };
 
-    const renderRowCheckBox = (row: RowProps, index: number) => {
+    const renderRowCheckBox = (row: RowProps) => {
         const rowId = row.id.toString();
 
         return (
@@ -437,9 +420,6 @@ export const DataTable = ({
                 $isCheckbox={true}
             >
                 <CheckBoxWrapper>
-                    <VisuallyHidden id={getRowPositionId(rowId)}>
-                        {`Row ${index + 1} of ${rows?.length ?? 0}`}
-                    </VisuallyHidden>
                     <Checkbox
                         checked={isRowSelected(rowId)}
                         aria-labelledby={getRowCheckboxAriaLabelledBy(rowId)}
