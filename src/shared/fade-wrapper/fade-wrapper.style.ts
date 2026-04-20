@@ -1,31 +1,18 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { Colour, MediaQuery, Spacing } from "../../theme/tokens";
 import { ClickableIcon } from "../clickable-icon";
 
-// =============================================================================
-// STYLE TYPES, transient props are denoted with $
-// See more https://styled-components.com/docs/api#transient-props
-// =============================================================================
-interface FadeProps {
-    $backgroundColor?: string[];
-    $position?: "left" | "right";
-    $showIndicator?: boolean;
-}
+export const tokens = {
+    backgroundColor: "--fds-internal-fadeWrapper-fade-backgroundColor",
+};
 
-interface IndicatorButtonProps {
-    $position?: "left" | "right";
-}
-
-// =============================================================================
-// STYLE COMPONENTS
-// =============================================================================
 export const Wrapper = styled.div`
     position: relative;
     width: 100%;
 `;
 
-export const Fade = styled.div<FadeProps>`
+export const Fade = styled.div`
     width: 64px;
     height: 100%;
     top: 0;
@@ -34,47 +21,27 @@ export const Fade = styled.div<FadeProps>`
     display: flex;
     align-items: center;
 
-    ${(props) => {
-        let positionStyle: string;
-        const transparentColor = "rgba(255,255,255,0.001)";
-        const fadeColor = Colour.bg;
-
-        if (props.$position === "left") {
-            positionStyle = `
-                left: 0;
-                background-image: linear-gradient(
-                    to right,
-                    ${
-                        props.$backgroundColor ||
-                        (props.$showIndicator
-                            ? `${fadeColor}, ${fadeColor}`
-                            : `${fadeColor}`)
-                    },
-                    ${transparentColor}
-                );
-            `;
-        } else {
-            positionStyle = `
-                right: 0;
-                background-image: linear-gradient(
-                    to left,
-                    ${
-                        props.$backgroundColor ||
-                        (props.$showIndicator
-                            ? `${fadeColor}, ${fadeColor}`
-                            : `${fadeColor}`)
-                    },
-                    ${transparentColor}
-                );
-            `;
+    &.fadeLeft {
+        left: 0;
+        ${MediaQuery.MaxWidth.lg} {
+            background-image: linear-gradient(
+                to right,
+                var(${tokens.backgroundColor}, ${Colour.bg}),
+                rgba(255, 255, 255, 0.001)
+            );
         }
+    }
 
-        return css`
-            ${MediaQuery.MaxWidth.lg} {
-                ${positionStyle}
-            }
-        `;
-    }};
+    &.fadeRight {
+        right: 0;
+        ${MediaQuery.MaxWidth.lg} {
+            background-image: linear-gradient(
+                to left,
+                var(${tokens.backgroundColor}, ${Colour.bg}),
+                rgba(255, 255, 255, 0.001)
+            );
+        }
+    }
 `;
 
 export const Content = styled.div`
@@ -91,7 +58,7 @@ export const Content = styled.div`
     }
 `;
 
-export const FadeIndicatorButton = styled(ClickableIcon)<IndicatorButtonProps>`
+export const FadeIndicatorButton = styled(ClickableIcon)`
     display: none;
 
     ${MediaQuery.MaxWidth.lg} {
@@ -101,22 +68,18 @@ export const FadeIndicatorButton = styled(ClickableIcon)<IndicatorButtonProps>`
         padding: unset;
         align-items: center;
 
-        ${(props) => {
-            if (props.$position === "left") {
-                return css`
-                    justify-content: left;
-                    padding-left: ${Spacing["spacing-8"]};
-                `;
-            } else {
-                return css`
-                    justify-content: right;
-                    padding-right: ${Spacing["spacing-8"]};
-                `;
-            }
-        }}
-
         svg {
             color: ${Colour["icon"]};
         }
+    }
+
+    &.indicatorLeft {
+        justify-content: left;
+        padding-left: ${Spacing["spacing-8"]};
+    }
+
+    &.indicatorRight {
+        justify-content: right;
+        padding-right: ${Spacing["spacing-8"]};
     }
 `;

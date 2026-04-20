@@ -10,71 +10,36 @@ import {
     Spacing,
 } from "../theme/tokens";
 
-// =============================================================================
-// STYLE INTERFACES
-// =============================================================================
-interface LabelStyleProps {
-    $active?: boolean;
-}
+export const tokens = {
+    chainItem: {
+        width: "--fds-internal-tab-chainItem-width",
+    },
+};
 
-interface ChainStyleProps {
-    $fullWidthIndicatorLine?: boolean;
-}
-
-interface ChainItemStyleProps {
-    $active?: boolean;
-    $width?: string;
-}
-
-interface ChainLinkStyleProps {
-    $reversed: boolean;
-}
-
-// =============================================================================
-// STYLING
-// =============================================================================
-export const Chain = styled.ul<ChainStyleProps>`
+export const Chain = styled.ul`
     display: inline-flex;
     width: 100%;
     list-style-type: none;
 
-    ${(props) => {
-        if (props.$fullWidthIndicatorLine) {
-            return css`
-                &::after {
-                    content: "";
-                    height: inherit;
-                    flex-grow: 1;
-                    /* follows the border in ChainItem */
-                    border-bottom: ${Border["width-040"]} ${Border.solid}
-                        ${Colour.border};
-                }
-            `;
-        }
-    }}
+    &.fullWidthIndicator::after {
+        content: "";
+        height: inherit;
+        flex-grow: 1;
+        /* follows the border in ChainItem */
+        border-bottom: ${Border["width-040"]} ${Border.solid} ${Colour.border};
+    }
 `;
 
-export const ChainItem = styled.li<ChainItemStyleProps>`
+export const ChainItem = styled.li`
     display: flex;
     justify-content: center;
     flex-shrink: 0;
     border-bottom: ${Border["width-040"]} ${Border.solid} ${Colour.border};
+    width: var(${tokens.chainItem.width});
 
-    ${(props) => {
-        if (props.$width) {
-            return css`
-                width: ${props.$width};
-            `;
-        }
-    }}
-
-    ${(props) => {
-        if (props.$active) {
-            return css`
-                border-color: ${Colour["border-primary"]};
-            `;
-        }
-    }}
+    &.active {
+        border-color: ${Colour["border-primary"]};
+    }
 
     ${MediaQuery.MaxWidth.sm} {
         flex: 1;
@@ -94,15 +59,19 @@ const flexRow = css`
     align-items: center;
 `;
 
-export const ChainLink = styled.div<ChainLinkStyleProps>`
+export const ChainLink = styled.div`
     /* position: relative; */
     ${flexRow}
-    flex-direction: ${(props) => (props.$reversed ? "row-reverse" : "row")};
+    flex-direction: row;
     gap: 0.5rem;
     ${padding}
     cursor: pointer;
     width: 100%;
     justify-content: center;
+
+    &.reversed {
+        flex-direction: row-reverse;
+    }
 
     &:has(button:focus-visible) {
         outline: 2px solid ${Colour["focus-ring"]};
@@ -121,36 +90,28 @@ const buttonBase = css`
     background: none;
 `;
 
-export const Label = styled.div<LabelStyleProps>`
+export const Label = styled.div`
     ${buttonBase}
     position: absolute;
     ${Font["body-baseline-regular"]}
     color: ${Colour["text-subtler"]};
     opacity: 1;
 
-    ${(props) => {
-        if (props.$active) {
-            return css`
-                opacity: 0;
-            `;
-        }
-    }}
+    &.active {
+        opacity: 0;
+    }
 `;
 
-export const BoldLabel = styled.button<LabelStyleProps>`
+export const BoldLabel = styled.button`
     ${buttonBase}
     ${Font["body-baseline-semibold"]}
     color: ${Colour["text-primary"]};
     opacity: 0;
     outline: none;
 
-    ${(props) => {
-        if (props.$active) {
-            return css`
-                opacity: 1;
-            `;
-        }
-    }}
+    &.active {
+        opacity: 1;
+    }
 `;
 
 export const CustomFadeWrapper = styled(FadeWrapper)`

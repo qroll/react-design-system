@@ -1,5 +1,6 @@
 import { ChevronLeftIcon } from "@lifesg/react-icons/chevron-left";
 import { ChevronRightIcon } from "@lifesg/react-icons/chevron-right";
+import clsx from "clsx";
 import throttle from "lodash/throttle";
 import type React from "react";
 import {
@@ -11,10 +12,13 @@ import {
 } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
+import { useApplyStyle } from "../../theme";
+import { Colour } from "../../theme/tokens";
 import {
     Content,
     Fade,
     FadeIndicatorButton,
+    tokens,
     Wrapper,
 } from "./fade-wrapper.style";
 import type { FadeColorSet, FadeWrapperProps, FadeWrapperRef } from "./types";
@@ -42,6 +46,8 @@ const Component = (
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+    const fadeLeftRef = useRef<HTMLDivElement>(null);
+    const fadeRightRef = useRef<HTMLDivElement>(null);
 
     const throttledScrollHandler = throttle(handleScroll, 50);
 
@@ -121,39 +127,57 @@ const Component = (
         // }
     }
 
+    const fadeColorSet: FadeColorSet =
+        Array.isArray(fadeColor) && fadeColor.length > 0
+            ? {
+                  left: fadeColor,
+                  right: fadeColor,
+              }
+            : !fadeColor
+            ? {
+                  left: undefined,
+                  right: undefined,
+              }
+            : (fadeColor as FadeColorSet);
+
+    const getFadeBackgroundColorValue = (color?: string[]) => {
+        if (color && color.length > 0) {
+            return color.join(", ");
+        }
+
+        if (showIndicator) {
+            return `${Colour.bg}, ${Colour.bg}`;
+        }
+
+        return null;
+    };
+
+    useApplyStyle(fadeLeftRef, {
+        [tokens.backgroundColor]: getFadeBackgroundColorValue(
+            fadeColorSet.left
+        ),
+    });
+    useApplyStyle(fadeRightRef, {
+        [tokens.backgroundColor]: getFadeBackgroundColorValue(
+            fadeColorSet.right
+        ),
+    });
+
     // =========================================================================
     // RENDER FUNCTIONS
     // =========================================================================
     const renderFade = () => {
-        let fadeColorSet: FadeColorSet;
-
-        if (Array.isArray(fadeColor) && fadeColor.length > 0) {
-            // Single array, apply same color
-            fadeColorSet = {
-                left: fadeColor,
-                right: fadeColor,
-            };
-        } else if (!fadeColor) {
-            fadeColorSet = {
-                left: undefined,
-                right: undefined,
-            };
-        } else {
-            fadeColorSet = fadeColor as FadeColorSet;
-        }
-
         return (
             <>
                 {showFadeLeft && (
                     <Fade
-                        $backgroundColor={fadeColorSet.left}
-                        $position="left"
-                        $showIndicator={showIndicator}
+                        ref={fadeLeftRef}
+                        className={clsx("fadeLeft")}
                         data-id="left-fade"
                     >
                         {showIndicator && (
                             <FadeIndicatorButton
-                                $position="left"
+                                className={clsx("indicatorLeft")}
                                 data-id="left-fade-indicator-button"
                             >
                                 <ChevronLeftIcon />
@@ -163,14 +187,13 @@ const Component = (
                 )}
                 {showFadeRight && (
                     <Fade
-                        $backgroundColor={fadeColorSet.right}
-                        $position="right"
-                        $showIndicator={showIndicator}
+                        ref={fadeRightRef}
+                        className={clsx("fadeRight")}
                         data-id="right-fade"
                     >
                         {showIndicator && (
                             <FadeIndicatorButton
-                                $position="right"
+                                className={clsx("indicatorRight")}
                                 data-id="right-fade-indicator-button"
                             >
                                 <ChevronRightIcon />
