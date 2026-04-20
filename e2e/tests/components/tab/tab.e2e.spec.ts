@@ -9,8 +9,6 @@ class StoryPage extends AbstractStoryPage {
             firstTab: Locator;
             secondTab: Locator;
             thirdTab: Locator;
-            firstPanel: Locator;
-            secondPanel: Locator;
         };
     };
 
@@ -22,8 +20,6 @@ class StoryPage extends AbstractStoryPage {
                 firstTab: page.getByRole("tab", { name: "Section A" }),
                 secondTab: page.getByRole("tab", { name: "Section B" }),
                 thirdTab: page.getByRole("tab", { name: "Section C" }),
-                firstPanel: page.getByTestId("tab-panel-a"),
-                secondPanel: page.getByTestId("tab-panel-b"),
             },
         };
     }
@@ -37,13 +33,12 @@ const test = base.extend<{ story: StoryPage }>({
 });
 
 test.describe("Tab", () => {
-    test.describe("", () => {
-        test.beforeEach(async ({ story }) => {
-            await story.init("default");
-        });
+    test.beforeEach(async ({ story }) => {
+        await story.init("default");
+    });
 
-        test("Mount", async ({ story }) => {
-            await expect(story.layout).toMatchAriaSnapshot(`
+    test("Default", async ({ story }) => {
+        await expect(story.layout).toMatchAriaSnapshot(`
                     - list:
                         - tab "Section A" [selected]
                         - tab "Section B"
@@ -51,21 +46,90 @@ test.describe("Tab", () => {
                     - tabpanel "Section A": Contents of A
                 `);
 
+        await compareScreenshot(story, "mount");
+    });
+
+    test("Hover", async ({ story }) => {
+        await story.locators.component.secondTab.hover();
+
+        await expect(story.layout).toMatchAriaSnapshot(`
+                    - list:
+                        - tab "Section A" [selected]
+                        - tab "Section B"
+                        - tab "Section C"
+                    - tabpanel "Section A": Contents of A
+                `);
+
+        await compareScreenshot(story, "hover-inactive-tab");
+    });
+
+    test("Keyboard navigation", async ({ story }) => {
+        await story.locators.component.firstTab.focus();
+        await story.page.keyboard.press("ArrowRight");
+        await story.page.keyboard.press("ArrowRight");
+
+        await expect(story.locators.component.thirdTab).toBeFocused();
+
+        await story.page.keyboard.press("ArrowLeft");
+
+        await expect(story.locators.component.secondTab).toBeFocused();
+
+        await story.page.keyboard.press("Space");
+
+        await expect(story.locators.component.secondTab).toMatchAriaSnapshot(
+            '- tab "Section B" [selected]'
+        );
+    });
+
+    test.describe("", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("title-addon");
+        });
+
+        test("Title addon", async ({ story }) => {
+            await compareScreenshot(story, "mount");
+        });
+    });
+
+    test.describe("", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("long-label", { size: "mobile" });
+        });
+
+        test("Long labels", async ({ story }) => {
+            await compareScreenshot(story, "truncated");
+        });
+    });
+
+    test.describe("", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("full-width-indicator");
+        });
+
+        test("fullWidthIndicator=true", async ({ story }) => {
+            await compareScreenshot(story, "mount");
+        });
+    });
+
+    test.describe("", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("custom-tab-width");
+        });
+
+        test("width=50%", async ({ story }) => {
+            await compareScreenshot(story, "mount");
+        });
+    });
+
+    test.describe("Fade color", () => {
+        test("Mobile", async ({ story }) => {
+            await story.init("fade-color", { size: "mobile" });
             await compareScreenshot(story, "mount");
         });
 
-        test("Hover", async ({ story }) => {
-            await story.locators.component.secondTab.hover();
-
-            await expect(story.layout).toMatchAriaSnapshot(`
-                    - list:
-                        - tab "Section A" [selected]
-                        - tab "Section B"
-                        - tab "Section C"
-                    - tabpanel "Section A": Contents of A
-                `);
-
-            await compareScreenshot(story, "hover-inactive-tab");
+        test("Tablet", async ({ story }) => {
+            await story.init("fade-color", { size: "tablet" });
+            await compareScreenshot(story, "mount");
         });
     });
 });
