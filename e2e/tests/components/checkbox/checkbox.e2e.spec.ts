@@ -85,7 +85,7 @@ test.describe("Checkbox", () => {
                 - checkbox "Disabled Checked" [checked] [disabled]
                 - checkbox "Disabled Indeterminate" [checked=mixed] [disabled]
                 - checkbox "Small"
-                - checkbox "Small Checked" [checked]
+                - checkbox "Small Checked" [checked=false]
                 - checkbox "Small Indeterminate" [checked=mixed]
                 - checkbox "Small Disabled" [disabled]
                 - checkbox "Small Disabled Checked" [checked] [disabled]
