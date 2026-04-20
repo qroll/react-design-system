@@ -1,14 +1,7 @@
 import type React from "react";
 
 import { Markup } from "../markup";
-import {
-    ErrorIcon,
-    ErrorMessage,
-    ErrorMessageContainer,
-    Label,
-    LabelContainer,
-    Subtitle,
-} from "./form-label.style";
+import * as styles from "./form-label.styles";
 import { PopoverAddon } from "./form-label-addon";
 import type { FormLabelProps } from "./types";
 
@@ -35,28 +28,28 @@ export const FormLabel = ({
     };
 
     return (
-        <LabelContainer
+        <styles.LabelContainer
             className={className}
             style={style}
             data-testid={testId}
         >
-            <Label id={id} {...otherProps}>
+            <styles.Label id={id} {...otherProps}>
                 <Markup inline>
                     {children}
                     {addon && addon.type && renderAddon()}
                 </Markup>
-            </Label>
+            </styles.Label>
             {typeof subtitle === "string" ? (
-                <Subtitle
+                <styles.Subtitle
                     id={id ? `${id}-subtitle` : undefined}
                     data-testid={testId ? `${testId}-subtitle` : "subtitle"}
                 >
                     {subtitle}
-                </Subtitle>
+                </styles.Subtitle>
             ) : (
                 subtitle
             )}
-        </LabelContainer>
+        </styles.LabelContainer>
     );
 };
 
@@ -64,9 +57,9 @@ export const FormErrorMessage = (
     props: React.HTMLAttributes<HTMLElement>
 ): JSX.Element => {
     return (
-        <ErrorMessageContainer>
-            <ErrorIcon aria-hidden />
-            <ErrorMessage {...props} />
-        </ErrorMessageContainer>
+        <styles.ErrorMessageContainer>
+            <styles.ErrorIcon aria-hidden />
+            <styles.ErrorMessage {...props} />
+        </styles.ErrorMessageContainer>
     );
 };

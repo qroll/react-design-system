@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { V3_Spacing } from "../v3_theme";
-import { ErrorMessage } from "./form-label.style";
+import * as styles from "./form-label.styles";
 
 export const LabelContainer = styled.div`
     display: flex;
@@ -16,6 +16,6 @@ export const ErrorMessageContainer = styled.div`
     gap: ${V3_Spacing["spacing-4"]};
 `;
 
-export const ErrorMessageLabel = styled(ErrorMessage)`
+export const ErrorMessageLabel = styled(styles.ErrorMessage)`
     margin-top: 0;
 `;

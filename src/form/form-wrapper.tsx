@@ -9,16 +9,8 @@ import { Children, cloneElement, useState } from "react";
 
 import { SimpleIdGenerator } from "../util";
 import { FormLabel } from "./form-label";
-import {
-    ErrorIcon,
-    ErrorMessage,
-    ErrorMessageContainer,
-} from "./form-label.style";
-import {
-    ColDivContainer,
-    Container,
-    V2_ColDivContainer,
-} from "./form-wrapper.style";
+import * as labelStyles from "./form-label.styles";
+import * as wrapperStyles from "./form-wrapper.styles";
 import type { FormElementLayoutType, FormWrapperProps } from "./types";
 
 export const FormWrapper = ({
@@ -123,11 +115,11 @@ export const FormWrapper = ({
     ): ComponentType => {
         switch (layoutType) {
             case "v2-grid":
-                return V2_ColDivContainer;
+                return wrapperStyles.V2_ColDivContainer;
             case "grid":
-                return ColDivContainer;
+                return wrapperStyles.ColDivContainer;
             case "flex":
-                return Container;
+                return wrapperStyles.Container;
         }
     };
 
@@ -182,9 +174,9 @@ export const FormWrapper = ({
             {label && renderFormLabel()}
             {renderChildren()}
             {errorMessage && (
-                <ErrorMessageContainer>
-                    <ErrorIcon aria-hidden />
-                    <ErrorMessage
+                <labelStyles.ErrorMessageContainer>
+                    <labelStyles.ErrorIcon aria-hidden />
+                    <labelStyles.ErrorMessage
                         id={errorMessageId}
                         tabIndex={0}
                         data-testid={
@@ -195,8 +187,8 @@ export const FormWrapper = ({
                         }
                     >
                         {errorMessage}
-                    </ErrorMessage>
-                </ErrorMessageContainer>
+                    </labelStyles.ErrorMessage>
+                </labelStyles.ErrorMessageContainer>
             )}
         </ContainerComponent>
     );

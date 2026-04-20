@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { TextareaBase } from "../input-textarea/textarea";
 import { TextareaCounter } from "../input-textarea/textarea-counter";
 import type { TextareaRef } from "../input-textarea/types";
-import { ErrorIcon } from "./form-label.style";
+import * as styles from "./form-label.styles";
 import {
     ErrorMessageContainer,
     ErrorMessageLabel,
@@ -80,7 +80,7 @@ const FormTextareaComponent = (
             <LabelContainer>
                 {errorMessage && (
                     <ErrorMessageContainer>
-                        <ErrorIcon aria-hidden />
+                        <styles.ErrorIcon aria-hidden />
                         <ErrorMessageLabel
                             data-testid={getErrorTestMessageId()}
                         >
