@@ -59,13 +59,6 @@ const TAB_DATA: ApiTableSectionProps[] = [
                     "The color of the fade effect when the tab is too long",
                 propTypes: ["string[]", "FadeColorSet"],
             },
-            {
-                name: "headingLevel",
-                description:
-                    "Specify a custom heading level to match the component's position in the page",
-                propTypes: ["number"],
-                defaultValue: "2",
-            },
         ],
     },
     {
