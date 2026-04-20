@@ -14,7 +14,7 @@ import {
     Placeholder,
     YearInput,
     YearInputSizer,
-} from "./standalone-date-input.style";
+} from "./standalone-date-input.styles";
 
 dayjs.extend(customParseFormat);
 
