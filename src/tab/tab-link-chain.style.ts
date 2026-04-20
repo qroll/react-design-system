@@ -65,7 +65,7 @@ export const chainLink = css`
     width: 100%;
     justify-content: center;
 
-    &:has(button:focus-visible) {
+    &:focus-within {
         outline: 2px solid ${Colour["focus-ring"]};
         outline-offset: -2px;
         border-radius: ${Radius.sm};
