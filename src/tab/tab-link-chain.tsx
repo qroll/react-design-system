@@ -29,7 +29,7 @@ export const TabLinkChain = ({
     const { setCurrentActiveIndex, currentActiveIndex, tabLinks } =
         useContext(TabContext);
 
-    const mobileBreakpoint = useDesignToken(Breakpoint["sm-max"]);
+    const mobileBreakpoint = useDesignToken(Breakpoint["md-max"]);
     const isMobile = useSafeMaxWidthMediaQuery(mobileBreakpoint);
     const tabletBreakpoint = useDesignToken(Breakpoint["lg-max"]);
     const isTablet = useSafeMaxWidthMediaQuery(tabletBreakpoint);
