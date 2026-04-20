@@ -1,30 +1,18 @@
-import styled, { css } from "styled-components";
+import { css } from "@linaria/core";
 
-import { V3_Colour, V3_Font, V3_Spacing } from "../../v3_theme";
-import { BasicInput } from "../input-wrapper";
+import { Colour, Font, Spacing } from "../../theme";
 
 // =============================================================================
-// STYLE INTERFACE, transient props are denoted with $
-// See more https://styled-components.com/docs/api#transient-props
+// CONSTANTS
 // =============================================================================
-
-interface PlaceholderStyleProps {
-    $hide?: boolean;
-    $disabled?: boolean;
-}
-
-interface DividerStyleProps {
-    $inactive?: boolean;
-}
-
-interface InputContainerStyleProps {
-    $hover?: boolean;
-}
+// Used as a modifier class on inputContainer and referenced in its nested CSS
+// selector. Exported so the component can apply it without a magic string.
+export const HOVER_CLASS = "inputContainerHover";
 
 // =============================================================================
 // STYLING
 // =============================================================================
-export const InputSection = styled.div`
+export const inputSection = css`
     display: flex;
     align-items: center;
     position: relative;
@@ -32,94 +20,88 @@ export const InputSection = styled.div`
     flex: 1;
 `;
 
-export const InputContainer = styled.div<InputContainerStyleProps>`
-    display: flex;
-    align-items: center;
-    gap: ${V3_Spacing["spacing-4"]};
-
-    ${(props) => {
-        if (props.$hover) {
-            return css`
-                ${BaseInput}, ${Divider} {
-                    color: ${V3_Colour["text-subtler"]};
-                }
-            `;
-        }
-    }}
-`;
-
-const InputSizerBase = styled.span`
-    display: inline-block;
-    position: relative;
-
-    &::after {
-        ${V3_Font["body-baseline-regular"]}
-        visibility: hidden;
-        pointer-events: none;
-        white-space: pre;
-    }
-`;
-
-export const DayInputSizer = styled(InputSizerBase)`
-    &::after {
-        content: "DD";
-    }
-`;
-
-export const MonthInputSizer = styled(InputSizerBase)`
-    &::after {
-        content: "MM";
-    }
-`;
-
-export const YearInputSizer = styled(InputSizerBase)`
-    &::after {
-        content: "YYYY";
-    }
-`;
-
-const BaseInput = styled(BasicInput)`
+export const baseInput = css`
     background: transparent;
     text-align: center;
     position: absolute;
     inset: 0;
 `;
 
-export const DayInput = styled(BaseInput)``;
-export const MonthInput = styled(BaseInput)``;
-export const YearInput = styled(BaseInput)``;
-
-export const Divider = styled.span<DividerStyleProps>`
-    ${V3_Font["body-baseline-regular"]}
-    ${(props) => {
-        if (props.$inactive) {
-            return css`
-                color: ${V3_Colour["text"]};
-            `;
-        }
-    }}
+export const divider = css`
+    ${Font["body-baseline-regular"]}
 `;
 
-export const Placeholder = styled.div<PlaceholderStyleProps>`
-    ${V3_Font["body-baseline-regular"]}
-    background-color: ${V3_Colour["bg"]};
-    color: ${V3_Colour["text-subtler"]};
+export const inputContainer = css`
+    display: flex;
+    align-items: center;
+    gap: ${Spacing["spacing-4"]};
+
+    &.${HOVER_CLASS} {
+        .${baseInput}, .${divider} {
+            color: ${Colour["text-subtler"]};
+        }
+    }
+`;
+
+// Plain string mixin — not a css tag so the rules are inlined directly when
+// interpolated into each sizer's css block (Linaria css-tag interpolation
+// inserts a class name, not raw CSS).
+const inputSizerBase = `
+    display: inline-block;
+    position: relative;
+
+    &::after {
+        ${Font["body-baseline-regular"]}
+        visibility: hidden;
+        pointer-events: none;
+        white-space: pre;
+    }
+`;
+
+export const dayInputSizer = css`
+    ${inputSizerBase}
+
+    &::after {
+        content: "DD";
+    }
+`;
+
+export const monthInputSizer = css`
+    ${inputSizerBase}
+
+    &::after {
+        content: "MM";
+    }
+`;
+
+export const yearInputSizer = css`
+    ${inputSizerBase}
+
+    &::after {
+        content: "YYYY";
+    }
+`;
+
+export const dividerInactive = css`
+    color: ${Colour["text"]};
+`;
+
+export const placeholder = css`
+    ${Font["body-baseline-regular"]}
+    background-color: ${Colour["bg"]};
+    color: ${Colour["text-subtler"]};
     position: absolute;
     display: flex;
     align-items: center;
     width: 100%;
     height: 100%;
+`;
 
-    ${(props) => {
-        if (props.$disabled) {
-            return css`
-                background-color: ${V3_Colour["bg-disabled"]};
-                cursor: not-allowed;
-            `;
-        } else if (props.$hide) {
-            return css`
-                display: none;
-            `;
-        }
-    }}
+export const placeholderDisabled = css`
+    background-color: ${Colour["bg-disabled"]};
+    cursor: not-allowed;
+`;
+
+export const placeholderHide = css`
+    display: none;
 `;
