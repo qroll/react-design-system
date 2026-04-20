@@ -18,116 +18,63 @@ const test = base.extend<{ story: StoryPage }>({
 
 test.describe("Toggle", () => {
     // -------------------------------------------------------------------------
-    // Base variants
+    // Checkbox
     // -------------------------------------------------------------------------
     test.describe(() => {
         test.beforeEach(async ({ story }) => {
-            await story.init("base-variants");
+            await story.init("checkbox");
         });
 
-        test("Base variants", async ({ story }) => {
+        test("Checkbox", async ({ story }) => {
             await compareScreenshot(story, "mount");
         });
     });
 
     test.describe(() => {
         test.beforeEach(async ({ story }) => {
-            await story.init("base-variants", { mode: "dark" });
+            await story.init("checkbox", { mode: "dark" });
         });
 
-        test("Base variants (dark mode)", async ({ story }) => {
+        test("Checkbox (dark mode)", async ({ story }) => {
             await compareScreenshot(story, "mount");
         });
     });
 
     // -------------------------------------------------------------------------
-    // States
+    // Radio
     // -------------------------------------------------------------------------
     test.describe(() => {
         test.beforeEach(async ({ story }) => {
-            await story.init("states");
+            await story.init("radio");
         });
 
-        test("States", async ({ story }) => {
-            await compareScreenshot(story, "mount");
-        });
-    });
-
-    test.describe(() => {
-        test.beforeEach(async ({ story }) => {
-            await story.init("states", { mode: "dark" });
-        });
-
-        test("States (dark mode)", async ({ story }) => {
+        test("Radio", async ({ story }) => {
             await compareScreenshot(story, "mount");
         });
     });
 
     // -------------------------------------------------------------------------
-    // With sub label
+    // Yes
     // -------------------------------------------------------------------------
     test.describe(() => {
         test.beforeEach(async ({ story }) => {
-            await story.init("with-sublabel");
+            await story.init("yes");
         });
 
-        test("With sub label", async ({ story }) => {
-            await compareScreenshot(story, "mount");
-        });
-    });
-
-    test.describe(() => {
-        test.beforeEach(async ({ story }) => {
-            await story.init("with-sublabel", { mode: "dark" });
-        });
-
-        test("With sub label (dark mode)", async ({ story }) => {
+        test("Yes", async ({ story }) => {
             await compareScreenshot(story, "mount");
         });
     });
 
     // -------------------------------------------------------------------------
-    // With composite section
+    // No
     // -------------------------------------------------------------------------
     test.describe(() => {
         test.beforeEach(async ({ story }) => {
-            await story.init("with-composite");
+            await story.init("no");
         });
 
-        test("With composite section", async ({ story }) => {
-            await compareScreenshot(story, "mount");
-        });
-    });
-
-    test.describe(() => {
-        test.beforeEach(async ({ story }) => {
-            await story.init("with-composite", { mode: "dark" });
-        });
-
-        test("With composite section (dark mode)", async ({ story }) => {
-            await compareScreenshot(story, "mount");
-        });
-    });
-
-    // -------------------------------------------------------------------------
-    // Removable
-    // -------------------------------------------------------------------------
-    test.describe(() => {
-        test.beforeEach(async ({ story }) => {
-            await story.init("removable");
-        });
-
-        test("Removable", async ({ story }) => {
-            await compareScreenshot(story, "mount");
-        });
-    });
-
-    test.describe(() => {
-        test.beforeEach(async ({ story }) => {
-            await story.init("removable", { mode: "dark" });
-        });
-
-        test("Removable (dark mode)", async ({ story }) => {
+        test("No", async ({ story }) => {
             await compareScreenshot(story, "mount");
         });
     });
