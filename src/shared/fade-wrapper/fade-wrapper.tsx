@@ -5,8 +5,10 @@ import throttle from "lodash/throttle";
 import type React from "react";
 import {
     forwardRef,
+    useCallback,
     useEffect,
     useImperativeHandle,
+    useMemo,
     useRef,
     useState,
 } from "react";
@@ -14,18 +16,24 @@ import { useResizeDetector } from "react-resize-detector";
 
 import { useApplyStyle } from "../../theme";
 import { Colour } from "../../theme/tokens";
+import { ClickableIcon } from "../clickable-icon";
 import {
-    Content,
-    Fade,
-    FadeIndicatorButton,
+    content,
+    fade,
+    fadeIndicatorButton,
+    fadeLeft,
+    fadeRight,
+    indicatorLeft,
+    indicatorRight,
     tokens,
-    Wrapper,
+    wrapper,
 } from "./fade-wrapper.style";
 import type { FadeColorSet, FadeWrapperProps, FadeWrapperRef } from "./types";
 
 const Component = (
     {
         children,
+        className,
         fadeColor,
         fadePosition = "both",
         showIndicator = false,
@@ -49,8 +57,6 @@ const Component = (
     const fadeLeftRef = useRef<HTMLDivElement>(null);
     const fadeRightRef = useRef<HTMLDivElement>(null);
 
-    const throttledScrollHandler = throttle(handleScroll, 50);
-
     // To scroll left when wrapper resizes
     useResizeDetector({
         onResize: handleResize,
@@ -70,27 +76,7 @@ const Component = (
     // =========================================================================
     // EFFECTS
     // =========================================================================
-    useEffect(() => {
-        const content = contentRef.current;
-
-        handleScroll();
-
-        if (content) {
-            content.addEventListener("scroll", throttledScrollHandler);
-        }
-
-        return () => {
-            if (content) {
-                content.removeEventListener("scroll", throttledScrollHandler);
-            }
-        };
-    }, []);
-
-    // =========================================================================
-    // EVENT HANDLERS
-    // =========================================================================
-
-    function handleScroll() {
+    const handleScroll = useCallback(() => {
         const wrapper = wrapperRef.current;
         const content = contentRef.current;
 
@@ -109,7 +95,33 @@ const Component = (
             setShowFadeRight(false);
             setShowFadeLeft(false);
         }
-    }
+    }, []);
+
+    const throttledScrollHandler = useMemo(() => {
+        return throttle(handleScroll, 50);
+    }, [handleScroll]);
+
+    useEffect(() => {
+        const content = contentRef.current;
+
+        handleScroll();
+
+        if (content) {
+            content.addEventListener("scroll", throttledScrollHandler);
+        }
+
+        return () => {
+            if (content) {
+                content.removeEventListener("scroll", throttledScrollHandler);
+            }
+
+            throttledScrollHandler.cancel();
+        };
+    }, [handleScroll, throttledScrollHandler]);
+
+    // =========================================================================
+    // EVENT HANDLERS
+    // =========================================================================
 
     function handleResize() {
         handleScroll();
@@ -127,18 +139,21 @@ const Component = (
         // }
     }
 
-    const fadeColorSet: FadeColorSet =
-        Array.isArray(fadeColor) && fadeColor.length > 0
-            ? {
-                  left: fadeColor,
-                  right: fadeColor,
-              }
-            : !fadeColor
-            ? {
-                  left: undefined,
-                  right: undefined,
-              }
-            : (fadeColor as FadeColorSet);
+    let fadeColorSet: FadeColorSet;
+
+    if (Array.isArray(fadeColor) && fadeColor.length > 0) {
+        fadeColorSet = {
+            left: fadeColor,
+            right: fadeColor,
+        };
+    } else if (fadeColor) {
+        fadeColorSet = fadeColor as FadeColorSet;
+    } else {
+        fadeColorSet = {
+            left: undefined,
+            right: undefined,
+        };
+    }
 
     const getFadeBackgroundColorValue = (color?: string[]) => {
         if (color && color.length > 0) {
@@ -170,46 +185,58 @@ const Component = (
         return (
             <>
                 {showFadeLeft && (
-                    <Fade
+                    <div
                         ref={fadeLeftRef}
-                        className={clsx("fadeLeft")}
+                        className={clsx(fade, fadeLeft)}
                         data-id="left-fade"
                     >
                         {showIndicator && (
-                            <FadeIndicatorButton
-                                className={clsx("indicatorLeft")}
+                            <ClickableIcon
+                                className={clsx(
+                                    fadeIndicatorButton,
+                                    indicatorLeft
+                                )}
                                 data-id="left-fade-indicator-button"
                             >
                                 <ChevronLeftIcon />
-                            </FadeIndicatorButton>
+                            </ClickableIcon>
                         )}
-                    </Fade>
+                    </div>
                 )}
                 {showFadeRight && (
-                    <Fade
+                    <div
                         ref={fadeRightRef}
-                        className={clsx("fadeRight")}
+                        className={clsx(fade, fadeRight)}
                         data-id="right-fade"
                     >
                         {showIndicator && (
-                            <FadeIndicatorButton
-                                className={clsx("indicatorRight")}
+                            <ClickableIcon
+                                className={clsx(
+                                    fadeIndicatorButton,
+                                    indicatorRight
+                                )}
                                 data-id="right-fade-indicator-button"
                             >
                                 <ChevronRightIcon />
-                            </FadeIndicatorButton>
+                            </ClickableIcon>
                         )}
-                    </Fade>
+                    </div>
                 )}
             </>
         );
     };
 
     return (
-        <Wrapper ref={wrapperRef} {...otherProps}>
-            <Content ref={contentRef}>{children}</Content>
+        <div
+            ref={wrapperRef}
+            className={clsx(wrapper, className)}
+            {...otherProps}
+        >
+            <div ref={contentRef} className={content}>
+                {children}
+            </div>
             {renderFade()}
-        </Wrapper>
+        </div>
     );
 };
 

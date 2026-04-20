@@ -1,20 +1,11 @@
 import clsx from "clsx";
 import { useContext, useEffect, useRef } from "react";
 
-import type { ResizeCallbackParams } from "../shared/fade-wrapper";
+import { FadeWrapper, type ResizeCallbackParams } from "../shared/fade-wrapper";
 import { useDesignToken, useSafeMaxWidthMediaQuery } from "../theme";
 import { Breakpoint } from "../theme/tokens";
 import { TabContext } from "./tab-context";
-import {
-    BoldLabel,
-    Chain,
-    ChainItem,
-    ChainLink,
-    CustomFadeWrapper,
-    Label,
-    LabelContainer,
-    tokens,
-} from "./tab-link-chain.style";
+import * as styles from "./tab-link-chain.style";
 import type { TabProps } from "./types";
 
 interface Props
@@ -56,9 +47,9 @@ export const TabLinkChain = ({
             const width = tabLinks[index]?.width;
 
             if (width) {
-                itemRef.style.setProperty(tokens.chainItem.width, width);
+                itemRef.style.setProperty(styles.tokens.chainItem.width, width);
             } else {
-                itemRef.style.removeProperty(tokens.chainItem.width);
+                itemRef.style.removeProperty(styles.tokens.chainItem.width);
             }
         });
     }, [tabLinks]);
@@ -115,14 +106,17 @@ export const TabLinkChain = ({
     // RENDER FUNCTIONS
     // =========================================================================
     return (
-        <CustomFadeWrapper
+        <FadeWrapper
             onResize={handleResize}
             data-testid={testId}
             fadeColor={fadeColor}
+            className={styles.customFadeWrapper}
         >
-            <Chain
-                role="tablist"
-                className={clsx(fullWidthIndicatorLine && "fullWidthIndicator")}
+            <ul
+                className={clsx(
+                    styles.chain,
+                    fullWidthIndicatorLine && styles.chainFullWidthIndicator
+                )}
             >
                 {tabLinks.map(({ title, width, titleAddon }, index) => {
                     const isActive = currentActiveIndex === index;
@@ -134,32 +128,45 @@ export const TabLinkChain = ({
                     };
 
                     return (
-                        <ChainItem
+                        <li
                             key={`${title}-${width ?? ""}-${
                                 titleAddon?.position ?? "none"
                             }`}
                             role="none"
-                            className={clsx(isActive && "active")}
+                            className={clsx(
+                                styles.chainItem,
+                                isActive && styles.chainItemActive
+                            )}
                             ref={chainItemRef}
                         >
-                            <ChainLink
+                            <div
                                 role="none"
                                 onClick={handleChainLinkClick(index)}
                                 data-testid={`${testId}-link-${index}`}
                                 className={clsx(
+                                    styles.flexRow,
+                                    styles.chainLink,
                                     titleAddon?.position === "left" &&
-                                        "reversed"
+                                        styles.chainLinkReversed
                                 )}
                             >
-                                <LabelContainer role="none">
-                                    <Label
-                                        className={clsx(isActive && "active")}
+                                <div
+                                    className={styles.labelContainer}
+                                    role="none"
+                                >
+                                    <div
+                                        className={clsx(
+                                            styles.flexRow,
+                                            styles.buttonBase,
+                                            styles.label,
+                                            isActive && styles.labelActive
+                                        )}
                                         onClick={handleChainLinkClick(index)}
                                         aria-hidden="true"
                                     >
                                         {truncateText(title)}
-                                    </Label>
-                                    <BoldLabel
+                                    </div>
+                                    <button
                                         role="tab"
                                         type="button"
                                         aria-selected={isActive}
@@ -170,17 +177,22 @@ export const TabLinkChain = ({
                                         ref={(el) =>
                                             (chainLinkRefs.current[index] = el)
                                         }
-                                        className={clsx(isActive && "active")}
+                                        className={clsx(
+                                            styles.flexRow,
+                                            styles.buttonBase,
+                                            styles.boldLabel,
+                                            isActive && styles.boldLabelActive
+                                        )}
                                     >
                                         {truncateText(title)}
-                                    </BoldLabel>
-                                </LabelContainer>
+                                    </button>
+                                </div>
                                 {titleAddon?.content}
-                            </ChainLink>
-                        </ChainItem>
+                            </div>
+                        </li>
                     );
                 })}
-            </Chain>
-        </CustomFadeWrapper>
+            </ul>
+        </FadeWrapper>
     );
 };

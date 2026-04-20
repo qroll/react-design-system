@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import { css } from "@linaria/core";
 
-export const Wrapper = styled.div`
+export const wrapper = css`
     display: flex;
     flex-direction: column;
     width: 100%;

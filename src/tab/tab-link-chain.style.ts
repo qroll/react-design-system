@@ -1,6 +1,5 @@
-import styled, { css } from "styled-components";
+import { css } from "@linaria/core";
 
-import { FadeWrapper } from "../shared/fade-wrapper";
 import {
     Border,
     Colour,
@@ -16,12 +15,14 @@ export const tokens = {
     },
 };
 
-export const Chain = styled.ul`
+export const chain = css`
     display: inline-flex;
     width: 100%;
     list-style-type: none;
+`;
 
-    &.fullWidthIndicator::after {
+export const chainFullWidthIndicator = css`
+    &::after {
         content: "";
         height: inherit;
         flex-grow: 1;
@@ -30,16 +31,13 @@ export const Chain = styled.ul`
     }
 `;
 
-export const ChainItem = styled.li`
+export const chainItem = css`
     display: flex;
     justify-content: center;
     flex-shrink: 0;
     border-bottom: ${Border["width-040"]} ${Border.solid} ${Colour.border};
-    width: var(${tokens.chainItem.width});
-
-    &.active {
-        border-color: ${Colour["border-primary"]};
-    }
+    ${tokens.chainItem.width}: initial;
+    width: var(${tokens.chainItem.width}, auto);
 
     ${MediaQuery.MaxWidth.sm} {
         flex: 1;
@@ -47,31 +45,25 @@ export const ChainItem = styled.li`
     }
 `;
 
-/* keep this separate to contain the ts-styled error */
-const padding = css`
-    padding: ${Spacing["spacing-16"]} ${Spacing["spacing-16"]}
-        ${Spacing["spacing-20"]};
+export const chainItemActive = css`
+    border-color: ${Colour["border-primary"]};
 `;
 
-const flexRow = css`
+export const flexRow = css`
     display: flex;
     flex-direction: row;
     align-items: center;
 `;
 
-export const ChainLink = styled.div`
+export const chainLink = css`
     /* position: relative; */
-    ${flexRow}
     flex-direction: row;
     gap: 0.5rem;
-    ${padding}
+    padding: ${Spacing["spacing-16"]} ${Spacing["spacing-16"]}
+        ${Spacing["spacing-20"]};
     cursor: pointer;
     width: 100%;
     justify-content: center;
-
-    &.reversed {
-        flex-direction: row-reverse;
-    }
 
     &:has(button:focus-visible) {
         outline: 2px solid ${Colour["focus-ring"]};
@@ -80,41 +72,42 @@ export const ChainLink = styled.div`
     }
 `;
 
-export const LabelContainer = styled.div`
+export const chainLinkReversed = css`
+    flex-direction: row-reverse;
+`;
+
+export const labelContainer = css`
     position: relative;
 `;
 
-const buttonBase = css`
-    ${flexRow}
+export const buttonBase = css`
     border: none;
     background: none;
 `;
 
-export const Label = styled.div`
-    ${buttonBase}
+export const label = css`
     position: absolute;
     ${Font["body-baseline-regular"]}
     color: ${Colour["text-subtler"]};
     opacity: 1;
-
-    &.active {
-        opacity: 0;
-    }
 `;
 
-export const BoldLabel = styled.button`
-    ${buttonBase}
+export const labelActive = css`
+    opacity: 0;
+`;
+
+export const boldLabel = css`
     ${Font["body-baseline-semibold"]}
     color: ${Colour["text-primary"]};
     opacity: 0;
     outline: none;
-
-    &.active {
-        opacity: 1;
-    }
 `;
 
-export const CustomFadeWrapper = styled(FadeWrapper)`
+export const boldLabelActive = css`
+    opacity: 1;
+`;
+
+export const customFadeWrapper = css`
     [data-id="left-fade-indicator-button"],
     [data-id="right-fade-indicator-button"] {
         margin-bottom: ${Spacing["spacing-4"]};

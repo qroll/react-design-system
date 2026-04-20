@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import type { ReactElement } from "react";
 import { Children, cloneElement, useEffect, useMemo, useState } from "react";
 
-import { Wrapper } from "./tab.style";
+import * as styles from "./tab.style";
 import type { TabLinkProps } from "./tab-context";
 import { TabContext } from "./tab-context";
 import { TabItem } from "./tab-item";
@@ -17,6 +18,7 @@ const TabBase = ({
     initialActive = 0,
     onTabClick,
     "data-testid": testId,
+    className,
     fullWidthIndicatorLine,
     fadeColor,
     ...otherProps
@@ -42,6 +44,15 @@ const TabBase = ({
         }) as TabLinkProps[];
     }, [children]);
 
+    const tabContextValue = useMemo(
+        () => ({
+            tabLinks,
+            currentActiveIndex: currentActive,
+            setCurrentActiveIndex: setCurrentActive,
+        }),
+        [currentActive, tabLinks]
+    );
+
     // =========================================================================
     // Effects
     // =========================================================================
@@ -58,23 +69,23 @@ const TabBase = ({
         const validChildren = Children.toArray(children).filter(Boolean);
 
         return validChildren.map((child, index) => {
+            const element = child as ReactElement<TabItemProps>;
+
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return cloneElement(child as ReactElement<any>, {
-                key: index,
+                key: element.key ?? element.props.title,
                 index,
             });
         });
     };
 
     return (
-        <Wrapper data-testid={testId} {...otherProps}>
-            <TabContext.Provider
-                value={{
-                    tabLinks,
-                    currentActiveIndex: currentActive,
-                    setCurrentActiveIndex: setCurrentActive,
-                }}
-            >
+        <div
+            data-testid={testId}
+            className={clsx(styles.wrapper, className)}
+            {...otherProps}
+        >
+            <TabContext.Provider value={tabContextValue}>
                 <TabLinkChain
                     controlledMode={typeof currentActiveIndex === "number"}
                     onTabClick={onTabClick}
@@ -84,7 +95,7 @@ const TabBase = ({
                 />
                 {renderChildren()}
             </TabContext.Provider>
-        </Wrapper>
+        </div>
     );
 };
 

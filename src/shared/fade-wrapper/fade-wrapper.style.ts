@@ -1,18 +1,17 @@
-import styled from "styled-components";
+import { css } from "@linaria/core";
 
 import { Colour, MediaQuery, Spacing } from "../../theme/tokens";
-import { ClickableIcon } from "../clickable-icon";
 
 export const tokens = {
     backgroundColor: "--fds-internal-fadeWrapper-fade-backgroundColor",
 };
 
-export const Wrapper = styled.div`
+export const wrapper = css`
     position: relative;
     width: 100%;
 `;
 
-export const Fade = styled.div`
+export const fade = css`
     width: 64px;
     height: 100%;
     top: 0;
@@ -20,31 +19,33 @@ export const Fade = styled.div`
     pointer-events: none;
     display: flex;
     align-items: center;
+`;
 
-    &.fadeLeft {
-        left: 0;
-        ${MediaQuery.MaxWidth.lg} {
-            background-image: linear-gradient(
-                to right,
-                var(${tokens.backgroundColor}, ${Colour.bg}),
-                rgba(255, 255, 255, 0.001)
-            );
-        }
-    }
+export const fadeLeft = css`
+    left: 0;
 
-    &.fadeRight {
-        right: 0;
-        ${MediaQuery.MaxWidth.lg} {
-            background-image: linear-gradient(
-                to left,
-                var(${tokens.backgroundColor}, ${Colour.bg}),
-                rgba(255, 255, 255, 0.001)
-            );
-        }
+    ${MediaQuery.MaxWidth.lg} {
+        background-image: linear-gradient(
+            to right,
+            var(${tokens.backgroundColor}, ${Colour.bg}),
+            rgba(255, 255, 255, 0.001)
+        );
     }
 `;
 
-export const Content = styled.div`
+export const fadeRight = css`
+    right: 0;
+
+    ${MediaQuery.MaxWidth.lg} {
+        background-image: linear-gradient(
+            to left,
+            var(${tokens.backgroundColor}, ${Colour.bg}),
+            rgba(255, 255, 255, 0.001)
+        );
+    }
+`;
+
+export const content = css`
     position: relative;
     width: 100%;
     height: 100%;
@@ -58,7 +59,7 @@ export const Content = styled.div`
     }
 `;
 
-export const FadeIndicatorButton = styled(ClickableIcon)`
+export const fadeIndicatorButton = css`
     display: none;
 
     ${MediaQuery.MaxWidth.lg} {
@@ -72,14 +73,14 @@ export const FadeIndicatorButton = styled(ClickableIcon)`
             color: ${Colour["icon"]};
         }
     }
+`;
 
-    &.indicatorLeft {
-        justify-content: left;
-        padding-left: ${Spacing["spacing-8"]};
-    }
+export const indicatorLeft = css`
+    justify-content: left;
+    padding-left: ${Spacing["spacing-8"]};
+`;
 
-    &.indicatorRight {
-        justify-content: right;
-        padding-right: ${Spacing["spacing-8"]};
-    }
+export const indicatorRight = css`
+    justify-content: right;
+    padding-right: ${Spacing["spacing-8"]};
 `;
