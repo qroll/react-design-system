@@ -3,13 +3,6 @@ import { css } from "@linaria/core";
 import { Colour, Font, Spacing } from "../../theme";
 
 // =============================================================================
-// CONSTANTS
-// =============================================================================
-// Used as a modifier class on inputContainer and referenced in its nested CSS
-// selector. Exported so the component can apply it without a magic string.
-export const HOVER_CLASS = "inputContainerHover";
-
-// =============================================================================
 // STYLING
 // =============================================================================
 export const inputSection = css`
@@ -21,32 +14,34 @@ export const inputSection = css`
 `;
 
 export const baseInput = css`
-    background: transparent;
     text-align: center;
     position: absolute;
     inset: 0;
+`;
+
+export const baseInputHover = css`
+    color: ${Colour["text-subtler"]};
 `;
 
 export const divider = css`
     ${Font["body-baseline-regular"]}
 `;
 
+export const dividerInactive = css`
+    color: ${Colour["text"]};
+`;
+
+export const dividerHover = css`
+    color: ${Colour["text-subtler"]};
+`;
+
 export const inputContainer = css`
     display: flex;
     align-items: center;
     gap: ${Spacing["spacing-4"]};
-
-    &.${HOVER_CLASS} {
-        .${baseInput}, .${divider} {
-            color: ${Colour["text-subtler"]};
-        }
-    }
 `;
 
-// Plain string mixin — not a css tag so the rules are inlined directly when
-// interpolated into each sizer's css block (Linaria css-tag interpolation
-// inserts a class name, not raw CSS).
-const inputSizerBase = `
+export const inputSizerBase = css`
     display: inline-block;
     position: relative;
 
@@ -59,31 +54,21 @@ const inputSizerBase = `
 `;
 
 export const dayInputSizer = css`
-    ${inputSizerBase}
-
     &::after {
         content: "DD";
     }
 `;
 
 export const monthInputSizer = css`
-    ${inputSizerBase}
-
     &::after {
         content: "MM";
     }
 `;
 
 export const yearInputSizer = css`
-    ${inputSizerBase}
-
     &::after {
         content: "YYYY";
     }
-`;
-
-export const dividerInactive = css`
-    color: ${Colour["text"]};
 `;
 
 export const placeholder = css`

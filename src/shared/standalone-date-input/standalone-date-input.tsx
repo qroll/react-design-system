@@ -348,14 +348,13 @@ export const Component = (
             onClick={handleSectionClick}
             onFocus={handleSectionFocus}
         >
-            <div
-                ref={nodeRef}
-                className={clsx(
-                    styles.inputContainer,
-                    !!hoverValue && styles.HOVER_CLASS
-                )}
-            >
-                <span className={styles.dayInputSizer}>
+            <div ref={nodeRef} className={styles.inputContainer}>
+                <span
+                    className={clsx(
+                        styles.inputSizerBase,
+                        styles.dayInputSizer
+                    )}
+                >
                     <input
                         ref={dayInputRef}
                         name={names[0]}
@@ -376,18 +375,28 @@ export const Component = (
                         placeholder={
                             currentFocus === names[0] && !readOnly ? "" : "DD"
                         }
-                        className={clsx(basicInput, styles.baseInput)}
+                        className={clsx(
+                            basicInput,
+                            styles.baseInput,
+                            !!hoverValue && styles.baseInputHover
+                        )}
                     />
                 </span>
                 <span
                     className={clsx(
                         styles.divider,
-                        dayValue.length === 0 && styles.dividerInactive
+                        dayValue.length === 0 && styles.dividerInactive,
+                        !!hoverValue && styles.dividerHover
                     )}
                 >
                     /
                 </span>
-                <span className={styles.monthInputSizer}>
+                <span
+                    className={clsx(
+                        styles.inputSizerBase,
+                        styles.monthInputSizer
+                    )}
+                >
                     <input
                         ref={monthInputRef}
                         name={names[1]}
@@ -409,18 +418,28 @@ export const Component = (
                         placeholder={
                             currentFocus === names[1] && !readOnly ? "" : "MM"
                         }
-                        className={clsx(basicInput, styles.baseInput)}
+                        className={clsx(
+                            basicInput,
+                            styles.baseInput,
+                            !!hoverValue && styles.baseInputHover
+                        )}
                     />
                 </span>
                 <span
                     className={clsx(
                         styles.divider,
-                        monthValue.length === 0 && styles.dividerInactive
+                        monthValue.length === 0 && styles.dividerInactive,
+                        !!hoverValue && styles.dividerHover
                     )}
                 >
                     /
                 </span>
-                <span className={styles.yearInputSizer}>
+                <span
+                    className={clsx(
+                        styles.inputSizerBase,
+                        styles.yearInputSizer
+                    )}
+                >
                     <input
                         ref={yearInputRef}
                         name={names[2]}
@@ -442,7 +461,11 @@ export const Component = (
                         placeholder={
                             currentFocus === names[2] && !readOnly ? "" : "YYYY"
                         }
-                        className={clsx(basicInput, styles.baseInput)}
+                        className={clsx(
+                            basicInput,
+                            styles.baseInput,
+                            !!hoverValue && styles.baseInputHover
+                        )}
                     />
                 </span>
             </div>
