@@ -62,14 +62,13 @@ export const input = css`
     height: 100%;
     cursor: pointer;
 
-    &[disabled],
-    &[aria-disabled="true"] {
-        cursor: not-allowed;
-    }
-
     &:not([disabled]):not([aria-disabled="true"]):hover + svg {
         @media (pointer: fine) {
             color: ${Colour["icon-hover"]};
         }
     }
+`;
+
+export const inputDisabledVisual = css`
+    cursor: not-allowed;
 `;

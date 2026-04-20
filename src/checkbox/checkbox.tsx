@@ -113,7 +113,10 @@ export const Checkbox = ({
         >
             <input
                 id={id}
-                className={styles.input}
+                className={clsx(
+                    styles.input,
+                    disabled && styles.inputDisabledVisual
+                )}
                 data-testid="checkbox-input"
                 type="checkbox"
                 checked={checked}
