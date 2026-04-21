@@ -318,12 +318,14 @@ export const DataTable = ({
         if (isSorted === "asc") {
             return (
                 <ArrowUpIcon
+                    aria-hidden
                     data-testid={getDataTestId(`header-${fieldKey}-arrowup`)}
                 />
             );
         }
         return (
             <ArrowDownIcon
+                aria-hidden
                 data-testid={getDataTestId(`header-${fieldKey}-arrowdown`)}
             />
         );
