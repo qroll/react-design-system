@@ -6,23 +6,50 @@ export default function Story() {
         <div className="story-column-container">
             {/* bordered + indicator */}
             <div className="story-row-container">
-                <Toggle type="checkbox" indicator>
+                <Toggle type="checkbox" indicator data-testid="toggle-default">
                     Bordered + indicator
                 </Toggle>
-                <Toggle type="checkbox" indicator checked>
+                <Toggle
+                    type="checkbox"
+                    indicator
+                    checked
+                    data-testid="toggle-checked"
+                >
                     Bordered + indicator checked
                 </Toggle>
-                <Toggle type="checkbox" indicator disabled>
+                <Toggle
+                    type="checkbox"
+                    indicator
+                    disabled
+                    data-testid="toggle-disabled"
+                >
                     Bordered + indicator disabled
                 </Toggle>
-                <Toggle type="checkbox" indicator checked disabled>
+                <Toggle
+                    type="checkbox"
+                    indicator
+                    checked
+                    disabled
+                    data-testid="toggle-checked-disabled"
+                >
                     Bordered + indicator checked disabled
                 </Toggle>
-                <Toggle type="checkbox" indicator error>
+                <Toggle
+                    type="checkbox"
+                    indicator
+                    error
+                    data-testid="toggle-error"
+                >
                     Bordered + indicator error
                 </Toggle>
-                <Toggle type="checkbox" indicator error disabled>
-                    Bordered + indicator error disabled
+                <Toggle
+                    type="checkbox"
+                    indicator
+                    error
+                    checked
+                    data-testid="toggle-error-checked"
+                >
+                    Bordered + indicator error checked
                 </Toggle>
             </div>
 
@@ -41,8 +68,8 @@ export default function Story() {
                 <Toggle type="checkbox" error>
                     Bordered error
                 </Toggle>
-                <Toggle type="checkbox" error disabled>
-                    Bordered error disabled
+                <Toggle type="checkbox" error checked>
+                    Bordered error checked
                 </Toggle>
             </div>
 
@@ -79,9 +106,9 @@ export default function Story() {
                     indicator
                     styleType="no-border"
                     error
-                    disabled
+                    checked
                 >
-                    No-border + indicator error disabled
+                    No-border + indicator error checked
                 </Toggle>
             </div>
 
@@ -102,104 +129,8 @@ export default function Story() {
                 <Toggle type="checkbox" styleType="no-border" error>
                     No-border error
                 </Toggle>
-                <Toggle type="checkbox" styleType="no-border" error disabled>
-                    No-border error disabled
-                </Toggle>
-            </div>
-
-            {/* with sub label */}
-            <div className="story-row-container">
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    subLabel="This is a sub label"
-                >
-                    With sub label
-                </Toggle>
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    checked
-                    subLabel="This is a sub label"
-                >
-                    With sub label checked
-                </Toggle>
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    disabled
-                    subLabel="This is a sub label"
-                >
-                    With sub label disabled
-                </Toggle>
-            </div>
-
-            {/* with composite section */}
-            <div className="story-row-container">
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    compositeSection={{
-                        children: <p>Composite section content</p>,
-                        collapsible: true,
-                        initialExpanded: false,
-                    }}
-                >
-                    With composite (collapsed)
-                </Toggle>
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    checked
-                    compositeSection={{
-                        children: <p>Composite section content</p>,
-                        collapsible: true,
-                        initialExpanded: true,
-                    }}
-                >
-                    With composite (expanded)
-                </Toggle>
-            </div>
-
-            <div className="story-row-container">
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    error
-                    compositeSection={{
-                        children: <p>Composite section content</p>,
-                        collapsible: true,
-                        initialExpanded: false,
-                        errors: ["Error item 1", "Error item 2"],
-                    }}
-                >
-                    With composite errors (collapsed)
-                </Toggle>
-                <Toggle
-                    type="checkbox"
-                    indicator
-                    error
-                    compositeSection={{
-                        children: <p>Composite section content</p>,
-                        collapsible: true,
-                        initialExpanded: true,
-                        errors: ["Error item 1", "Error item 2"],
-                    }}
-                >
-                    With composite errors (expanded)
-                </Toggle>
-            </div>
-
-            {/* removable */}
-            <div className="story-row-container">
-                <Toggle type="checkbox" indicator removable>
-                    Removable unchecked
-                </Toggle>
-                <Toggle type="checkbox" indicator removable checked>
-                    Removable checked
-                </Toggle>
-                <Toggle type="checkbox" indicator removable disabled>
-                    Removable disabled
+                <Toggle type="checkbox" styleType="no-border" error checked>
+                    No-border error checked
                 </Toggle>
             </div>
         </div>

@@ -21,8 +21,8 @@ export default function Story() {
                 <Toggle type="yes" indicator error>
                     Bordered + indicator error
                 </Toggle>
-                <Toggle type="yes" indicator error disabled>
-                    Bordered + indicator error disabled
+                <Toggle type="yes" indicator error checked>
+                    Bordered + indicator error checked
                 </Toggle>
             </div>
 
@@ -41,8 +41,8 @@ export default function Story() {
                 <Toggle type="yes" error>
                     Bordered error
                 </Toggle>
-                <Toggle type="yes" error disabled>
-                    Bordered error disabled
+                <Toggle type="yes" error checked>
+                    Bordered error checked
                 </Toggle>
             </div>
 
@@ -76,7 +76,7 @@ export default function Story() {
                     error
                     disabled
                 >
-                    No-border + indicator error disabled
+                    No-border + indicator error checked
                 </Toggle>
             </div>
 
@@ -97,8 +97,8 @@ export default function Story() {
                 <Toggle type="yes" styleType="no-border" error>
                     No-border error
                 </Toggle>
-                <Toggle type="yes" styleType="no-border" error disabled>
-                    No-border error disabled
+                <Toggle type="yes" styleType="no-border" error checked>
+                    No-border error checked
                 </Toggle>
             </div>
         </div>

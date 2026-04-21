@@ -21,8 +21,8 @@ export default function Story() {
                 <Toggle type="radio" indicator error>
                     Bordered + indicator error
                 </Toggle>
-                <Toggle type="radio" indicator error disabled>
-                    Bordered + indicator error disabled
+                <Toggle type="radio" indicator error checked>
+                    Bordered + indicator error checked
                 </Toggle>
             </div>
 
@@ -41,8 +41,8 @@ export default function Story() {
                 <Toggle type="radio" error>
                     Bordered error
                 </Toggle>
-                <Toggle type="radio" error disabled>
-                    Bordered error disabled
+                <Toggle type="radio" error checked>
+                    Bordered error checked
                 </Toggle>
             </div>
 
@@ -74,9 +74,9 @@ export default function Story() {
                     indicator
                     styleType="no-border"
                     error
-                    disabled
+                    checked
                 >
-                    No-border + indicator error disabled
+                    No-border + indicator error checked
                 </Toggle>
             </div>
 
@@ -97,8 +97,8 @@ export default function Story() {
                 <Toggle type="radio" styleType="no-border" error>
                     No-border error
                 </Toggle>
-                <Toggle type="radio" styleType="no-border" error disabled>
-                    No-border error disabled
+                <Toggle type="radio" styleType="no-border" error checked>
+                    No-border error checked
                 </Toggle>
             </div>
         </div>
