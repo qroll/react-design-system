@@ -1,154 +1,228 @@
-import styled, { css } from "styled-components";
+import { css } from "@linaria/core";
 
-import {
-    V3_Border,
-    V3_Colour,
-    V3_Font,
-    V3_MediaQuery,
-    V3_Radius,
-} from "../v3_theme";
-import type { TagColorType, TagType } from "./types";
+import { Border, Colour, Font, MediaQuery, Radius } from "../theme";
 
 // =============================================================================
 // STYLING
 // =============================================================================
-interface StyleProps {
-    $type: TagType;
-    $color: TagColorType;
-    $interactive: boolean;
-}
 
-export const Wrapper = styled.div<StyleProps>`
-    border-radius: ${V3_Radius["sm"]};
+export const wrapper = css`
+    border-radius: ${Radius["sm"]};
     padding: 0.125rem 0.5rem;
     width: fit-content;
     max-width: 100%;
-    ${V3_Font["body-xs-semibold"]}
+    ${Font["body-xs-semibold"]}
     transition: all 200ms ease;
-    cursor: ${({ $interactive }) => ($interactive ? "pointer" : "default")};
+    cursor: default;
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    border: ${Border["width-010"]} ${Border.solid} transparent;
 
     svg {
         flex-shrink: 0;
     }
+`;
 
-    ${(props) => {
-        let backgroundColor: (props: any) => string;
-        let borderColor: ((props: any) => string) | undefined;
-        let color: (props: any) => string;
-        let hoverBackgroundColor: (props: any) => string;
-        let hoverBorderColor: ((props: any) => string) | undefined;
+export const wrapperInteractive = css`
+    cursor: pointer;
 
-        if (props.$type === "solid") {
-            color = V3_Colour["text-inverse"];
-            switch (props.$color) {
-                case "grey":
-                    backgroundColor = V3_Colour["bg-inverse-subtler"];
-                    hoverBackgroundColor = V3_Colour["bg-inverse-hover"];
-                    break;
-                case "green":
-                    backgroundColor = V3_Colour["bg-success-strong"];
-                    hoverBackgroundColor = V3_Colour["bg-success-strong-hover"];
-                    break;
-                case "yellow":
-                    backgroundColor = V3_Colour["bg-warning-strong"];
-                    hoverBackgroundColor = V3_Colour["bg-warning-strong-hover"];
-                    break;
-                case "red":
-                    backgroundColor = V3_Colour["bg-error-strong"];
-                    hoverBackgroundColor = V3_Colour["bg-error-strong-hover"];
-                    break;
-                case "blue":
-                    backgroundColor = V3_Colour["bg-info-strong"];
-                    hoverBackgroundColor = V3_Colour["bg-info-strong-hover"];
-                    break;
-                case "primary":
-                    backgroundColor = V3_Colour["bg-primary"];
-                    hoverBackgroundColor = V3_Colour["bg-primary-hover"];
-                    break;
-                default:
-                    backgroundColor = V3_Colour["bg-inverse"];
-                    hoverBackgroundColor = V3_Colour["bg-inverse-hover"];
-                    break;
-            }
-        } else {
-            switch (props.$color) {
-                case "grey":
-                    backgroundColor = V3_Colour["bg-strong"];
-                    borderColor = V3_Colour["border-strong"];
-                    color = V3_Colour["text-subtle"];
-                    hoverBackgroundColor = V3_Colour["bg-hover-neutral-strong"];
-                    break;
-                case "green":
-                    backgroundColor = V3_Colour["bg-success"];
-                    borderColor = V3_Colour["border-success"];
-                    color = V3_Colour["text-success"];
-                    hoverBackgroundColor = V3_Colour["bg-success-hover"];
-                    break;
-                case "yellow":
-                    backgroundColor = V3_Colour["bg-warning"];
-                    borderColor = V3_Colour["border-warning"];
-                    color = V3_Colour["text-warning"];
-                    hoverBackgroundColor = V3_Colour["bg-warning-hover"];
-                    break;
-                case "red":
-                    backgroundColor = V3_Colour["bg-error"];
-                    borderColor = V3_Colour["border-error"];
-                    color = V3_Colour["text-error"];
-                    hoverBackgroundColor = V3_Colour["bg-error-hover"];
-                    break;
-                case "blue":
-                    backgroundColor = V3_Colour["bg-info"];
-                    borderColor = V3_Colour["border-info"];
-                    color = V3_Colour["text-info"];
-                    hoverBackgroundColor = V3_Colour["bg-info-hover"];
-                    break;
-                case "primary":
-                    backgroundColor = V3_Colour["bg-primary-subtlest"];
-                    borderColor = V3_Colour["border-primary"];
-                    color = V3_Colour["text-primary"];
-                    hoverBackgroundColor = V3_Colour["bg-primary-hover"];
-                    break;
-                default:
-                    backgroundColor = V3_Colour.bg;
-                    borderColor = V3_Colour.border;
-                    color = V3_Colour.text;
-                    hoverBackgroundColor = V3_Colour["bg-hover-neutral"];
-                    break;
-            }
-        }
-        return css`
-            background: ${backgroundColor};
-            border: ${V3_Border["width-010"]} ${V3_Border.solid} ${borderColor};
-            color: ${color};
-            @media (hover: hover) {
-                &:hover {
-                    ${props.$interactive &&
-                    hoverBackgroundColor &&
-                    `background: ${hoverBackgroundColor(props)};`}
-                    ${props.$interactive &&
-                    hoverBorderColor &&
-                    `border-color: ${hoverBorderColor(props)};`}
-                }
-            }
-        `;
-    }}
-
-    ${V3_MediaQuery.MaxWidth.lg} {
-        ${({ $interactive }) => {
-            if ($interactive) {
-                return css`
-                    ${V3_Font["body-md-semibold"]}
-                    padding: calc(0.5rem - 1px) 1rem;
-                `;
-            }
-        }}
+    ${MediaQuery.MaxWidth.lg} {
+        ${Font["body-md-semibold"]}
+        padding: calc(0.5rem - 1px) 1rem;
     }
 `;
 
-export const Label = styled.div`
+export const wrapperSolidGrey = css`
+    background: ${Colour["bg-inverse-subtler"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-inverse-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperSolidGreen = css`
+    background: ${Colour["bg-success-strong"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-success-strong-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperSolidYellow = css`
+    background: ${Colour["bg-warning-strong"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-warning-strong-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperSolidRed = css`
+    background: ${Colour["bg-error-strong"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-error-strong-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperSolidBlue = css`
+    background: ${Colour["bg-info-strong"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-info-strong-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperSolidPrimary = css`
+    background: ${Colour["bg-primary"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-primary-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperSolidBlack = css`
+    background: ${Colour["bg-inverse"]};
+    color: ${Colour["text-inverse"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-inverse-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlineGrey = css`
+    background: ${Colour["bg-strong"]};
+    border-color: ${Colour["border-strong"]};
+    color: ${Colour["text-subtle"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-hover-neutral-strong"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlineGreen = css`
+    background: ${Colour["bg-success"]};
+    border-color: ${Colour["border-success"]};
+    color: ${Colour["text-success"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-success-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlineYellow = css`
+    background: ${Colour["bg-warning"]};
+    border-color: ${Colour["border-warning"]};
+    color: ${Colour["text-warning"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-warning-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlineRed = css`
+    background: ${Colour["bg-error"]};
+    border-color: ${Colour["border-error"]};
+    color: ${Colour["text-error"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-error-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlineBlue = css`
+    background: ${Colour["bg-info"]};
+    border-color: ${Colour["border-info"]};
+    color: ${Colour["text-info"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-info-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlinePrimary = css`
+    background: ${Colour["bg-primary-subtlest"]};
+    border-color: ${Colour["border-primary"]};
+    color: ${Colour["text-primary"]};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-hover"]};
+            }
+        }
+    }
+`;
+
+export const wrapperOutlineBlack = css`
+    background: ${Colour.bg};
+    border-color: ${Colour.border};
+    color: ${Colour.text};
+
+    &.${wrapperInteractive} {
+        @media (hover: hover) {
+            &:hover {
+                background: ${Colour["bg-hover-neutral"]};
+            }
+        }
+    }
+`;
+
+export const label = css`
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
