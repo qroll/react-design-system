@@ -72,24 +72,6 @@ export default function Story() {
                     Icon right
                 </Tag>
             </div>
-
-            {/* Interactive */}
-            <div className="story-row-container">
-                <Tag type="solid" colorType="primary" interactive>
-                    Interactive solid
-                </Tag>
-                <Tag type="outline" colorType="primary" interactive>
-                    Interactive outline
-                </Tag>
-                <Tag
-                    type="solid"
-                    colorType="green"
-                    interactive
-                    icon={<BinIcon />}
-                >
-                    Interactive with icon
-                </Tag>
-            </div>
         </div>
     );
 }

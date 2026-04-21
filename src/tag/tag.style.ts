@@ -6,15 +6,6 @@ import { Border, Colour, Font, MediaQuery, Radius } from "../theme";
 // STYLING
 // =============================================================================
 
-export const wrapperInteractive = css`
-    cursor: pointer;
-
-    ${MediaQuery.MaxWidth.lg} {
-        ${Font["body-md-semibold"]}
-        padding: calc(0.5rem - 1px) 1rem;
-    }
-`;
-
 export const wrapper = css`
     border-radius: ${Radius["sm"]};
     padding: 0.125rem 0.5rem;
@@ -26,15 +17,24 @@ export const wrapper = css`
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    border: ${Border["width-010"]} ${Border.solid} transparent;
 
     svg {
         flex-shrink: 0;
     }
 `;
 
+export const wrapperInteractive = css`
+    cursor: pointer;
+
+    ${MediaQuery.MaxWidth.lg} {
+        ${Font["body-md-semibold"]}
+        padding: calc(0.5rem - 1px) 1rem;
+    }
+`;
+
 export const wrapperSolidGrey = css`
     background: ${Colour["bg-inverse-subtler"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -48,7 +48,6 @@ export const wrapperSolidGrey = css`
 
 export const wrapperSolidGreen = css`
     background: ${Colour["bg-success-strong"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -62,7 +61,6 @@ export const wrapperSolidGreen = css`
 
 export const wrapperSolidYellow = css`
     background: ${Colour["bg-warning-strong"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -76,7 +74,6 @@ export const wrapperSolidYellow = css`
 
 export const wrapperSolidRed = css`
     background: ${Colour["bg-error-strong"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -90,7 +87,6 @@ export const wrapperSolidRed = css`
 
 export const wrapperSolidBlue = css`
     background: ${Colour["bg-info-strong"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -104,7 +100,6 @@ export const wrapperSolidBlue = css`
 
 export const wrapperSolidPrimary = css`
     background: ${Colour["bg-primary"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -118,7 +113,6 @@ export const wrapperSolidPrimary = css`
 
 export const wrapperSolidBlack = css`
     background: ${Colour["bg-inverse"]};
-    border: ${Border["width-010"]} ${Border.solid} transparent;
     color: ${Colour["text-inverse"]};
 
     &.${wrapperInteractive} {
@@ -132,7 +126,7 @@ export const wrapperSolidBlack = css`
 
 export const wrapperOutlineGrey = css`
     background: ${Colour["bg-strong"]};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour["border-strong"]};
+    border-color: ${Colour["border-strong"]};
     color: ${Colour["text-subtle"]};
 
     &.${wrapperInteractive} {
@@ -146,7 +140,7 @@ export const wrapperOutlineGrey = css`
 
 export const wrapperOutlineGreen = css`
     background: ${Colour["bg-success"]};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour["border-success"]};
+    border-color: ${Colour["border-success"]};
     color: ${Colour["text-success"]};
 
     &.${wrapperInteractive} {
@@ -160,7 +154,7 @@ export const wrapperOutlineGreen = css`
 
 export const wrapperOutlineYellow = css`
     background: ${Colour["bg-warning"]};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour["border-warning"]};
+    border-color: ${Colour["border-warning"]};
     color: ${Colour["text-warning"]};
 
     &.${wrapperInteractive} {
@@ -174,7 +168,7 @@ export const wrapperOutlineYellow = css`
 
 export const wrapperOutlineRed = css`
     background: ${Colour["bg-error"]};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour["border-error"]};
+    border-color: ${Colour["border-error"]};
     color: ${Colour["text-error"]};
 
     &.${wrapperInteractive} {
@@ -188,7 +182,7 @@ export const wrapperOutlineRed = css`
 
 export const wrapperOutlineBlue = css`
     background: ${Colour["bg-info"]};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour["border-info"]};
+    border-color: ${Colour["border-info"]};
     color: ${Colour["text-info"]};
 
     &.${wrapperInteractive} {
@@ -202,7 +196,7 @@ export const wrapperOutlineBlue = css`
 
 export const wrapperOutlinePrimary = css`
     background: ${Colour["bg-primary-subtlest"]};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour["border-primary"]};
+    border-color: ${Colour["border-primary"]};
     color: ${Colour["text-primary"]};
 
     &.${wrapperInteractive} {
@@ -216,7 +210,7 @@ export const wrapperOutlinePrimary = css`
 
 export const wrapperOutlineBlack = css`
     background: ${Colour.bg};
-    border: ${Border["width-010"]} ${Border.solid} ${Colour.border};
+    border-color: ${Colour.border};
     color: ${Colour.text};
 
     &.${wrapperInteractive} {
