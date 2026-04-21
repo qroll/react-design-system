@@ -61,8 +61,10 @@ export const input = css`
     width: 100%;
     height: 100%;
     cursor: pointer;
+`;
 
-    &:not([disabled]):not([aria-disabled="true"]):hover + svg {
+export const inputActive = css`
+    &:hover + svg {
         @media (pointer: fine) {
             color: ${Colour["icon-hover"]};
         }
