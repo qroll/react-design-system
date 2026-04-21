@@ -184,7 +184,6 @@ export const HeaderRow = styled.tr`
 `;
 
 export const HeaderCell = styled.th<HeaderCellProps>`
-    position: relative;
     padding: ${(props) =>
         props.$isCheckbox ? "1.25rem 0.5rem 1.25rem 1.5rem" : "1.25rem 1rem"};
     text-align: left;
