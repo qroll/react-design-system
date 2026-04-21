@@ -72,7 +72,7 @@ const test = base.extend<{ story: StoryPage }>({
 });
 
 test.describe("DateInput", () => {
-    test.describe("Default story", () => {
+    test.describe("", () => {
         test.beforeEach(async ({ story }) => {
             await story.init("default", { mockedTimestamp: fixedTimestamp });
         });
@@ -84,7 +84,7 @@ test.describe("DateInput", () => {
             await compareScreenshot(story, "mount");
         });
 
-        test("Open - no selection", async ({ story }) => {
+        test("Open", async ({ story }) => {
             await story.openCalendar();
 
             await compareScreenshot(story, "state", {
@@ -144,7 +144,7 @@ test.describe("DateInput", () => {
         });
 
         test.describe("Focused states", () => {
-            test("day input focused", async ({ story }) => {
+            test("Day input focused", async ({ story }) => {
                 await story.locators.dayInput.click();
 
                 await compareScreenshot(story, "state", {
@@ -152,7 +152,7 @@ test.describe("DateInput", () => {
                 });
             });
 
-            test("month input focused", async ({ story }) => {
+            test("Month input focused", async ({ story }) => {
                 await story.locators.monthInput.click();
 
                 await compareScreenshot(story, "state", {
@@ -160,7 +160,7 @@ test.describe("DateInput", () => {
                 });
             });
 
-            test("year input focused", async ({ story }) => {
+            test("Year input focused", async ({ story }) => {
                 await story.locators.yearInput.click();
 
                 await compareScreenshot(story, "state", {
@@ -168,39 +168,40 @@ test.describe("DateInput", () => {
                 });
             });
 
-            test("day filled — divider active", async ({ story }) => {
-                await story.locators.dayInput.click();
-                await story.locators.dayInput.fill("08");
+            test("Keyboard input", async ({ story }) => {
+                await test.step("After day is filled, month input is focused", async () => {
+                    await story.locators.dayInput.click();
+                    await story.locators.dayInput.fill("08");
 
-                await compareScreenshot(story, "state", {
-                    locator: story.locators.dateInput,
+                    expect(story.locators.monthInput).toBeFocused();
+
+                    await compareScreenshot(story, "after-day-filled", {
+                        locator: story.locators.dateInput,
+                    });
                 });
-            });
 
-            test("month filled — both dividers active", async ({ story }) => {
-                await story.locators.dayInput.click();
-                await story.locators.dayInput.fill("08");
-                await story.locators.monthInput.fill("04");
+                await test.step("After month is filled, year input is focused", async () => {
+                    await story.locators.monthInput.fill("04");
 
-                await compareScreenshot(story, "state", {
-                    locator: story.locators.dateInput,
+                    expect(story.locators.yearInput).toBeFocused();
+
+                    await compareScreenshot(story, "after-month-filled", {
+                        locator: story.locators.dateInput,
+                    });
                 });
-            });
 
-            test("all fields filled via typing", async ({ story }) => {
-                await story.locators.dayInput.click();
-                await story.locators.dayInput.fill("08");
-                await story.locators.monthInput.fill("04");
-                await story.locators.yearInput.fill("2026");
+                await test.step("Year field filled", async () => {
+                    await story.locators.yearInput.fill("2026");
 
-                await compareScreenshot(story, "state", {
-                    locator: story.locators.dateInput,
+                    await compareScreenshot(story, "after-year-filled", {
+                        locator: story.locators.dateInput,
+                    });
                 });
             });
         });
     });
 
-    test.describe("Selected story", () => {
+    test.describe("Selected", () => {
         test.beforeEach(async ({ story }) => {
             await story.init("selected", { mockedTimestamp: fixedTimestamp });
         });
@@ -227,12 +228,12 @@ test.describe("DateInput", () => {
         });
     });
 
-    test.describe("Disabled story", () => {
+    test.describe("", () => {
         test.beforeEach(async ({ story }) => {
             await story.init("disabled", { mockedTimestamp: fixedTimestamp });
         });
 
-        test("Disabled state", async ({ story }) => {
+        test("Disabled", async ({ story }) => {
             await expect(story.locators.dateInput).toMatchAriaSnapshot(`
                 - group [disabled]
             `);
@@ -246,14 +247,14 @@ test.describe("DateInput", () => {
         });
     });
 
-    test.describe("Read-only", () => {
+    test.describe("", () => {
         test.beforeEach(async ({ story }) => {
             await story.init("read-only", {
                 mockedTimestamp: fixedTimestamp,
             });
         });
 
-        test("read-only with value", async ({ story }) => {
+        test("Read-only", async ({ story }) => {
             await compareScreenshot(story, "mount", {
                 locator: story.locators.dateInput,
             });
