@@ -68,14 +68,6 @@ export const colorBorderError = css`
     border-color: ${Colour["border-error"]};
 `;
 
-export const toggleContainerNoBorderError = css`
-    &:has(.${headerContainer}:hover) {
-        @media (pointer: fine) {
-            background: ${Colour["bg-hover-subtle"]};
-        }
-    }
-`;
-
 export const toggleContainerNoBorderDisabledSelected = css`
     border: none;
     background: ${Colour["bg-selected-disabled"]};
@@ -88,40 +80,14 @@ export const toggleContainerNoBorderDisabled = css`
 export const toggleContainerNoBorderSelected = css`
     border: none;
     background: ${Colour["bg-selected"]};
-
-    &:has(.${headerContainer}:hover) {
-        @media (pointer: fine) {
-            background: ${Colour["bg-selected-hover"]};
-
-            & .${textContainer} {
-                color: ${Colour["text-selected-hover"]};
-            }
-
-            & .${toggleIconStyles.wrapperBase} {
-                color: ${Colour["icon-selected-hover"]};
-            }
-        }
-    }
 `;
 
 export const toggleContainerNoBorder = css`
     border: none;
-
-    &:has(.${headerContainer}:hover) {
-        @media (pointer: fine) {
-            background: ${Colour["bg-hover-subtle"]};
-        }
-    }
 `;
 
 export const toggleContainerError = css`
     border-color: ${Colour["border-error"]};
-
-    &:has(.${headerContainer}:hover) {
-        @media (pointer: fine) {
-            background: ${Colour["bg-hover-subtle"]};
-        }
-    }
 `;
 
 export const toggleContainerDisabledSelected = css`
@@ -137,7 +103,9 @@ export const toggleContainerDisabled = css`
 export const toggleContainerSelected = css`
     border-color: ${Colour["border-selected"]};
     background: ${Colour["bg-selected"]};
+`;
 
+export const toggleContainerHoverSelected = css`
     &:has(.${headerContainer}:hover) {
         @media (pointer: fine) {
             background: ${Colour["bg-selected-hover"]};
@@ -155,7 +123,9 @@ export const toggleContainerSelected = css`
 
 export const toggleContainer = css`
     border-color: ${Colour.border};
+`;
 
+export const toggleContainerHoverDefault = css`
     &:has(.${headerContainer}:hover) {
         @media (pointer: fine) {
             background: ${Colour["bg-hover-subtle"]};

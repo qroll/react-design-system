@@ -148,7 +148,7 @@ export const Toggle = ({
     // HELPER FUNCTIONS
     // =============================================================================
 
-    const getContainerStateClass = (() => {
+    const getContainerStateClass = () => {
         if (styleType === "no-border") {
             if (error) {
                 return clsx(
@@ -187,9 +187,21 @@ export const Toggle = ({
         }
 
         return styles.toggleContainer;
-    })();
+    };
 
-    const getTextContainerStateClass = (() => {
+    const getContainerHoverClass = () => {
+        if (disabled) {
+            return undefined;
+        }
+
+        if (!error && selected) {
+            return styles.toggleContainerHoverSelected;
+        }
+
+        return styles.toggleContainerHoverDefault;
+    };
+
+    const getTextContainerStateClass = () => {
         if (disabled) {
             return selected
                 ? styles.toggleTextContainerDisabledSelected
@@ -199,7 +211,7 @@ export const Toggle = ({
         if (selected) {
             return styles.toggleTextContainerSelected;
         }
-    })();
+    };
 
     // =============================================================================
     // RENDER FUNCTIONS
@@ -349,7 +361,7 @@ export const Toggle = ({
                         <div
                             className={clsx(
                                 styles.textContainer,
-                                getTextContainerStateClass
+                                getTextContainerStateClass()
                             )}
                         >
                             <label
@@ -471,7 +483,8 @@ export const Toggle = ({
         <div
             className={clsx(
                 styles.container,
-                getContainerStateClass,
+                getContainerStateClass(),
+                getContainerHoverClass(),
                 !indicator && styles.noIndicatorContainer,
                 useContentWidth && styles.useContentWidthContainer,
                 className
