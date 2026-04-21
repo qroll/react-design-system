@@ -20,6 +20,15 @@ export default function ColDivStory() {
                 Span child
             </Layout.ColDiv>
             <Layout.ColDiv
+                data-testid="col-div-span-sibling"
+                xxsCols={2}
+                xsCols={3}
+                mdCols={4}
+                className={styles["layout-col-div-span"]}
+            >
+                Span child
+            </Layout.ColDiv>
+            <Layout.ColDiv
                 data-testid="col-div-start-span"
                 xxsCols={[2, 4]}
                 className={styles["layout-col-div-start-span"]}

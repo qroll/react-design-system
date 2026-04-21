@@ -12,12 +12,14 @@ export default function ContainerStory() {
                 className={styles["layout-container-flex"]}
             >
                 <span>Flex child</span>
+                <span>Flex child</span>
             </Layout.Container>
             <Layout.Container
                 data-testid="container-flex-column"
                 type="flex-column"
                 className={styles["layout-container-flex-column"]}
             >
+                <span>Flex column child</span>
                 <span>Flex column child</span>
             </Layout.Container>
             <Layout.Container
@@ -26,6 +28,7 @@ export default function ContainerStory() {
                 className={styles["layout-container-grid"]}
             >
                 <span>Grid child</span>
+                <span>Grid child</span>
             </Layout.Container>
             <Layout.Container
                 data-testid="container-stretched"
@@ -33,6 +36,7 @@ export default function ContainerStory() {
                 stretch
                 className={styles["layout-container-stretched"]}
             >
+                <span>Stretched child</span>
                 <span>Stretched child</span>
             </Layout.Container>
         </>

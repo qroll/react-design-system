@@ -10,20 +10,16 @@ export default function ContentStory() {
                 data-testid="test-content"
                 className={styles["layout-test-content"]}
             >
-                <p>Content child</p>
+                <p>Flex child</p>
+                <p>Flex child</p>
             </Layout.Content>
             <Layout.Content
                 data-testid="content-grid"
                 type="grid"
                 className={styles["layout-content-grid"]}
             >
-                <Layout.ColDiv
-                    data-testid="content-col-div"
-                    xxsCols={2}
-                    className={styles["layout-content-col-div"]}
-                >
-                    Col child
-                </Layout.ColDiv>
+                <p>Col child</p>
+                <p>Col child</p>
             </Layout.Content>
             <Layout.Content
                 data-testid="content-stretched"
