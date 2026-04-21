@@ -5,7 +5,7 @@ export default function Story() {
     return (
         <div className="story-column-container">
             {/* Solid interactive - all color variants */}
-            <div className="story-row-container">
+            <div className="story-row-container" data-testid="solid-variants">
                 <Tag type="solid" colorType="black" interactive>
                     Black
                 </Tag>
@@ -30,7 +30,7 @@ export default function Story() {
             </div>
 
             {/* Outline interactive - all color variants */}
-            <div className="story-row-container">
+            <div className="story-row-container" data-testid="outline-variants">
                 <Tag type="outline" colorType="black" interactive>
                     Black
                 </Tag>

@@ -1,11 +1,23 @@
-import { test as base, Page } from "@playwright/test";
+import { test as base, Locator, Page } from "@playwright/test";
 import { AbstractStoryPage, compareScreenshot } from "../../utils";
 
 class StoryPage extends AbstractStoryPage {
     protected readonly component = "tag";
 
+    public readonly locators: {
+        solidTags: Locator;
+        outlineTags: Locator;
+    };
+
     constructor(page: Page) {
         super(page);
+
+        this.locators = {
+            solidTags: page.getByTestId("solid-variants").getByRole("button"),
+            outlineTags: page
+                .getByTestId("outline-variants")
+                .getByRole("button"),
+        };
     }
 }
 
@@ -42,29 +54,36 @@ test.describe("Tag", () => {
             await story.init("interactive");
         });
 
-        test("Interactive default", async ({ story }) => {
+        test("Interactive", async ({ story }) => {
             await compareScreenshot(story, "mount");
+
+            const solidTags = await story.locators.solidTags.all();
+            for (let i = 0; i < solidTags.length; i++) {
+                const tag = solidTags[i];
+                await tag.hover();
+                await compareScreenshot(story, `solid-hover-${i}`, {
+                    locator: tag,
+                });
+            }
+
+            const outlineTags = await story.locators.outlineTags.all();
+            for (let i = 0; i < outlineTags.length; i++) {
+                const tag = outlineTags[i];
+                await tag.hover();
+                await compareScreenshot(story, `outline-hover-${i}`, {
+                    locator: tag,
+                });
+            }
+        });
+    });
+
+    test.describe(() => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("interactive", { size: "tablet" });
         });
 
-        test("Interactive hover solid", async ({ story }) => {
-            await story.page
-                .getByRole("button", { name: "Primary" })
-                .first()
-                .hover();
-            await compareScreenshot(story, "hover solid");
-        });
-
-        test("Interactive hover outline", async ({ story }) => {
-            await story.page
-                .getByRole("button", { name: "Primary" })
-                .last()
-                .hover();
-            await compareScreenshot(story, "hover outline");
-        });
-
-        test("Interactive tablet size", async ({ story }) => {
-            await story.page.setViewportSize({ width: 1024, height: 768 });
-            await compareScreenshot(story, "tablet");
+        test("Interactive (tablet)", async ({ story }) => {
+            await compareScreenshot(story, "mount");
         });
     });
 });
