@@ -202,7 +202,7 @@ export const wrapperOutlinePrimary = css`
     &.${wrapperInteractive} {
         @media (hover: hover) {
             &:hover {
-                background: ${Colour["bg-primary-hover"]};
+                background: ${Colour["bg-hover"]};
             }
         }
     }
