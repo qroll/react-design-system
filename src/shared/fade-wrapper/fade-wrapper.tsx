@@ -17,17 +17,7 @@ import { useResizeDetector } from "react-resize-detector";
 import { useApplyStyle } from "../../theme";
 import { Colour } from "../../theme/tokens";
 import { ClickableIcon } from "../clickable-icon";
-import {
-    content,
-    fade,
-    fadeIndicatorButton,
-    fadeLeft,
-    fadeRight,
-    indicatorLeft,
-    indicatorRight,
-    tokens,
-    wrapper,
-} from "./fade-wrapper.style";
+import * as styles from "./fade-wrapper.styles";
 import type { FadeColorSet, FadeWrapperProps, FadeWrapperRef } from "./types";
 
 const Component = (
@@ -168,12 +158,12 @@ const Component = (
     };
 
     useApplyStyle(fadeLeftRef, {
-        [tokens.backgroundColor]: getFadeBackgroundColorValue(
+        [styles.tokens.backgroundColor]: getFadeBackgroundColorValue(
             fadeColorSet.left
         ),
     });
     useApplyStyle(fadeRightRef, {
-        [tokens.backgroundColor]: getFadeBackgroundColorValue(
+        [styles.tokens.backgroundColor]: getFadeBackgroundColorValue(
             fadeColorSet.right
         ),
     });
@@ -187,14 +177,14 @@ const Component = (
                 {showFadeLeft && (
                     <div
                         ref={fadeLeftRef}
-                        className={clsx(fade, fadeLeft)}
+                        className={clsx(styles.fade, styles.fadeLeft)}
                         data-id="left-fade"
                     >
                         {showIndicator && (
                             <ClickableIcon
                                 className={clsx(
-                                    fadeIndicatorButton,
-                                    indicatorLeft
+                                    styles.fadeIndicatorButton,
+                                    styles.indicatorLeft
                                 )}
                                 data-id="left-fade-indicator-button"
                             >
@@ -206,14 +196,14 @@ const Component = (
                 {showFadeRight && (
                     <div
                         ref={fadeRightRef}
-                        className={clsx(fade, fadeRight)}
+                        className={clsx(styles.fade, styles.fadeRight)}
                         data-id="right-fade"
                     >
                         {showIndicator && (
                             <ClickableIcon
                                 className={clsx(
-                                    fadeIndicatorButton,
-                                    indicatorRight
+                                    styles.fadeIndicatorButton,
+                                    styles.indicatorRight
                                 )}
                                 data-id="right-fade-indicator-button"
                             >
@@ -229,10 +219,10 @@ const Component = (
     return (
         <div
             ref={wrapperRef}
-            className={clsx(wrapper, className)}
+            className={clsx(styles.wrapper, className)}
             {...otherProps}
         >
-            <div ref={contentRef} className={content}>
+            <div ref={contentRef} className={styles.content}>
                 {children}
             </div>
             {renderFade()}

@@ -5,7 +5,7 @@ import { FadeWrapper, type ResizeCallbackParams } from "../shared/fade-wrapper";
 import { useDesignToken, useSafeMaxWidthMediaQuery } from "../theme";
 import { Breakpoint } from "../theme/tokens";
 import { TabContext } from "./tab-context";
-import * as styles from "./tab-link-chain.style";
+import * as styles from "./tab-link-chain.styles";
 import type { TabProps } from "./types";
 
 interface Props

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import type { ReactElement } from "react";
 import { Children, cloneElement, useEffect, useMemo, useState } from "react";
 
-import * as styles from "./tab.style";
+import * as styles from "./tab.styles";
 import type { TabLinkProps } from "./tab-context";
 import { TabContext } from "./tab-context";
 import { TabItem } from "./tab-item";
