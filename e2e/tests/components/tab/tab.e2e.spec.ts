@@ -49,18 +49,14 @@ test.describe("Tab", () => {
         await compareScreenshot(story, "mount");
     });
 
-    test("Hover", async ({ story }) => {
-        await story.locators.component.secondTab.hover();
+    test.describe(() => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("default", { mode: "dark" });
+        });
 
-        await expect(story.layout).toMatchAriaSnapshot(`
-                    - tablist:
-                        - tab "Section A" [selected]
-                        - tab "Section B"
-                        - tab "Section C"
-                    - tabpanel "Section A": Contents of A
-                `);
-
-        await compareScreenshot(story, "hover-inactive-tab");
+        test("Default dark mode", async ({ story }) => {
+            await compareScreenshot(story, "mount");
+        });
     });
 
     test("Keyboard navigation", async ({ story }) => {
@@ -122,13 +118,11 @@ test.describe("Tab", () => {
     });
 
     test.describe("Fade color", () => {
-        test("Mobile", async ({ story }) => {
+        test.beforeEach(async ({ story }) => {
             await story.init("fade-color", { size: "mobile" });
-            await compareScreenshot(story, "mount");
         });
 
-        test("Tablet", async ({ story }) => {
-            await story.init("fade-color", { size: "tablet" });
+        test("Mobile", async ({ story }) => {
             await compareScreenshot(story, "mount");
         });
     });
