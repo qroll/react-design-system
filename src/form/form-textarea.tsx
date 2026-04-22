@@ -6,7 +6,7 @@ import { TextareaBase } from "../input-textarea/textarea";
 import { TextareaCounter } from "../input-textarea/textarea-counter";
 import type { TextareaRef } from "../input-textarea/types";
 import * as labelStyles from "./form-label.styles";
-import * as textAreaStyles from "./form-textarea.styles";
+import * as styles from "./form-textarea.styles";
 import { FormWrapper } from "./form-wrapper";
 import type { FormTextareaProps } from "./types";
 
@@ -75,9 +75,9 @@ const FormTextareaComponent = (
     const renderBottomLabels = () => {
         if (!errorMessage && !otherProps.maxLength) return <></>;
         return (
-            <div className={textAreaStyles.labelContainer}>
+            <div className={styles.labelContainer}>
                 {errorMessage && (
-                    <div className={textAreaStyles.errorMessageContainer}>
+                    <div className={styles.errorMessageContainer}>
                         <ExclamationCircleFillIcon
                             className={labelStyles.errorIcon}
                             aria-hidden
@@ -85,7 +85,7 @@ const FormTextareaComponent = (
                         <p
                             className={clsx(
                                 labelStyles.errorMessage,
-                                textAreaStyles.errorMessageLabel
+                                styles.errorMessageLabel
                             )}
                             data-testid={getErrorTestMessageId()}
                         >

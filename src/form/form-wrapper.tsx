@@ -11,7 +11,7 @@ import { Children, cloneElement, useState } from "react";
 import { SimpleIdGenerator } from "../util";
 import { FormLabel } from "./form-label";
 import * as labelStyles from "./form-label.styles";
-import * as wrapperStyles from "./form-wrapper.styles";
+import * as styles from "./form-wrapper.styles";
 import type { FormElementLayoutType, FormWrapperProps } from "./types";
 
 export const FormWrapper = ({
@@ -116,11 +116,11 @@ export const FormWrapper = ({
     ): ComponentType => {
         switch (layoutType) {
             case "v2-grid":
-                return wrapperStyles.V2_ColDivContainer;
+                return styles.V2_ColDivContainer;
             case "grid":
-                return wrapperStyles.ColDivContainer;
+                return styles.ColDivContainer;
             case "flex":
-                return wrapperStyles.Container;
+                return styles.Container;
         }
     };
 
