@@ -15,48 +15,10 @@ import {
 import { useResizeDetector } from "react-resize-detector";
 
 import { useApplyStyle } from "../../theme";
-import { Colour } from "../../theme/tokens";
 import { ClickableIcon } from "../clickable-icon";
 import * as styles from "./fade-wrapper.styles";
-import type { FadeColorSet, FadeWrapperProps, FadeWrapperRef } from "./types";
-
-// =========================================================================
-// HELPERS
-// =========================================================================
-function getFadeColorSet(
-    fadeColor?: FadeWrapperProps["fadeColor"]
-): FadeColorSet {
-    if (Array.isArray(fadeColor) && fadeColor.length > 0) {
-        return {
-            left: fadeColor,
-            right: fadeColor,
-        };
-    }
-
-    if (fadeColor) {
-        return fadeColor as FadeColorSet;
-    }
-
-    return {
-        left: undefined,
-        right: undefined,
-    };
-}
-
-function getFadeBackgroundColorValue(
-    color: string[] | undefined,
-    showIndicator: boolean
-) {
-    if (color && color.length > 0) {
-        return color.join(", ");
-    }
-
-    if (showIndicator) {
-        return `${Colour.bg}, ${Colour.bg}`;
-    }
-
-    return null;
-}
+import { getFadeBackgroundColorValue, getFadeColorSet } from "./helpers";
+import type { FadeWrapperProps, FadeWrapperRef } from "./types";
 
 const Component = (
     {
