@@ -9,7 +9,7 @@ import { Border, Colour, MediaQuery, Radius, Spacing } from "../../theme";
 // -----------------------------------------------------------------------------
 // MAIN WRAPPER
 // -----------------------------------------------------------------------------
-export const styledDiv = css`
+export const root = css`
     overflow: hidden;
 
     ${MediaQuery.MaxWidth.xxs} {
