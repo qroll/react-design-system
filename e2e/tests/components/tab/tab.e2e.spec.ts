@@ -39,7 +39,7 @@ test.describe("Tab", () => {
 
     test("Default", async ({ story }) => {
         await expect(story.layout).toMatchAriaSnapshot(`
-                    - list:
+                    - tablist:
                         - tab "Section A" [selected]
                         - tab "Section B"
                         - tab "Section C"
@@ -53,7 +53,7 @@ test.describe("Tab", () => {
         await story.locators.component.secondTab.hover();
 
         await expect(story.layout).toMatchAriaSnapshot(`
-                    - list:
+                    - tablist:
                         - tab "Section A" [selected]
                         - tab "Section B"
                         - tab "Section C"

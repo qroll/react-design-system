@@ -113,6 +113,7 @@ export const TabLinkChain = ({
             className={styles.customFadeWrapper}
         >
             <ul
+                role="tablist"
                 className={clsx(
                     styles.chain,
                     fullWidthIndicatorLine && styles.chainFullWidthIndicator
