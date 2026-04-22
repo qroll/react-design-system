@@ -1,15 +1,9 @@
 import styled from "styled-components";
 
 import { Button } from "../../button";
+import { Border, Colour, MediaQuery, Radius, Spacing } from "../../theme";
 import { Toggle } from "../../toggle";
 import { Typography } from "../../typography";
-import {
-    V3_Border,
-    V3_Colour,
-    V3_MediaQuery,
-    V3_Radius,
-    V3_Spacing,
-} from "../../v3_theme";
 import { ClickableIcon } from "../clickable-icon";
 import { BasicInput, InputBox } from "../input-wrapper";
 
@@ -23,7 +17,7 @@ import { BasicInput, InputBox } from "../input-wrapper";
 export const StyledDiv = styled.div`
     overflow: hidden;
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         max-width: 100%;
     }
 `;
@@ -31,14 +25,13 @@ export const StyledDiv = styled.div`
 export const Container = styled.div`
     position: relative;
     width: 100%;
-    padding: ${V3_Spacing["spacing-8"]} ${V3_Spacing["spacing-20"]}
-        ${V3_Spacing["spacing-24"]} ${V3_Spacing["spacing-20"]};
+    padding: ${Spacing["spacing-8"]} ${Spacing["spacing-20"]}
+        ${Spacing["spacing-24"]} ${Spacing["spacing-20"]};
     display: flex;
     flex-direction: column;
-    background: ${V3_Colour["bg"]};
-    border: ${V3_Border["width-010"]} ${V3_Border["solid"]}
-        ${V3_Colour["border"]};
-    border-radius: ${V3_Radius["sm"]};
+    background: ${Colour["bg"]};
+    border: ${Border["width-010"]} ${Border["solid"]} ${Colour["border"]};
+    border-radius: ${Radius["sm"]};
 `;
 
 export const InputSection = styled.div`
@@ -46,7 +39,7 @@ export const InputSection = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         flex-direction: column;
         width: 100%;
     }
@@ -55,12 +48,12 @@ export const InputSection = styled.div`
 export const ControlSection = styled.div`
     display: flex;
     justify-content: flex-end;
-    margin-top: ${V3_Spacing["spacing-16"]};
-    gap: ${V3_Spacing["spacing-8"]};
+    margin-top: ${Spacing["spacing-16"]};
+    gap: ${Spacing["spacing-8"]};
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         flex-direction: column-reverse; // FIXME: this breaks tab focus
-        margin-top: ${V3_Spacing["spacing-32"]};
+        margin-top: ${Spacing["spacing-32"]};
     }
 `;
 
@@ -70,9 +63,9 @@ export const ControlSection = styled.div`
 export const HourMinuteSection = styled.div`
     display: flex;
     align-items: center;
-    margin-right: ${V3_Spacing["spacing-32"]};
+    margin-right: ${Spacing["spacing-32"]};
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         margin-right: 0;
         width: 100%;
     }
@@ -80,13 +73,13 @@ export const HourMinuteSection = styled.div`
 
 export const TimePeriodSection = styled.div`
     display: flex;
-    gap: ${V3_Spacing["spacing-8"]};
+    gap: ${Spacing["spacing-8"]};
 
-    ${V3_MediaQuery.MaxWidth.lg} {
+    ${MediaQuery.MaxWidth.lg} {
         flex-direction: column;
     }
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         flex-direction: row;
         width: 100%;
     }
@@ -97,15 +90,15 @@ export const InputContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         width: 6rem;
     }
 `;
 
 export const SwitchButton = styled(ClickableIcon)`
     width: 5rem;
-    padding: ${V3_Spacing["spacing-16"]} 0;
-    color: ${V3_Colour["icon"]};
+    padding: ${Spacing["spacing-16"]} 0;
+    color: ${Colour["icon"]};
 
     svg {
         height: 1rem;
@@ -113,7 +106,7 @@ export const SwitchButton = styled(ClickableIcon)`
     }
 
     &:hover {
-        color: ${V3_Colour["icon-hover"]};
+        color: ${Colour["icon-hover"]};
     }
 `;
 
@@ -130,7 +123,7 @@ export const TimeInputBox = styled(InputBox)`
     align-items: center;
     justify-content: center;
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         width: 100%;
     }
 `;
@@ -155,11 +148,11 @@ export const TimePeriodToggle = styled(Toggle)`
 export const ControlButton = styled(Button.Small)`
     width: 7rem;
 
-    ${V3_MediaQuery.MaxWidth.sm} {
+    ${MediaQuery.MaxWidth.sm} {
         flex: 1;
     }
 
-    ${V3_MediaQuery.MaxWidth.xxs} {
+    ${MediaQuery.MaxWidth.xxs} {
         width: 100%;
     }
 `;
