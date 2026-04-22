@@ -20,6 +20,44 @@ import { ClickableIcon } from "../clickable-icon";
 import * as styles from "./fade-wrapper.styles";
 import type { FadeColorSet, FadeWrapperProps, FadeWrapperRef } from "./types";
 
+// =========================================================================
+// HELPERS
+// =========================================================================
+function getFadeColorSet(
+    fadeColor?: FadeWrapperProps["fadeColor"]
+): FadeColorSet {
+    if (Array.isArray(fadeColor) && fadeColor.length > 0) {
+        return {
+            left: fadeColor,
+            right: fadeColor,
+        };
+    }
+
+    if (fadeColor) {
+        return fadeColor as FadeColorSet;
+    }
+
+    return {
+        left: undefined,
+        right: undefined,
+    };
+}
+
+function getFadeBackgroundColorValue(
+    color: string[] | undefined,
+    showIndicator: boolean
+) {
+    if (color && color.length > 0) {
+        return color.join(", ");
+    }
+
+    if (showIndicator) {
+        return `${Colour.bg}, ${Colour.bg}`;
+    }
+
+    return null;
+}
+
 const Component = (
     {
         children,
@@ -46,6 +84,21 @@ const Component = (
     const contentRef = useRef<HTMLDivElement>(null);
     const fadeLeftRef = useRef<HTMLDivElement>(null);
     const fadeRightRef = useRef<HTMLDivElement>(null);
+
+    const fadeColorSet = getFadeColorSet(fadeColor);
+
+    useApplyStyle(fadeLeftRef, {
+        [styles.tokens.backgroundColor]: getFadeBackgroundColorValue(
+            fadeColorSet.left,
+            showIndicator
+        ),
+    });
+    useApplyStyle(fadeRightRef, {
+        [styles.tokens.backgroundColor]: getFadeBackgroundColorValue(
+            fadeColorSet.right,
+            showIndicator
+        ),
+    });
 
     // To scroll left when wrapper resizes
     useResizeDetector({
@@ -128,45 +181,6 @@ const Component = (
         //     content.scrollLeft = content.scrollWidth - wrapper.offsetWidth;
         // }
     }
-
-    let fadeColorSet: FadeColorSet;
-
-    if (Array.isArray(fadeColor) && fadeColor.length > 0) {
-        fadeColorSet = {
-            left: fadeColor,
-            right: fadeColor,
-        };
-    } else if (fadeColor) {
-        fadeColorSet = fadeColor as FadeColorSet;
-    } else {
-        fadeColorSet = {
-            left: undefined,
-            right: undefined,
-        };
-    }
-
-    const getFadeBackgroundColorValue = (color?: string[]) => {
-        if (color && color.length > 0) {
-            return color.join(", ");
-        }
-
-        if (showIndicator) {
-            return `${Colour.bg}, ${Colour.bg}`;
-        }
-
-        return null;
-    };
-
-    useApplyStyle(fadeLeftRef, {
-        [styles.tokens.backgroundColor]: getFadeBackgroundColorValue(
-            fadeColorSet.left
-        ),
-    });
-    useApplyStyle(fadeRightRef, {
-        [styles.tokens.backgroundColor]: getFadeBackgroundColorValue(
-            fadeColorSet.right
-        ),
-    });
 
     // =========================================================================
     // RENDER FUNCTIONS
