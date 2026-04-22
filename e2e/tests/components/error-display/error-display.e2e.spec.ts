@@ -21,12 +21,8 @@ test.describe("ErrorDisplay", () => {
             await story.init("default");
         });
 
-        test("Default – renders image, title and description", async ({
-            story,
-        }) => {
-            await test.step("Screenshot matches", async () => {
-                await compareScreenshot(story, "default-mount");
-            });
+        test("Default", async ({ story }) => {
+            await compareScreenshot(story, "default-mount");
         });
     });
 
@@ -36,15 +32,7 @@ test.describe("ErrorDisplay", () => {
         });
 
         test("Default (dark mode)", async ({ story }) => {
-            await test.step("Component mounts in dark mode", async () => {
-                await expect(
-                    story.page.getByTestId("error-display--title")
-                ).toBeVisible();
-            });
-
-            await test.step("Screenshot matches", async () => {
-                await compareScreenshot(story, "default-dark");
-            });
+            await compareScreenshot(story, "default-dark");
         });
     });
 
@@ -53,16 +41,8 @@ test.describe("ErrorDisplay", () => {
             await story.init("default", { size: "mobile" });
         });
 
-        test("Default – mobile viewport", async ({ story }) => {
-            await test.step("Component mounts on mobile", async () => {
-                await expect(
-                    story.page.getByTestId("error-display--title")
-                ).toBeVisible();
-            });
-
-            await test.step("Screenshot matches", async () => {
-                await compareScreenshot(story, "default-mobile");
-            });
+        test("Default (mobile viewport)", async ({ story }) => {
+            await compareScreenshot(story, "default-mobile");
         });
     });
 
@@ -71,14 +51,14 @@ test.describe("ErrorDisplay", () => {
             await story.init("with-action-button");
         });
 
-        test("With action button – renders and fires onClick", async ({
+        test("With action button renders and fires onClick", async ({
             story,
         }) => {
             const button = story.page.getByRole("button", {
                 name: "Continue anyway",
             });
 
-            await test.step("Screenshot matches", async () => {
+            await test.step("Screenshot matches on mount", async () => {
                 await compareScreenshot(story, "with-action-button-mount");
             });
 
@@ -96,24 +76,16 @@ test.describe("ErrorDisplay", () => {
             await story.init("image-only");
         });
 
-        test("Image only – title and description are not rendered", async ({
+        test("Image only renders without title and description", async ({
             story,
         }) => {
-            await test.step("Title is not rendered", async () => {
-                await expect(
-                    story.page.getByTestId("error-display--title")
-                ).not.toBeVisible();
-            });
-
-            await test.step("Description is not rendered", async () => {
-                await expect(
-                    story.page.getByTestId("error-display--description")
-                ).not.toBeVisible();
-            });
-
-            await test.step("Screenshot matches", async () => {
-                await compareScreenshot(story, "image-only-mount");
-            });
+            await expect(
+                story.page.getByTestId("error-display--title")
+            ).not.toBeVisible();
+            await expect(
+                story.page.getByTestId("error-display--description")
+            ).not.toBeVisible();
+            await compareScreenshot(story, "image-only-mount");
         });
     });
 
@@ -122,7 +94,7 @@ test.describe("ErrorDisplay", () => {
             await story.init("custom-error");
         });
 
-        test("Custom error – renders custom title and description", async ({
+        test("Custom error renders custom title and description", async ({
             story,
         }) => {
             await test.step("Custom title is rendered", async () => {
@@ -140,9 +112,7 @@ test.describe("ErrorDisplay", () => {
                 ).toContainText("JSX component");
             });
 
-            await test.step("Screenshot matches", async () => {
-                await compareScreenshot(story, "custom-error-mount");
-            });
+            await compareScreenshot(story, "custom-error-mount");
         });
     });
 
@@ -151,12 +121,10 @@ test.describe("ErrorDisplay", () => {
             await story.init("maintenance");
         });
 
-        test("Maintenance – renders dateString in description", async ({
+        test("Maintenance renders dateString in description", async ({
             story,
         }) => {
-            await test.step("Screenshot matches", async () => {
-                await compareScreenshot(story, "maintenance-mount");
-            });
+            await compareScreenshot(story, "maintenance-mount");
         });
     });
 });
