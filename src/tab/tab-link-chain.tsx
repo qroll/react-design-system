@@ -1,19 +1,11 @@
-import { useContext, useRef } from "react";
-import { useMediaQuery } from "react-responsive";
-import { ThemeContext } from "styled-components";
+import clsx from "clsx";
+import { useContext, useEffect, useRef } from "react";
 
-import type { ResizeCallbackParams } from "../shared/fade-wrapper";
-import { V3_Breakpoint } from "../v3_theme";
+import { FadeWrapper, type ResizeCallbackParams } from "../shared/fade-wrapper";
+import { useDesignToken, useSafeMaxWidthMediaQuery } from "../theme";
+import { Breakpoint } from "../theme/tokens";
 import { TabContext } from "./tab-context";
-import {
-    BoldLabel,
-    Chain,
-    ChainItem,
-    ChainLink,
-    CustomFadeWrapper,
-    Label,
-    LabelContainer,
-} from "./tab-link-chain.style";
+import * as styles from "./tab-link-chain.styles";
 import type { TabProps } from "./types";
 
 interface Props
@@ -21,7 +13,7 @@ interface Props
         TabProps,
         "fullWidthIndicatorLine" | "onTabClick" | "data-testid" | "fadeColor"
     > {
-    controlledMode?: boolean | undefined;
+    controlledMode?: boolean;
 }
 
 export const TabLinkChain = ({
@@ -37,17 +29,31 @@ export const TabLinkChain = ({
     const { setCurrentActiveIndex, currentActiveIndex, tabLinks } =
         useContext(TabContext);
 
-    const theme = useContext(ThemeContext);
-    const mobileBreakpoint = V3_Breakpoint["md-max"]({ theme });
+    const mobileBreakpoint = useDesignToken(Breakpoint["md-max"]);
+    const isMobile = useSafeMaxWidthMediaQuery(mobileBreakpoint);
+    const tabletBreakpoint = useDesignToken(Breakpoint["lg-max"]);
+    const isTablet = useSafeMaxWidthMediaQuery(tabletBreakpoint);
 
-    const isMobile = useMediaQuery({
-        maxWidth: mobileBreakpoint,
-    });
-
-    const tabletBreakpoint = V3_Breakpoint["lg-max"]({ theme });
-
-    const activeLinkRef = useRef<HTMLLIElement>(null);
+    const activeLinkRef = useRef<HTMLLIElement | null>(null);
+    const chainRef = useRef<HTMLUListElement | null>(null);
     const chainLinkRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const chainItemRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+    useEffect(() => {
+        chainItemRefs.current.forEach((itemRef, index) => {
+            if (!itemRef) {
+                return;
+            }
+
+            const width = tabLinks[index]?.width;
+
+            if (width) {
+                itemRef.style.setProperty(styles.tokens.chainItem.width, width);
+            } else {
+                itemRef.style.removeProperty(styles.tokens.chainItem.width);
+            }
+        });
+    }, [tabLinks]);
 
     // =========================================================================
     // EVENT HANDLERS
@@ -66,15 +72,11 @@ export const TabLinkChain = ({
             }
         };
 
-    const handleResize = ({ content, wrapper }: ResizeCallbackParams) => {
-        if (
-            content &&
-            wrapper &&
-            window.innerWidth <= tabletBreakpoint &&
-            activeLinkRef.current
-        ) {
+    const handleResize = ({ content }: ResizeCallbackParams) => {
+        if (content && isTablet && activeLinkRef.current && chainRef.current) {
             content.scrollLeft =
-                activeLinkRef.current.getBoundingClientRect().left;
+                activeLinkRef.current.getBoundingClientRect().left -
+                chainRef.current.getBoundingClientRect().left;
         }
     };
 
@@ -106,41 +108,69 @@ export const TabLinkChain = ({
     // RENDER FUNCTIONS
     // =========================================================================
     return (
-        <CustomFadeWrapper
+        <FadeWrapper
             onResize={handleResize}
             data-testid={testId}
             fadeColor={fadeColor}
+            className={styles.customFadeWrapper}
         >
-            <Chain
+            <ul
                 role="tablist"
-                $fullWidthIndicatorLine={fullWidthIndicatorLine}
+                ref={chainRef}
+                className={clsx(
+                    styles.chain,
+                    fullWidthIndicatorLine && styles.chainFullWidthIndicator
+                )}
             >
                 {tabLinks.map(({ title, width, titleAddon }, index) => {
                     const isActive = currentActiveIndex === index;
+                    const chainItemRef = (el: HTMLLIElement | null) => {
+                        chainItemRefs.current[index] = el;
+                        if (isActive) {
+                            activeLinkRef.current = el;
+                        }
+                    };
 
                     return (
-                        <ChainItem
-                            key={index}
+                        <li
+                            key={`${title}-${width ?? ""}-${
+                                titleAddon?.position ?? "none"
+                            }`}
                             role="none"
-                            $active={isActive}
-                            ref={isActive ? activeLinkRef : null}
-                            $width={width}
+                            className={clsx(
+                                styles.chainItem,
+                                isActive && styles.chainItemActive
+                            )}
+                            ref={chainItemRef}
                         >
-                            <ChainLink
+                            <div
                                 role="none"
                                 onClick={handleChainLinkClick(index)}
                                 data-testid={`${testId}-link-${index}`}
-                                $reversed={titleAddon?.position === "left"}
+                                className={clsx(
+                                    styles.flexRow,
+                                    styles.chainLink,
+                                    titleAddon?.position === "left" &&
+                                        styles.chainLinkReversed
+                                )}
                             >
-                                <LabelContainer role="none">
-                                    <Label
-                                        $active={isActive}
+                                <div
+                                    className={styles.labelContainer}
+                                    role="none"
+                                >
+                                    <div
+                                        className={clsx(
+                                            styles.flexRow,
+                                            styles.buttonBase,
+                                            styles.label,
+                                            isActive && styles.labelActive
+                                        )}
                                         onClick={handleChainLinkClick(index)}
                                         aria-hidden="true"
                                     >
                                         {truncateText(title)}
-                                    </Label>
-                                    <BoldLabel
+                                    </div>
+                                    <button
                                         role="tab"
                                         type="button"
                                         aria-selected={isActive}
@@ -151,17 +181,22 @@ export const TabLinkChain = ({
                                         ref={(el) =>
                                             (chainLinkRefs.current[index] = el)
                                         }
-                                        $active={isActive}
+                                        className={clsx(
+                                            styles.flexRow,
+                                            styles.buttonBase,
+                                            styles.boldLabel,
+                                            isActive && styles.boldLabelActive
+                                        )}
                                     >
                                         {truncateText(title)}
-                                    </BoldLabel>
-                                </LabelContainer>
+                                    </button>
+                                </div>
                                 {titleAddon?.content}
-                            </ChainLink>
-                        </ChainItem>
+                            </div>
+                        </li>
                     );
                 })}
-            </Chain>
-        </CustomFadeWrapper>
+            </ul>
+        </FadeWrapper>
     );
 };
