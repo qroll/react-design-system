@@ -5,6 +5,14 @@ import { TimepickerDropdown } from "src/shared/timepicker-dropdown/timepicker-dr
 
 describe("TimepickerDropdown", () => {
     const ID = "timepicker-dropdown";
+    const getHourInput = () => screen.getByLabelText("hour");
+    const getMinuteInput = () => screen.getByLabelText("minute");
+    const getConfirmButton = () => screen.getByRole("button", { name: "Done" });
+    const getCancelButton = () =>
+        screen.getByRole("button", { name: "Cancel" });
+    const getIncreaseHourButton = () => screen.getByLabelText("increase hour");
+    const getDecreaseMinuteButton = () =>
+        screen.getByLabelText("decrease minute");
 
     const renderDropdown = (
         props?: Partial<ComponentProps<typeof TimepickerDropdown>>
@@ -26,8 +34,28 @@ describe("TimepickerDropdown", () => {
         renderDropdown();
 
         await waitFor(() => {
-            expect(screen.getByTestId(`${ID}-hour-input`)).toHaveFocus();
+            expect(getHourInput()).toHaveFocus();
         });
+    });
+
+    it("should call onChange with selected 12hr value when Done is clicked", async () => {
+        const user = userEvent.setup();
+        const onChange = jest.fn();
+
+        renderDropdown({ format: "12hr", onChange });
+
+        const hourInput = getHourInput();
+        const minuteInput = getMinuteInput();
+
+        await user.clear(hourInput);
+        await user.type(hourInput, "13");
+        await user.clear(minuteInput);
+        await user.type(minuteInput, "05");
+
+        await user.click(getConfirmButton());
+
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith("01:05AM");
     });
 
     it("should call onChange with selected 24hr value when Done is clicked", async () => {
@@ -36,15 +64,18 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ format: "24hr", onChange });
 
-        const hourInput = screen.getByTestId(`${ID}-hour-input`);
-        const minuteInput = screen.getByTestId(`${ID}-minute-input`);
+        const hourInput = getHourInput();
+        const minuteInput = getMinuteInput();
 
         await user.clear(hourInput);
-        await user.type(hourInput, "13");
+        await user.type(hourInput, "1");
         await user.clear(minuteInput);
         await user.type(minuteInput, "05");
 
-        await user.click(screen.getByTestId(`${ID}-confirm-button`));
+        const pmToggle = screen.getByLabelText("PM");
+        await user.click(pmToggle);
+        expect(pmToggle).toBeChecked();
+        await user.click(getConfirmButton());
 
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange).toHaveBeenCalledWith("13:05");
@@ -55,9 +86,9 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ value: undefined });
 
-        const confirmBtn = screen.getByTestId(`${ID}-confirm-button`);
-        const hourInput = screen.getByTestId(`${ID}-hour-input`);
-        const minuteInput = screen.getByTestId(`${ID}-minute-input`);
+        const confirmBtn = getConfirmButton();
+        const hourInput = getHourInput();
+        const minuteInput = getMinuteInput();
 
         expect(confirmBtn).toBeDisabled();
 
@@ -74,12 +105,12 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ value: "03:00AM", onChange });
 
-        const hourInput = screen.getByTestId(`${ID}-hour-input`);
+        const hourInput = getHourInput();
 
         await user.clear(hourInput);
         await user.type(hourInput, "7");
         await user.tab();
-        await user.click(screen.getByTestId(`${ID}-confirm-button`));
+        await user.click(getConfirmButton());
 
         expect(onChange).toHaveBeenCalledWith("07:00AM");
     });
@@ -89,7 +120,7 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ value: "03:00AM" });
 
-        const hourInput = screen.getByTestId(`${ID}-hour-input`);
+        const hourInput = getHourInput();
 
         await user.clear(hourInput);
         await user.type(hourInput, "99");
@@ -104,12 +135,12 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ value: "03:00AM", onChange });
 
-        const minuteInput = screen.getByTestId(`${ID}-minute-input`);
+        const minuteInput = getMinuteInput();
 
         await user.clear(minuteInput);
         await user.type(minuteInput, "7");
         await user.tab();
-        await user.click(screen.getByTestId(`${ID}-confirm-button`));
+        await user.click(getConfirmButton());
 
         expect(onChange).toHaveBeenCalledWith("03:07AM");
     });
@@ -119,7 +150,7 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ value: "03:15AM" });
 
-        const minuteInput = screen.getByTestId(`${ID}-minute-input`);
+        const minuteInput = getMinuteInput();
 
         await user.clear(minuteInput);
         await user.type(minuteInput, "99");
@@ -133,11 +164,11 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ value: "12:00AM" });
 
-        const hourInput = screen.getByTestId(`${ID}-hour-input`);
-        const minuteInput = screen.getByTestId(`${ID}-minute-input`);
+        const hourInput = getHourInput();
+        const minuteInput = getMinuteInput();
 
-        await user.click(screen.getByTestId(`${ID}-hour-increment-button`));
-        await user.click(screen.getByTestId(`${ID}-minute-decrement-button`));
+        await user.click(getIncreaseHourButton());
+        await user.click(getDecreaseMinuteButton());
 
         expect(hourInput).toHaveValue(1);
         expect(minuteInput).toHaveValue(55);
@@ -149,7 +180,7 @@ describe("TimepickerDropdown", () => {
 
         renderDropdown({ onCancel });
 
-        await user.click(screen.getByTestId(`${ID}-cancel-button`));
+        await user.click(getCancelButton());
 
         expect(onCancel).toHaveBeenCalledTimes(1);
     });
