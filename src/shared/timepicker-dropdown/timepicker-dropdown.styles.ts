@@ -42,12 +42,13 @@ export const inputSection = css`
 
 export const controlSection = css`
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
     margin-top: ${Spacing["spacing-16"]};
     gap: ${Spacing["spacing-8"]};
 
     ${MediaQuery.MaxWidth.xxs} {
-        flex-direction: column-reverse; // FIXME: this breaks tab focus
+        flex-direction: column;
         margin-top: ${Spacing["spacing-32"]};
     }
 `;
