@@ -1,0 +1,183 @@
+import { expect, Locator, Page, test as base } from "@playwright/test";
+import { AbstractStoryPage, compareScreenshot } from "../../utils";
+
+type PlacementExpectation =
+    | "top"
+    | "bottom"
+    | "left"
+    | "right"
+    | "bottom-start"
+    | "bottom-end";
+
+const PLACEMENTS: PlacementExpectation[] = [
+    "top",
+    "bottom",
+    "left",
+    "right",
+    "bottom-start",
+    "bottom-end",
+];
+
+class StoryPage extends AbstractStoryPage {
+    protected readonly component = "menu";
+
+    public readonly locators: {
+        triggerDefault: Locator;
+        contentDefault: Locator;
+        outsideDismissTarget: Locator;
+        itemProfile: Locator;
+        linkFirst: Locator;
+        linkSecond: Locator;
+        linkThird: Locator;
+        linkLong: Locator;
+        contentOverflow: Locator;
+    };
+
+    constructor(page: Page) {
+        super(page);
+
+        this.locators = {
+            triggerDefault: page.getByRole("button", { name: "Open menu" }),
+            contentDefault: page
+                .getByRole("list", { name: "Actions" })
+                .locator("xpath=.."),
+            outsideDismissTarget: page.getByRole("button", {
+                name: "Outside dismiss target",
+            }),
+            itemProfile: page.getByRole("listitem").filter({
+                hasText: "Jane Doe",
+            }),
+            linkFirst: page.getByRole("link", { name: "First link" }),
+            linkSecond: page.getByRole("link", { name: "Second link" }),
+            linkThird: page.getByRole("link", { name: "Third link" }),
+            linkLong: page.getByRole("link", {
+                name: "This is a long menu link title that should clamp across lines when the menu has limited width",
+            }),
+            contentOverflow: page
+                .getByRole("list", { name: "Overflow list" })
+                .locator("xpath=.."),
+        };
+    }
+
+    public triggerForPlacement(position: PlacementExpectation) {
+        const buttonNames: Record<PlacementExpectation, string> = {
+            top: "Top",
+            bottom: "Bottom",
+            left: "Left",
+            right: "Right",
+            "bottom-start": "Bottom start",
+            "bottom-end": "Bottom end",
+        };
+
+        return this.page.getByRole("button", {
+            name: buttonNames[position],
+        });
+    }
+
+    public contentForPlacement(position: PlacementExpectation) {
+        return this.page.getByRole("link", {
+            name: `${position} link`,
+        });
+    }
+}
+
+const test = base.extend<{ story: StoryPage }>({
+    story: async ({ page }, use) => {
+        const story = new StoryPage(page);
+        await use(story);
+    },
+});
+
+test.describe("Menu", () => {
+    test.describe("Default", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("default");
+        });
+
+        test("Mount", async ({ story }) => {
+            await story.locators.triggerDefault.click();
+            await expect(story.locators.contentDefault).toBeVisible();
+
+            await compareScreenshot(story, "state", {
+                fullscreen: true,
+            });
+
+            await expect(story.locators.contentDefault).toMatchAriaSnapshot(`
+                - list:
+                  - listitem:
+                    - paragraph: Jane Doe
+                    - paragraph: jane.doe@example.gov.sg
+                - list "Actions":
+                  - paragraph: Actions
+                  - listitem: Settings
+                  - listitem:
+                    - link "First link":
+                      - /url: "#first-link"
+                  - listitem:
+                    - link "Second link":
+                      - /url: "#second-link"
+                  - listitem:
+                    - link "Third link":
+                      - /url: "#third-link"
+                - list "Resources":
+                  - paragraph: Resources
+                  - listitem:
+                    - link "This is a long menu link title that should clamp across lines when the menu has limited width":
+                      - /url: "#long-link"
+            `);
+
+            await story.locators.outsideDismissTarget.click();
+            await expect(story.locators.contentDefault).not.toBeVisible();
+        });
+
+        test("Keyboard navigation", async ({ story }) => {
+            await story.locators.triggerDefault.click();
+            await expect(story.locators.contentDefault).toBeVisible();
+
+            await story.locators.linkFirst.focus();
+            await expect(story.locators.linkFirst).toBeFocused();
+
+            await story.page.keyboard.press("ArrowDown");
+            await expect(story.locators.linkSecond).toBeFocused();
+
+            await story.page.keyboard.press("ArrowDown");
+            await expect(story.locators.linkThird).toBeFocused();
+
+            await story.page.keyboard.press("ArrowDown");
+            await expect(story.locators.linkLong).toBeFocused();
+
+            await story.page.keyboard.press("ArrowDown");
+            await expect(story.locators.linkFirst).toBeFocused();
+        });
+    });
+
+    test.describe(() => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("overflow");
+        });
+
+        test("Overflow", async ({ story }) => {
+            await compareScreenshot(story, "state");
+        });
+    });
+
+    test.describe("Placements", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("placements");
+        });
+
+        for (const placement of PLACEMENTS) {
+            test(`position=${placement}`, async ({ story }) => {
+                const trigger = story.triggerForPlacement(placement);
+                const content = story.contentForPlacement(placement);
+
+                await trigger.click();
+                await expect(content).toBeVisible();
+
+                await compareScreenshot(story, `placement-${placement}`, {
+                    fullscreen: true,
+                });
+            });
+        }
+    });
+});
