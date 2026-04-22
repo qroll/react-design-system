@@ -1,11 +1,6 @@
-import styled from "styled-components";
+import { css } from "@linaria/core";
 
-import { Button } from "../../button";
 import { Border, Colour, MediaQuery, Radius, Spacing } from "../../theme";
-import { Toggle } from "../../toggle";
-import { Typography } from "../../typography";
-import { ClickableIcon } from "../clickable-icon";
-import { BasicInput, InputBox } from "../input-wrapper";
 
 // =============================================================================
 // STYLING
@@ -14,7 +9,7 @@ import { BasicInput, InputBox } from "../input-wrapper";
 // -----------------------------------------------------------------------------
 // MAIN WRAPPER
 // -----------------------------------------------------------------------------
-export const StyledDiv = styled.div`
+export const styledDiv = css`
     overflow: hidden;
 
     ${MediaQuery.MaxWidth.xxs} {
@@ -22,7 +17,7 @@ export const StyledDiv = styled.div`
     }
 `;
 
-export const Container = styled.div`
+export const container = css`
     position: relative;
     width: 100%;
     padding: ${Spacing["spacing-8"]} ${Spacing["spacing-20"]}
@@ -34,7 +29,7 @@ export const Container = styled.div`
     border-radius: ${Radius["sm"]};
 `;
 
-export const InputSection = styled.div`
+export const inputSection = css`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -45,7 +40,7 @@ export const InputSection = styled.div`
     }
 `;
 
-export const ControlSection = styled.div`
+export const controlSection = css`
     display: flex;
     justify-content: flex-end;
     margin-top: ${Spacing["spacing-16"]};
@@ -60,7 +55,7 @@ export const ControlSection = styled.div`
 // -----------------------------------------------------------------------------
 // INPUT COMPONENTS
 // -----------------------------------------------------------------------------
-export const HourMinuteSection = styled.div`
+export const hourMinuteSection = css`
     display: flex;
     align-items: center;
     margin-right: ${Spacing["spacing-32"]};
@@ -71,7 +66,7 @@ export const HourMinuteSection = styled.div`
     }
 `;
 
-export const TimePeriodSection = styled.div`
+export const timePeriodSection = css`
     display: flex;
     gap: ${Spacing["spacing-8"]};
 
@@ -85,7 +80,7 @@ export const TimePeriodSection = styled.div`
     }
 `;
 
-export const InputContainer = styled.div`
+export const inputContainer = css`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,7 +90,7 @@ export const InputContainer = styled.div`
     }
 `;
 
-export const SwitchButton = styled(ClickableIcon)`
+export const switchButton = css`
     width: 5rem;
     padding: ${Spacing["spacing-16"]} 0;
     color: ${Colour["icon"]};
@@ -110,13 +105,13 @@ export const SwitchButton = styled(ClickableIcon)`
     }
 `;
 
-export const DividerLabel = styled(Typography.BodyBL)`
+export const dividerLabel = css`
     flex-shrink: 0;
     width: 1.5rem;
     text-align: center;
 `;
 
-export const TimeInputBox = styled(InputBox)`
+export const timeInputBox = css`
     height: calc(3rem - 2px);
     width: 5rem;
     display: flex;
@@ -128,7 +123,7 @@ export const TimeInputBox = styled(InputBox)`
     }
 `;
 
-export const TimeInput = styled(BasicInput)`
+export const timeInput = css`
     text-align: center;
     width: 100%;
 
@@ -137,7 +132,7 @@ export const TimeInput = styled(BasicInput)`
     }
 `;
 
-export const TimePeriodToggle = styled(Toggle)`
+export const timePeriodToggle = css`
     min-width: 5rem;
     flex: 1;
 `;
@@ -145,7 +140,7 @@ export const TimePeriodToggle = styled(Toggle)`
 // -----------------------------------------------------------------------------
 // CONTROL COMPONENTS
 // -----------------------------------------------------------------------------
-export const ControlButton = styled(Button.Small)`
+export const controlButton = css`
     width: 7rem;
 
     ${MediaQuery.MaxWidth.sm} {
