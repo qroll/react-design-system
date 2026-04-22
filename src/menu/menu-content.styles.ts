@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import type { PopoverOverflowType } from "../popover-v2/types";
 import {
     Border,
     Breakpoint,
@@ -10,22 +9,21 @@ import {
     Shadow,
 } from "../theme/tokens";
 
-// =============================================================================
-// STYLES INTERFACE
-// =============================================================================
-interface MenuPanelStylesProps {
-    $overflow?: PopoverOverflowType | undefined;
-    $maxHeight?: number | undefined;
-}
+export const tokens = {
+    panel: {
+        maxHeight: "--fds-internal-menu-panel-maxHeight",
+        overflow: "--fds-internal-menu-panel-overflow",
+    },
+} as const;
 
-// =============================================================================
-// MENU CONTENT STYLES
-// =============================================================================
-export const MenuPanel = styled.div<MenuPanelStylesProps>`
+export const MenuPanel = styled.div`
     border-radius: ${Radius["md"]};
     border: ${Border["width-010"]} ${Border["solid"]} ${Colour["border"]};
     background: ${Colour["bg"]};
     box-shadow: ${Shadow["md-subtle"]};
+
+    ${tokens.panel.maxHeight}: initial;
+    ${tokens.panel.overflow}: initial;
 
     --x-spacing: 0px;
     --available-width: calc(100vw - var(--x-spacing) * 2);
@@ -44,18 +42,8 @@ export const MenuPanel = styled.div<MenuPanelStylesProps>`
 
     min-width: min(15rem, var(--available-width));
     max-width: min(24rem, var(--available-width));
-
-    ${({ $maxHeight }) =>
-        $maxHeight !== undefined &&
-        `
-        max-height: ${$maxHeight}px;
-    `}
-
-    ${({ $overflow }) =>
-        $overflow &&
-        `
-        overflow-y: ${$overflow};
-    `}
+    max-height: var(${tokens.panel.maxHeight});
+    overflow-y: var(${tokens.panel.overflow});
 
     &:focus {
         outline: none;

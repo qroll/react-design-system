@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import { useState } from "react";
 
 import { SimpleIdGenerator } from "../util";
-import { Label, Section } from "./menu-section.styles";
+import * as styles from "./menu-section.styles";
 import type { MenuSectionProps } from "./types";
 
 export const MenuSection = ({
@@ -20,19 +21,19 @@ export const MenuSection = ({
     // RENDER FUNCTIONS
     // =============================================================================
     return (
-        <Section
-            $showDivider={showDivider}
+        <styles.Section
+            className={clsx(showDivider && "menuSectionDivider")}
             data-testid={testId}
             aria-labelledby={internalId}
             {...otherProps}
         >
             {label && (
-                <Label weight="semibold" id={internalId}>
+                <styles.Label weight="semibold" id={internalId}>
                     {label}
-                </Label>
+                </styles.Label>
             )}
             {children}
-        </Section>
+        </styles.Section>
     );
 };
 

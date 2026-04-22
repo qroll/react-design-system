@@ -1,28 +1,17 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { Border, Colour, Spacing } from "../theme/tokens";
 import { Typography } from "../typography";
 
-// =============================================================================
-// STYLES INTERFACE
-// =============================================================================
-interface MenuSectionStyleProps {
-    $showDivider?: boolean;
-}
-
-// =============================================================================
-// MENU SECTION STYLES
-// =============================================================================
-export const Section = styled.ul<MenuSectionStyleProps>`
-    ${(props) =>
-        props.$showDivider &&
-        css`
-            border-top: ${Border["width-010"]} ${Border["solid"]}
-                ${Colour["border"]};
-        `}
+export const Section = styled.ul`
     padding: ${Spacing["spacing-8"]} 0;
     margin: 0;
     list-style: none;
+
+    &.menuSectionDivider {
+        border-top: ${Border["width-010"]} ${Border["solid"]}
+            ${Colour["border"]};
+    }
 `;
 
 export const Label = styled(Typography.BodyXS)`
