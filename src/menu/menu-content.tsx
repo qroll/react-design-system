@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type React from "react";
 import { useRef } from "react";
 
@@ -18,6 +19,7 @@ const getFocusables = (container: HTMLElement) => {
 
 export const MenuContent = ({
     children,
+    className,
     "data-testid": testId = "menu-content",
     overflow,
     maxHeight,
@@ -67,11 +69,11 @@ export const MenuContent = ({
     // =============================================================================
     return (
         <div
-            className={styles.panel}
             ref={panelRef}
             data-testid={testId}
             tabIndex={-1}
             onKeyDown={handleKeyDown}
+            className={clsx(styles.panel, className)}
             {...otherProps}
         >
             {children}

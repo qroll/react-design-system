@@ -10,6 +10,7 @@ export const MenuSection = ({
     children,
     label,
     showDivider = true,
+    className,
     "data-testid": testId = "menu-section",
     ...otherProps
 }: MenuSectionProps): JSX.Element => {
@@ -23,12 +24,13 @@ export const MenuSection = ({
     // =============================================================================
     return (
         <ul
-            className={clsx(
-                styles.section,
-                showDivider && "menuSectionDivider"
-            )}
             data-testid={testId}
             aria-labelledby={internalId}
+            className={clsx(
+                styles.section,
+                showDivider && "menuSectionDivider",
+                className
+            )}
             {...otherProps}
         >
             {label && (
