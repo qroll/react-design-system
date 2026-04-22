@@ -1,15 +1,14 @@
-import styled from "styled-components";
+import { css } from "@linaria/core";
 
 import { lineClampCss } from "../shared/styles";
 import { Border, Colour, Radius, Spacing } from "../theme/tokens";
-import { Typography } from "../typography";
 
-export const MenuLinkDiv = styled.li`
+export const menuLinkDiv = css`
     display: flex;
     flex-direction: column;
 `;
 
-export const Link = styled(Typography.LinkMD)`
+export const link = css`
     color: ${Colour["text"]};
 
     margin: 0 ${Spacing["spacing-8"]};

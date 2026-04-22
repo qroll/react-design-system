@@ -1,9 +1,8 @@
-import styled from "styled-components";
+import { css } from "@linaria/core";
 
 import { Border, Colour, Spacing } from "../theme/tokens";
-import { Typography } from "../typography";
 
-export const Section = styled.ul`
+export const section = css`
     padding: ${Spacing["spacing-8"]} 0;
     margin: 0;
     list-style: none;
@@ -14,7 +13,7 @@ export const Section = styled.ul`
     }
 `;
 
-export const Label = styled(Typography.BodyXS)`
+export const label = css`
     margin: 0 ${Spacing["spacing-16"]} ${Spacing["spacing-8"]};
     color: ${Colour["text-subtler"]};
 `;

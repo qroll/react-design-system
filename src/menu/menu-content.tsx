@@ -66,7 +66,8 @@ export const MenuContent = ({
     // RENDER FUNCTIONS
     // =============================================================================
     return (
-        <styles.MenuPanel
+        <div
+            className={styles.panel}
             ref={panelRef}
             data-testid={testId}
             tabIndex={-1}
@@ -74,7 +75,7 @@ export const MenuContent = ({
             {...otherProps}
         >
             {children}
-        </styles.MenuPanel>
+        </div>
     );
 };
 

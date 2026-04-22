@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { css } from "@linaria/core";
 
 import {
     Border,
@@ -16,7 +16,7 @@ export const tokens = {
     },
 } as const;
 
-export const MenuPanel = styled.div`
+export const panel = css`
     border-radius: ${Radius["md"]};
     border: ${Border["width-010"]} ${Border["solid"]} ${Colour["border"]};
     background: ${Colour["bg"]};

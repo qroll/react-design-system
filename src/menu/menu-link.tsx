@@ -1,4 +1,5 @@
-import { Link, MenuLinkDiv } from "./menu-link.styles";
+import { Typography } from "../typography";
+import * as styles from "./menu-link.styles";
 import type { MenuLinkProps } from "./types";
 
 export const MenuLink = ({
@@ -10,11 +11,16 @@ export const MenuLink = ({
     // RENDER FUNCTIONS
     // =============================================================================
     return (
-        <MenuLinkDiv>
-            <Link data-testid={testId} underlineStyle="none" {...otherProps}>
+        <li className={styles.menuLinkDiv}>
+            <Typography.LinkMD
+                className={styles.link}
+                data-testid={testId}
+                underlineStyle="none"
+                {...otherProps}
+            >
                 {children}
-            </Link>
-        </MenuLinkDiv>
+            </Typography.LinkMD>
+        </li>
     );
 };
 

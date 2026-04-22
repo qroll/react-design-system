@@ -1,5 +1,5 @@
 import { Typography } from "../typography";
-import { MenuItemDiv, SubLabel } from "./menu-item.styles";
+import * as styles from "./menu-item.styles";
 import type { MenuItemProps } from "./types";
 
 export const MenuItem = ({
@@ -13,13 +13,17 @@ export const MenuItem = ({
     // RENDER FUNCTIONS
     // =============================================================================
     return (
-        <MenuItemDiv data-testid={testId} {...otherProps}>
+        <li className={styles.menuItemDiv} data-testid={testId} {...otherProps}>
             {label && (
                 <Typography.BodyMD weight="semibold">{label}</Typography.BodyMD>
             )}
-            {subLabel && <SubLabel>{subLabel}</SubLabel>}
+            {subLabel && (
+                <Typography.BodySM className={styles.subLabel}>
+                    {subLabel}
+                </Typography.BodySM>
+            )}
             {children}
-        </MenuItemDiv>
+        </li>
     );
 };
 
