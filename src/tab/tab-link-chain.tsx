@@ -35,6 +35,7 @@ export const TabLinkChain = ({
     const isTablet = useSafeMaxWidthMediaQuery(tabletBreakpoint);
 
     const activeLinkRef = useRef<HTMLLIElement | null>(null);
+    const chainRef = useRef<HTMLUListElement | null>(null);
     const chainLinkRefs = useRef<(HTMLButtonElement | null)[]>([]);
     const chainItemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
@@ -71,10 +72,11 @@ export const TabLinkChain = ({
             }
         };
 
-    const handleResize = ({ content, wrapper }: ResizeCallbackParams) => {
-        if (content && wrapper && isTablet && activeLinkRef.current) {
+    const handleResize = ({ content }: ResizeCallbackParams) => {
+        if (content && isTablet && activeLinkRef.current && chainRef.current) {
             content.scrollLeft =
-                activeLinkRef.current.getBoundingClientRect().left;
+                activeLinkRef.current.getBoundingClientRect().left -
+                chainRef.current.getBoundingClientRect().left;
         }
     };
 
@@ -114,6 +116,7 @@ export const TabLinkChain = ({
         >
             <ul
                 role="tablist"
+                ref={chainRef}
                 className={clsx(
                     styles.chain,
                     fullWidthIndicatorLine && styles.chainFullWidthIndicator
