@@ -22,7 +22,7 @@ describe("TimepickerDropdown", () => {
                 id={ID}
                 show
                 format="12hr"
-                value="03:00AM"
+                value=""
                 onChange={jest.fn()}
                 onCancel={jest.fn()}
                 {...props}
@@ -36,6 +36,22 @@ describe("TimepickerDropdown", () => {
         await waitFor(() => {
             expect(getHourInput()).toHaveFocus();
         });
+    });
+
+    it("should populate hour and minute inputs from a prefilled 12hr value", () => {
+        renderDropdown({ format: "12hr", value: "03:15AM" });
+
+        expect(getHourInput()).toHaveValue(3);
+        expect(getMinuteInput()).toHaveValue(15);
+        expect(screen.getByLabelText("AM")).toBeChecked();
+    });
+
+    it("should populate hour and minute inputs from a prefilled 24hr value", () => {
+        renderDropdown({ format: "24hr", value: "13:45" });
+
+        expect(getHourInput()).toHaveValue(1);
+        expect(getMinuteInput()).toHaveValue(45);
+        expect(screen.getByLabelText("PM")).toBeChecked();
     });
 
     it("should call onChange with selected 12hr value when Done is clicked", async () => {
