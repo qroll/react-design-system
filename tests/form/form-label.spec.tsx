@@ -196,14 +196,8 @@ describe("FormLabel", () => {
 describe("FormErrorMessage", () => {
     it("should render children", () => {
         render(<FormErrorMessage>This field is required</FormErrorMessage>);
-
-        expect(screen.getByText("This field is required")).toBeInTheDocument();
-    });
-
-    it("should render the error icon", () => {
-        render(<FormErrorMessage>This field is required</FormErrorMessage>);
-
         expect(document.querySelector("svg")).toBeInTheDocument();
+        expect(screen.getByText("This field is required")).toBeInTheDocument();
     });
 
     it("should pass through html props", () => {

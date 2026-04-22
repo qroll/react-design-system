@@ -3,7 +3,7 @@ import { Form } from "@lifesg/react-design-system/form";
 
 export default function Story() {
     return (
-        <div className="story-column-container">
+        <div className="story-column-container story-background">
             <Form.Label data-testid="label-basic">Basic label</Form.Label>
 
             <Form.Label
@@ -25,10 +25,6 @@ export default function Story() {
                 }}
             >
                 Label with popover
-            </Form.Label>
-
-            <Form.Label data-testid="label-disabled" disabled>
-                Disabled label
             </Form.Label>
         </div>
     );
