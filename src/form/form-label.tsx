@@ -65,7 +65,7 @@ export const FormErrorMessage = (
                 className={styles.errorIcon}
                 aria-hidden
             />
-            <p {...props} />
+            <p className={styles.errorMessage} {...props} />
         </div>
     );
 };
