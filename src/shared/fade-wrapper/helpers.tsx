@@ -2,7 +2,7 @@ import { Colour } from "../../theme";
 import type { FadeColorSet, FadeWrapperProps } from "./types";
 
 export function getFadeColorSet(
-    fadeColor?: FadeWrapperProps["fadeColor"] | undefined
+    fadeColor: FadeWrapperProps["fadeColor"] | undefined
 ): FadeColorSet {
     if (Array.isArray(fadeColor) && fadeColor.length > 0) {
         return {
