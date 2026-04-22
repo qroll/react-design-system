@@ -48,39 +48,39 @@ export const badge = css`
     align-items: center;
     justify-content: center;
     width: fit-content;
-`;
 
-export const badgeImportantColor = css`
-    background-color: ${Colour["icon-error"]};
-`;
+    &[data-variant="number"] {
+        ${numberBadgeStyles}
+        border-radius: ${Radius.full};
+    }
 
-export const badgeNumber = css`
-    ${numberBadgeStyles}
-    border-radius: ${Radius.full};
-`;
+    &[data-variant="number-with-border"] {
+        ${numberBadgeStyles}
+        border-radius: ${Radius.full};
+        box-shadow: 0 0 0 ${Border["width-020"]} ${Colour.bg};
+    }
 
-export const badgeNumberWithBorder = css`
-    ${numberBadgeStyles}
-    border-radius: ${Radius.full};
-    box-shadow: 0 0 0 ${Border["width-020"]} ${Colour.bg};
-`;
+    &[data-variant="dot"] {
+        ${dotBadgeStyles}
+    }
 
-export const badgeDot = css`
-    ${dotBadgeStyles}
-`;
+    &[data-variant="dot-with-border"] {
+        ${dotBadgeStyles}
+        box-shadow: 0 0 0 ${Border["width-020"]} ${Colour.bg};
+    }
 
-export const badgeDotWithBorder = css`
-    ${dotBadgeStyles}
-    box-shadow: 0 0 0 ${Border["width-020"]} ${Colour.bg};
-`;
+    &[data-variant="square-number"] {
+        ${numberBadgeStyles}
+        border-radius: ${Radius.sm};
+        padding: 0.25rem 0.4375rem;
+    }
 
-export const badgeSquareNumber = css`
-    ${numberBadgeStyles}
-    border-radius: ${Radius.sm};
-    padding: 0.25rem 0.4375rem;
-`;
+    &[data-variant="square-number"][data-color="default"] {
+        background-color: ${Colour["bg-primary-subtler"]};
+        color: ${Colour["text-primary"]};
+    }
 
-export const badgeSquareNumberDefaultColor = css`
-    background-color: ${Colour["bg-primary-subtler"]};
-    color: ${Colour["text-primary"]};
+    &[data-color="important"] {
+        background-color: ${Colour["icon-error"]};
+    }
 `;

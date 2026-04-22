@@ -17,13 +17,13 @@ const variantsToShowCount: Set<BadgeVariant> = new Set([
 ]);
 
 export const Badge = ({
-    children,
-    count = 0,
-    variant = "number",
-    color = "default",
     badgeOffset,
-    "data-testid": testId = "badge",
+    children,
     className,
+    color = "default",
+    count = 0,
+    "data-testid": testId = "badge",
+    variant = "number",
     ...otherProps
 }: BadgeProps) => {
     // =============================================================================
@@ -56,21 +56,9 @@ export const Badge = ({
             >
                 <div
                     data-testid={testId}
-                    className={clsx(
-                        styles.badge,
-                        variant === "number" && styles.badgeNumber,
-                        variant === "number-with-border" &&
-                            styles.badgeNumberWithBorder,
-                        variant === "dot" && styles.badgeDot,
-                        variant === "dot-with-border" &&
-                            styles.badgeDotWithBorder,
-                        variant === "square-number" && styles.badgeSquareNumber,
-                        variant === "square-number" &&
-                            color === "default" &&
-                            styles.badgeSquareNumberDefaultColor,
-                        color === "important" && styles.badgeImportantColor,
-                        className
-                    )}
+                    data-variant={variant}
+                    data-color={color}
+                    className={clsx(styles.badge, className)}
                     {...otherProps}
                 >
                     {shouldShowCount ? displayCount : null}
