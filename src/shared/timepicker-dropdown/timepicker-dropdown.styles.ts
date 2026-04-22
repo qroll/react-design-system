@@ -42,8 +42,8 @@ export const inputSection = css`
 
 export const controlSection = css`
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     margin-top: ${Spacing["spacing-16"]};
     gap: ${Spacing["spacing-8"]};
 

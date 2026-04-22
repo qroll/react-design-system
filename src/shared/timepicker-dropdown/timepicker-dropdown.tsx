@@ -405,21 +405,21 @@ export const TimepickerDropdown = ({
                         className={styles.controlButton}
                         sizeType="small"
                         type="button"
-                        styleType="secondary"
-                        onClick={onCancel}
-                        data-testid={getTestId("cancel-button")}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        className={styles.controlButton}
-                        sizeType="small"
-                        type="button"
                         onClick={handleConfirm}
                         disabled={hourValue === "" || minuteValue === ""}
                         data-testid={getTestId("confirm-button")}
                     >
                         Done
+                    </Button>
+                    <Button
+                        className={styles.controlButton}
+                        sizeType="small"
+                        type="button"
+                        styleType="secondary"
+                        onClick={onCancel}
+                        data-testid={getTestId("cancel-button")}
+                    >
+                        Cancel
                     </Button>
                 </div>
             </div>
