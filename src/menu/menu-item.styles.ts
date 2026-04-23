@@ -8,6 +8,10 @@ export const menuItemDiv = css`
     padding: ${Spacing["spacing-8"]} ${Spacing["spacing-16"]};
 `;
 
+export const text = css`
+    color: ${Colour["text"]};
+`;
+
 export const subLabel = css`
     color: ${Colour["text-subtler"]};
 `;

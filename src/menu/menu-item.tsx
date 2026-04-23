@@ -18,11 +18,13 @@ export const MenuItem = ({
     return (
         <li
             data-testid={testId}
-            className={clsx(styles.menuItemDiv, className)}
+            className={clsx(styles.menuItemDiv, styles.text, className)}
             {...otherProps}
         >
             {label && (
-                <Typography.BodyMD weight="semibold">{label}</Typography.BodyMD>
+                <Typography.BodyMD className={styles.text} weight="semibold">
+                    {label}
+                </Typography.BodyMD>
             )}
             {subLabel && (
                 <Typography.BodySM className={styles.subLabel}>

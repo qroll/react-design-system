@@ -161,7 +161,21 @@ test.describe("Menu", () => {
             await story.init("variants");
         });
 
-        test("Section and item variants", async ({ story }) => {
+        test("Section and item", async ({ story }) => {
+            await expect(story.locators.content).toBeVisible();
+
+            await compareScreenshot(story, "state", {
+                locator: story.locators.content,
+            });
+        });
+    });
+
+    test.describe("Variants", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("variants", { mode: "dark" });
+        });
+
+        test("Section and item with Dark Mode", async ({ story }) => {
             await expect(story.locators.content).toBeVisible();
 
             await compareScreenshot(story, "state", {
