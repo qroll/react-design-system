@@ -38,9 +38,7 @@ class StoryPage extends AbstractStoryPage {
 
         this.locators = {
             triggerDefault: page.getByRole("button", { name: "Open menu" }),
-            contentDefault: page
-                .getByRole("list", { name: "Actions" })
-                .locator("xpath=.."),
+            contentDefault: page.getByTestId("menu-content-default"),
             outsideDismissTarget: page.getByRole("button", {
                 name: "Outside dismiss target",
             }),
@@ -53,9 +51,7 @@ class StoryPage extends AbstractStoryPage {
             linkLong: page.getByRole("link", {
                 name: "This is a long menu link title that should clamp across lines when the menu has limited width",
             }),
-            contentOverflow: page
-                .getByRole("list", { name: "Overflow list" })
-                .locator("xpath=.."),
+            contentOverflow: page.getByTestId("menu-content-overflow"),
         };
     }
 
