@@ -28,7 +28,7 @@ export const MenuSection = ({
             aria-labelledby={internalId}
             className={clsx(
                 styles.section,
-                showDivider && "menuSectionDivider",
+                showDivider && styles.sectionWithDivider,
                 className
             )}
             {...otherProps}
