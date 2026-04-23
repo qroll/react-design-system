@@ -21,9 +21,7 @@ const menuContent = (
         <Menu.Section label="Category 1">
             <Menu.Item>Menu item</Menu.Item>
             <Menu.Link href="https://www.google.com">Menu link</Menu.Link>
-            <Menu.Item label="Menu Item Label">Menu item</Menu.Item>
             <Menu.Link href="https://www.google.com">Menu link</Menu.Link>
-            <Menu.Item subLabel="Menu Item Sublabel">Menu item</Menu.Item>
         </Menu.Section>
 
         <Menu.Section>
