@@ -44,53 +44,54 @@ const shouldLineClamp = (
     paragraph: boolean | undefined
 ) => !!maxLines && (paragraph || !inline);
 
-const createTypographyText = <TElement extends HTMLElement>(
-    tag: React.ElementType,
+const createTypographyText = <TTag extends React.ElementType>(
+    tag: TTag,
     textStyle: TypographySize,
     displayName: string
 ) => {
-    const TypographyText = React.forwardRef<TElement, TypographyProps>(
-        function TypographyTextComponent(
-            {
-                className,
-                as: asProp,
-                inline,
-                maxLines,
-                paragraph,
-                weight,
-                ...restProps
-            },
-            ref
-        ) {
-            const textWeight = getTextWeight(weight);
-            const textRef = React.useRef<TElement>(null);
-            const mergedRef = mergeRefs(textRef, ref);
-            const shouldClamp = shouldLineClamp(maxLines, inline, paragraph);
+    const TypographyText = React.forwardRef<
+        React.ComponentRef<TTag>,
+        TypographyProps
+    >(function TypographyTextComponent(
+        {
+            className,
+            as: asProp,
+            inline,
+            maxLines,
+            paragraph,
+            weight,
+            ...restProps
+        },
+        ref
+    ) {
+        const textWeight = getTextWeight(weight);
+        const textRef = React.useRef<React.ComponentRef<TTag>>(null);
+        const mergedRef = mergeRefs(textRef, ref);
+        const shouldClamp = shouldLineClamp(maxLines, inline, paragraph);
 
-            useApplyStyle(textRef, {
-                [styles.tokens.typographyBase.maxLines]: shouldClamp
-                    ? maxLines
-                    : null,
-            });
+        useApplyStyle(textRef as React.RefObject<HTMLElement | null>, {
+            [styles.tokens.typographyBase.maxLines]: shouldClamp
+                ? maxLines
+                : null,
+        });
 
-            const Element = inline ? "span" : asProp || tag;
+        const Element = inline ? "span" : asProp || tag;
 
-            return (
-                <Element
-                    ref={mergedRef}
-                    className={clsx(
-                        styles.typographyBase,
-                        getTypographyTextClassName(textStyle),
-                        getTypographyWeightClassName(textWeight),
-                        getTypographyDisplayClassName(inline, paragraph),
-                        shouldClamp && styles.lineClamp,
-                        className
-                    )}
-                    {...restProps}
-                />
-            );
-        }
-    );
+        return (
+            <Element
+                ref={mergedRef}
+                className={clsx(
+                    styles.typographyBase,
+                    getTypographyTextClassName(textStyle),
+                    getTypographyWeightClassName(textWeight),
+                    getTypographyDisplayClassName(inline, paragraph),
+                    shouldClamp && styles.lineClamp,
+                    className
+                )}
+                {...restProps}
+            />
+        );
+    });
 
     (
         TypographyText as NamedExoticComponent
@@ -103,11 +104,7 @@ const createHeading = (
     textStyle: TypographySize,
     displayName: string
 ) => {
-    return createTypographyText<HTMLHeadingElement>(
-        tag,
-        textStyle,
-        displayName
-    );
+    return createTypographyText(tag, textStyle, displayName);
 };
 
 export const HeadingXXL = createHeading("h1", "heading-xxl", "HeadingXXL");
@@ -118,11 +115,7 @@ export const HeadingSM = createHeading("h5", "heading-sm", "HeadingSM");
 export const HeadingXS = createHeading("h6", "heading-xs", "HeadingXS");
 
 const createBody = (textStyle: TypographySize, displayName: string) => {
-    return createTypographyText<HTMLParagraphElement>(
-        "p",
-        textStyle,
-        displayName
-    );
+    return createTypographyText("p", textStyle, displayName);
 };
 
 export const BodyBL = createBody("body-baseline", "BodyBL");

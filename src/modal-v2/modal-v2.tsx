@@ -42,8 +42,7 @@ export const ModalV2 = ({
     const childRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const childWithRef =
-        children &&
-        React.cloneElement(children as React.ReactElement, { ref: childRef });
+        children && React.cloneElement(children, { ref: childRef });
 
     useApplyStyle(containerRef, {
         [styles.tokens.container.verticalHeight]:

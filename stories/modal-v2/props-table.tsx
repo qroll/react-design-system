@@ -13,6 +13,19 @@ const MODAL_DATA: ApiTableSectionProps[] = [
                 propTypes: ["string"],
             },
             {
+                name: "children",
+                description: (
+                    <>
+                        The content of the modal. The parent element must be a
+                        valid HTML element or a component that forwards a ref to
+                        a valid HTML element. This element is used to determine
+                        the boundaries for overlay click detection. Note:
+                        Fragments are not supported.
+                    </>
+                ),
+                propTypes: ["JSX.Element"],
+            },
+            {
                 name: "show",
                 mandatory: true,
                 description: (

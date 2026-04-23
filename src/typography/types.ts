@@ -6,18 +6,19 @@ export type TypographySize = Exclude<
     "form-label" | "form-description"
 >;
 
-export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
-    /** The font weight */
-    weight?: TypographyWeight | undefined;
-    /** Specifies if text is displayed inline */
-    inline?: boolean | undefined;
-    /** Specifies if text has a bottom margin */
-    paragraph?: boolean | undefined;
-    /** Specify the number of lines visible, the additional lines will be truncated */
-    maxLines?: number | undefined;
-    /** Overrides rendered element, e.g. `h2` for semantic hierarchy */
-    as?: React.ElementType | undefined;
-}
+export type TypographyProps<T extends React.ElementType = React.ElementType> =
+    React.ComponentPropsWithoutRef<T> & {
+        /** The font weight */
+        weight?: TypographyWeight | undefined;
+        /** Specifies if text is displayed inline */
+        inline?: boolean | undefined;
+        /** Specifies if text has a bottom margin */
+        paragraph?: boolean | undefined;
+        /** Specify the number of lines visible, the additional lines will be truncated */
+        maxLines?: number | undefined;
+        /** Overrides rendered element, e.g. `h2` for semantic hierarchy */
+        as?: T | undefined;
+    };
 
 export type TypographyUnderlineStyle = "none" | "underline";
 

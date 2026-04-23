@@ -25,7 +25,9 @@ export const SlotContent: React.FC<SlotContentProps> = ({
             $status={slot.status}
             $duration={duration}
             $offsetTop={offsetTop}
-            onClick={(e) => slot.onClick && slot.onClick(slot, e)}
+            onClick={(e: React.MouseEvent) =>
+                slot.onClick && slot.onClick(slot, e)
+            }
         >
             <SlotServiceName>{slot.serviceName}</SlotServiceName>
             {duration >= 30 && (

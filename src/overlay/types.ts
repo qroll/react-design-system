@@ -1,9 +1,8 @@
 export interface OverlayProps {
     children?: JSX.Element | undefined;
     show?: boolean | undefined;
-    rootId?:
-        | string
-        | undefined /* the id of the root element to attach the overlay to */;
+    /** The id of the root element to attach the overlay to */
+    rootId?: string | undefined;
     /** @deprecated no longer has effect */
     backgroundOpacity?: number | undefined;
     backgroundBlur?: boolean | undefined;
@@ -12,6 +11,7 @@ export interface OverlayProps {
     zIndex?: number | undefined;
     onOverlayClick?: (() => void) | undefined;
     id?: string | undefined;
+    /** The container that defines the boundaries for overlay click detection */
     containerRef?: React.RefObject<HTMLElement> | undefined;
 }
 

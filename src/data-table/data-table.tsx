@@ -6,7 +6,9 @@ import { useResizeDetector } from "react-resize-detector";
 import { LoadingDotsSpinner } from "../animations";
 import { Checkbox } from "../checkbox";
 import { ErrorDisplay } from "../error-display";
+import { concatIds, VisuallyHidden } from "../shared/accessibility";
 import { Typography } from "../typography";
+import { SimpleIdGenerator } from "../util";
 import { useEventListener } from "../util/use-event-listener";
 import {
     ActionBar,
@@ -60,6 +62,13 @@ export const DataTable = ({
     const headerRef = useRef<HTMLTableSectionElement>(null);
     const actionBarRef = useRef<HTMLDivElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const [internalId] = useState(() => SimpleIdGenerator.generate());
+    const keyColumns = headers.filter(
+        (header): header is Exclude<HeaderProps, string> => {
+            return typeof header !== "string" && !!header.keyColumn;
+        }
+    );
+
     const [scrollable, setScrollable] = useState(false);
     const [scrollEnd, setScrollEnd] = useState(false);
     const [tableEnd, setTableEnd] = useState(false);
@@ -151,6 +160,42 @@ export const DataTable = ({
         return headers.length + (enableMultiSelect ? 1 : 0);
     };
 
+    const getSortDirection = (fieldKey: string) => {
+        return sortIndicators?.[fieldKey];
+    };
+
+    const getHeaderAriaSort = (fieldKey: string) => {
+        const sortDirection = getSortDirection(fieldKey);
+
+        if (!sortDirection) {
+            return undefined;
+        }
+
+        return sortDirection === "asc" ? "ascending" : "descending";
+    };
+
+    const getSortButtonAriaLabel = (fieldKey: string) => {
+        const nextSortDirection =
+            getSortDirection(fieldKey) === "asc" ? "descending" : "ascending";
+
+        return ` by ${nextSortDirection} order`;
+    };
+
+    const getHeaderWrapperId = (fieldKey: string) => {
+        return `${internalId}-header-${fieldKey}`;
+    };
+    const getCellId = (rowId: string, fieldKey: string) => {
+        return `${internalId}-row-${rowId}-${fieldKey}-key-column`;
+    };
+
+    const getRowCheckboxAriaLabelledBy = (rowId: string) => {
+        const keyColumnIds = keyColumns.map((header) =>
+            getCellId(rowId, header.fieldKey)
+        );
+
+        return concatIds(...keyColumnIds);
+    };
+
     const calculateFixedInViewport = () => {
         if (!wrapperRef.current) {
             return;
@@ -229,16 +274,20 @@ export const DataTable = ({
               }
             : header;
 
+        const isSortable = !!getSortDirection(fieldKey);
+        const headerCellWrapperId = getHeaderWrapperId(fieldKey);
+
         return (
             <HeaderCell
                 data-testid={getDataTestId(`header-${fieldKey}`)}
                 key={fieldKey}
                 $clickable={clickable}
-                onClick={() => clickable && onHeaderClick?.(fieldKey)}
+                scope="col"
+                aria-sort={getHeaderAriaSort(fieldKey)}
                 style={style}
                 $isCheckbox={false}
             >
-                <HeaderCellWrapper>
+                <HeaderCellWrapper id={headerCellWrapperId}>
                     {typeof label === "string" ? (
                         <Typography.BodyBL weight="bold">
                             {label}
@@ -248,6 +297,15 @@ export const DataTable = ({
                     )}
                     {renderSortedArrow(fieldKey)}
                 </HeaderCellWrapper>
+                {(clickable || isSortable) && (
+                    <VisuallyHidden>
+                        <button onClick={() => onHeaderClick?.(fieldKey)}>
+                            {isSortable && "Sort "}
+                            <span aria-labelledby={headerCellWrapperId} />
+                            {isSortable && getSortButtonAriaLabel(fieldKey)}
+                        </button>
+                    </VisuallyHidden>
+                )}
             </HeaderCell>
         );
     };
@@ -261,12 +319,14 @@ export const DataTable = ({
         if (isSorted === "asc") {
             return (
                 <ArrowUpIcon
+                    aria-hidden
                     data-testid={getDataTestId(`header-${fieldKey}-arrowup`)}
                 />
             );
         }
         return (
             <ArrowDownIcon
+                aria-hidden
                 data-testid={getDataTestId(`header-${fieldKey}-arrowdown`)}
             />
         );
@@ -278,12 +338,15 @@ export const DataTable = ({
                 data-testid={getDataTestId("header-selection")}
                 $clickable={false}
                 $isCheckbox={true}
+                scope="col"
             >
                 <CheckBoxWrapper>
+                    <VisuallyHidden>Row selection</VisuallyHidden>
                     {enableSelectAll && (
                         <Checkbox
                             checked={isAllCheckboxSelected()}
                             indeterminate={isIndeterminateCheckbox()}
+                            aria-label="Select all rows"
                             onClick={() => {
                                 if (onSelectAll) {
                                     onSelectAll(isAllCheckboxSelected());
@@ -315,8 +378,7 @@ export const DataTable = ({
                         $isSelectable={enableMultiSelect}
                         $isSelected={isRowSelected(row.id.toString())}
                     >
-                        {enableMultiSelect &&
-                            renderRowCheckBox(row.id.toString())}
+                        {enableMultiSelect && renderRowCheckBox(row)}
 
                         {headers.map((header) => renderRowCell(header, row))}
                     </BodyRow>
@@ -336,6 +398,7 @@ export const DataTable = ({
             <BodyCell
                 data-testid={getDataTestId(`row-${cellId}`)}
                 key={cellId}
+                id={getCellId(rowId, fieldKey)}
                 style={style}
                 $isCheckbox={false}
             >
@@ -351,7 +414,9 @@ export const DataTable = ({
         );
     };
 
-    const renderRowCheckBox = (rowId: string) => {
+    const renderRowCheckBox = (row: RowProps) => {
+        const rowId = row.id.toString();
+
         return (
             <BodyCell
                 data-testid={getDataTestId(`row-${rowId}-selection`)}
@@ -360,12 +425,14 @@ export const DataTable = ({
                 <CheckBoxWrapper>
                     <Checkbox
                         checked={isRowSelected(rowId)}
+                        aria-labelledby={getRowCheckboxAriaLabelledBy(rowId)}
                         onClick={() => {
                             if (onSelect) {
                                 onSelect(rowId, !isRowSelected(rowId));
                             }
                         }}
                         disabled={isDisabledRow(rowId)}
+                        focusableWhenDisabled={isDisabledRow(rowId)}
                     />
                 </CheckBoxWrapper>
             </BodyCell>
@@ -405,7 +472,11 @@ export const DataTable = ({
         return (
             <tr>
                 <td colSpan={getTotalColumns()}>
-                    <LoaderWrapper>
+                    <LoaderWrapper
+                        role="status"
+                        aria-live="polite"
+                        aria-label="Loading table"
+                    >
                         {loadState === "loading" && <LoadingDotsSpinner />}
                     </LoaderWrapper>
                 </td>
@@ -432,7 +503,13 @@ export const DataTable = ({
                     <Typography.BodyMD weight="semibold">{`${count} item${
                         count > 1 ? "s" : ""
                     } selected`}</Typography.BodyMD>
-                    <TextButton type="button" onClick={onClearSelectionClick}>
+                    <TextButton
+                        type="button"
+                        aria-label={`Clear selection of ${count} item${
+                            count === 1 ? "" : "s"
+                        }`}
+                        onClick={onClearSelectionClick}
+                    >
                         Clear selection
                     </TextButton>
                     {actionBarContent}
