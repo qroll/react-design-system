@@ -1,15 +1,15 @@
 import styled, { css } from "styled-components";
 
 import { ColDiv } from "../layout/col-div";
+import { Spacing } from "../theme";
 import { V2_ColDiv } from "../v2_layout/col-div";
-import { V3_Spacing } from "../v3_theme";
 
 const commonStyles = css`
     display: flex;
     flex-direction: column;
 
     &:not(:last-child) {
-        margin-bottom: ${V3_Spacing["spacing-32"]};
+        margin-bottom: ${Spacing["spacing-32"]};
     }
 `;
 

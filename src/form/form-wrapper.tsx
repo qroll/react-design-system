@@ -8,17 +8,8 @@ import type { ComponentType } from "react";
 import { Children, cloneElement, useState } from "react";
 
 import { SimpleIdGenerator } from "../util";
-import { FormLabel } from "./form-label";
-import {
-    ErrorIcon,
-    ErrorMessage,
-    ErrorMessageContainer,
-} from "./form-label.style";
-import {
-    ColDivContainer,
-    Container,
-    V2_ColDivContainer,
-} from "./form-wrapper.style";
+import { FormErrorMessage, FormLabel } from "./form-label";
+import * as styles from "./form-wrapper.styles";
 import type { FormElementLayoutType, FormWrapperProps } from "./types";
 
 export const FormWrapper = ({
@@ -123,11 +114,11 @@ export const FormWrapper = ({
     ): ComponentType => {
         switch (layoutType) {
             case "v2-grid":
-                return V2_ColDivContainer;
+                return styles.V2_ColDivContainer;
             case "grid":
-                return ColDivContainer;
+                return styles.ColDivContainer;
             case "flex":
-                return Container;
+                return styles.Container;
         }
     };
 
@@ -182,21 +173,18 @@ export const FormWrapper = ({
             {label && renderFormLabel()}
             {renderChildren()}
             {errorMessage && (
-                <ErrorMessageContainer>
-                    <ErrorIcon aria-hidden />
-                    <ErrorMessage
-                        id={errorMessageId}
-                        tabIndex={0}
-                        data-testid={
-                            errorTestId ??
-                            // FIXME: kept for backwards-compatibility
-                            // in most cases data-testid should be separate from id
-                            (id ? `${id}-error-message` : "error-message")
-                        }
-                    >
-                        {errorMessage}
-                    </ErrorMessage>
-                </ErrorMessageContainer>
+                <FormErrorMessage
+                    id={errorMessageId}
+                    tabIndex={0}
+                    data-testid={
+                        errorTestId ??
+                        // FIXME: kept for backwards-compatibility
+                        // in most cases data-testid should be separate from id
+                        (id ? `${id}-error-message` : "error-message")
+                    }
+                >
+                    {errorMessage}
+                </FormErrorMessage>
             )}
         </ContainerComponent>
     );

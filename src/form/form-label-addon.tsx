@@ -2,7 +2,7 @@ import { ICircleFillIcon } from "@lifesg/react-icons/i-circle-fill";
 import type { RefObject } from "react";
 
 import { PopoverInline } from "../popover-v2";
-import { AddonWrapper } from "./form-label-addon.style";
+import * as styles from "./form-label-addon.styles";
 import type { FormLabelAddonProps } from "./types";
 
 // =============================================================================
@@ -28,7 +28,7 @@ export const PopoverAddon = ({
     // RENDER FUNCTION
     // =========================================================================
     return (
-        <AddonWrapper>
+        <div className={styles.addonWrapper}>
             <PopoverInline
                 trigger="click"
                 id={id}
@@ -39,6 +39,6 @@ export const PopoverAddon = ({
                 icon={icon ?? <ICircleFillIcon data-testid={`${type}-icon`} />}
                 ariaLabel="More info"
             />
-        </AddonWrapper>
+        </div>
     );
 };

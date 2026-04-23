@@ -1,11 +1,7 @@
 import type { OpenChangeReason } from "@floating-ui/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import {
-    ErrorIcon,
-    ErrorMessage,
-    ErrorMessageContainer,
-} from "../../form/form-label.style";
+import { FormErrorMessage } from "../../form/form-label";
 import { ClearIcon } from "../../input/input.style";
 import { ClearIconContainer } from "../../input-range-select/input-range-select.style";
 import { concatIds, VisuallyHidden } from "../../shared/accessibility";
@@ -17,7 +13,7 @@ import { SimpleIdGenerator } from "../../util";
 import { TimeHelper } from "../../util/time-helper";
 import { SelectorInput, Wrapper } from "../common.styles";
 import type { TimeRangePickerProps, TimeRangePickerValue } from "../types";
-import { TimeFieldContainer } from "./combobox-picker.styles";
+import * as styles from "./combobox-picker.styles";
 
 type TimeRangeInputType = "start" | "end";
 interface TimeChangeOptions {
@@ -395,7 +391,7 @@ export const ComboboxPicker = ({
     };
 
     const renderElement = () => (
-        <TimeFieldContainer
+        <styles.TimeFieldContainer
             ref={nodeRef}
             disabled={disabled}
             error={error || !!validationError}
@@ -474,23 +470,20 @@ export const ComboboxPicker = ({
                 />
             </RangeInputInnerContainer>
             {renderClearButton()}
-        </TimeFieldContainer>
+        </styles.TimeFieldContainer>
     );
 
     const renderError = () =>
         // Only display internal error message if user does not provide one
         !error &&
         validationError && (
-            <ErrorMessageContainer>
-                <ErrorIcon aria-hidden />
-                <ErrorMessage
-                    id={errorId}
-                    tabIndex={0}
-                    data-testid={id ? `${id}-error-message` : "error-message"}
-                >
-                    {validationError}
-                </ErrorMessage>
-            </ErrorMessageContainer>
+            <FormErrorMessage
+                id={errorId}
+                tabIndex={0}
+                data-testid={id ? `${id}-error-message` : "error-message"}
+            >
+                {validationError}
+            </FormErrorMessage>
         );
 
     return (
