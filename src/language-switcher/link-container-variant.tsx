@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import type React from "react";
+import { useRef } from "react";
 
 import { ARIA_LABEL, LANGUAGE_CODES, LANGUAGE_DISPLAY_MAP } from "./data";
 import type { VariantInternalProps } from "./internal-types";

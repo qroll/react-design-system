@@ -1,5 +1,6 @@
 import "@govtechsg/sgds-web-component/themes/day.css";
 import "@govtechsg/sgds-web-component/themes/night.css";
+
 import { memo, useContext, useEffect } from "react";
 import { ThemeContext } from "styled-components";
 

@@ -6,7 +6,7 @@ import { useResizeDetector } from "react-resize-detector";
 import { LoadingDotsSpinner } from "../animations";
 import { Checkbox } from "../checkbox";
 import { ErrorDisplay } from "../error-display";
-import { VisuallyHidden, concatIds } from "../shared/accessibility";
+import { concatIds, VisuallyHidden } from "../shared/accessibility";
 import { Typography } from "../typography";
 import { SimpleIdGenerator } from "../util";
 import { useEventListener } from "../util/use-event-listener";

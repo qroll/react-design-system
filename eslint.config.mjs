@@ -96,6 +96,8 @@ export default defineConfig([
             "**/dist/**",
             "**/.storybook/**",
             "**/e2e/**",
+            "**/playwright-report/**",
+            "**/storybook-static/**",
             "playwright.config.ts",
         ],
     },
