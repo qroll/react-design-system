@@ -19,11 +19,6 @@ export const FORM_LABEL_PROPS_DATA: ApiTableSectionProps = {
     attributes: [
         ...FORM_LABEL_USED_WITH_WRAPPER_PROPS_DATA.attributes,
         {
-            name: "disabled",
-            description: "Indicates if a disabled display should be applied",
-            propTypes: ["string"],
-        },
-        {
             name: "subtitle",
             description: (
                 <>
