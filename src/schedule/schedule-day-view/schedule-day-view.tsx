@@ -1,4 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@lifesg/react-icons";
+import type { MouseEvent } from "react";
 import { useMemo, useRef } from "react";
 
 import { ThemedLoadingSpinner } from "../../animations/themed-loading-spinner/themed-loading-spinner";
@@ -224,7 +225,9 @@ export const ScheduleDayView = ({
                 $status={slot.status}
                 $duration={duration}
                 $offsetTop={offsetTop}
-                onClick={(e) => slot.onClick && slot.onClick(slot, e)}
+                onClick={(e: MouseEvent) =>
+                    slot.onClick && slot.onClick(slot, e)
+                }
             >
                 {duration >= 15 && (
                     <>

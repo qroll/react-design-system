@@ -203,7 +203,7 @@ export const HeaderCell = styled.th<HeaderCellProps>`
         }
     }};
     &:focus-within {
-        outline: 2px solid ${Colour["focus-ring"]};
+        outline: 2px solid ${V3_Colour["focus-ring"]};
         outline-offset: -3px;
     }
 `;
