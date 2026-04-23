@@ -15,3 +15,9 @@
 .story-padding {
     padding: 1rem;
 }
+
+@media (prefers-color-scheme: dark) {
+    .story-background {
+        background-color: #000000;
+    }
+}
