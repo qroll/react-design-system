@@ -25,7 +25,11 @@ export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface ModalV2Props extends React.HTMLAttributes<HTMLDivElement> {
     "data-testid"?: string | undefined;
     show: boolean;
-    children: React.ReactNode;
+    /** The content of the modal. The parent element must be a valid HTML
+     * element or a component that forwards a ref to a valid HTML element. This
+     * element is used to determine the boundaries for overlay click
+     * detection. Fragments are not supported. */
+    children: React.JSX.Element;
     /** Animation direction of appearance and dismissal. Values: "top" | "bottom" | "left" | "right" */
     animationFrom?: ModalAnimationDirection | undefined;
     enableOverlayClick?: boolean | undefined;

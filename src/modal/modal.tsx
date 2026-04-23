@@ -23,8 +23,7 @@ export const Modal = ({
     const { verticalHeight, offsetTop } = useViewport();
     const childRef = useRef<HTMLDivElement>(null);
     const childWithRef =
-        children &&
-        React.cloneElement(children as React.ReactElement, { ref: childRef });
+        children && React.cloneElement(children, { ref: childRef });
 
     // =============================================================================
     // EFFECTS
