@@ -18,6 +18,15 @@ const PLACEMENTS: PlacementExpectation[] = [
     "bottom-end",
 ];
 
+const placementButtonNames: Record<PlacementExpectation, string> = {
+    top: "Top",
+    bottom: "Bottom",
+    left: "Left",
+    right: "Right",
+    "bottom-start": "Bottom start",
+    "bottom-end": "Bottom end",
+};
+
 class StoryPage extends AbstractStoryPage {
     protected readonly component = "menu";
 
@@ -31,6 +40,8 @@ class StoryPage extends AbstractStoryPage {
         linkThird: Locator;
         linkLong: Locator;
         contentOverflow: Locator;
+        triggerForPlacement: (position: PlacementExpectation) => Locator;
+        contentForPlacement: (position: PlacementExpectation) => Locator;
     };
 
     constructor(page: Page) {
@@ -52,28 +63,17 @@ class StoryPage extends AbstractStoryPage {
                 name: "This is a long menu link title that should clamp across lines when the menu has limited width",
             }),
             contentOverflow: page.getByTestId("menu-content-overflow"),
+            triggerForPlacement: (position: PlacementExpectation) => {
+                return page.getByRole("button", {
+                    name: placementButtonNames[position],
+                });
+            },
+            contentForPlacement: (position: PlacementExpectation) => {
+                return page.getByRole("link", {
+                    name: `${position} link`,
+                });
+            },
         };
-    }
-
-    public triggerForPlacement(position: PlacementExpectation) {
-        const buttonNames: Record<PlacementExpectation, string> = {
-            top: "Top",
-            bottom: "Bottom",
-            left: "Left",
-            right: "Right",
-            "bottom-start": "Bottom start",
-            "bottom-end": "Bottom end",
-        };
-
-        return this.page.getByRole("button", {
-            name: buttonNames[position],
-        });
-    }
-
-    public contentForPlacement(position: PlacementExpectation) {
-        return this.page.getByRole("link", {
-            name: `${position} link`,
-        });
     }
 }
 
@@ -164,8 +164,8 @@ test.describe("Menu", () => {
 
         for (const placement of PLACEMENTS) {
             test(`position=${placement}`, async ({ story }) => {
-                const trigger = story.triggerForPlacement(placement);
-                const content = story.contentForPlacement(placement);
+                const trigger = story.locators.triggerForPlacement(placement);
+                const content = story.locators.contentForPlacement(placement);
 
                 await trigger.click();
                 await expect(content).toBeVisible();
