@@ -32,8 +32,8 @@ class StoryPage extends AbstractStoryPage {
 
     public readonly locators: {
         triggerDefault: Locator;
-        contentDefault: Locator;
-        outsideDismissTarget: Locator;
+        content: Locator;
+        outsideTarget: Locator;
         itemProfile: Locator;
         linkFirst: Locator;
         linkSecond: Locator;
@@ -49,10 +49,8 @@ class StoryPage extends AbstractStoryPage {
 
         this.locators = {
             triggerDefault: page.getByRole("button", { name: "Open menu" }),
-            contentDefault: page.getByTestId("menu-content-default"),
-            outsideDismissTarget: page.getByRole("button", {
-                name: "Outside dismiss target",
-            }),
+            content: page.getByTestId("menu-content"),
+            outsideTarget: page.getByTestId("outside-dismiss-target"),
             itemProfile: page.getByRole("listitem").filter({
                 hasText: "Jane Doe",
             }),
@@ -66,6 +64,7 @@ class StoryPage extends AbstractStoryPage {
             triggerForPlacement: (position: PlacementExpectation) => {
                 return page.getByRole("button", {
                     name: placementButtonNames[position],
+                    exact: true,
                 });
             },
             contentForPlacement: (position: PlacementExpectation) => {
@@ -92,13 +91,13 @@ test.describe("Menu", () => {
 
         test("Mount", async ({ story }) => {
             await story.locators.triggerDefault.click();
-            await expect(story.locators.contentDefault).toBeVisible();
+            await expect(story.locators.content).toBeVisible();
 
             await compareScreenshot(story, "state", {
                 fullscreen: true,
             });
 
-            await expect(story.locators.contentDefault).toMatchAriaSnapshot(`
+            await expect(story.locators.content).toMatchAriaSnapshot(`
                 - list:
                   - listitem:
                     - paragraph: Jane Doe
@@ -122,13 +121,13 @@ test.describe("Menu", () => {
                       - /url: "#long-link"
             `);
 
-            await story.locators.outsideDismissTarget.click();
-            await expect(story.locators.contentDefault).not.toBeVisible();
+            await story.locators.outsideTarget.click();
+            await expect(story.locators.content).not.toBeVisible();
         });
 
         test("Keyboard navigation", async ({ story }) => {
             await story.locators.triggerDefault.click();
-            await expect(story.locators.contentDefault).toBeVisible();
+            await expect(story.locators.content).toBeVisible();
 
             await story.locators.linkFirst.focus();
             await expect(story.locators.linkFirst).toBeFocused();
@@ -154,6 +153,20 @@ test.describe("Menu", () => {
 
         test("Overflow", async ({ story }) => {
             await compareScreenshot(story, "state");
+        });
+    });
+
+    test.describe("Variants", () => {
+        test.beforeEach(async ({ story }) => {
+            await story.init("variants");
+        });
+
+        test("Section and item variants", async ({ story }) => {
+            await expect(story.locators.content).toBeVisible();
+
+            await compareScreenshot(story, "state", {
+                locator: story.locators.content,
+            });
         });
     });
 

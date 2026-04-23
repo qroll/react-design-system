@@ -4,7 +4,7 @@ import { Menu } from "@lifesg/react-design-system/menu";
 import { Button } from "@lifesg/react-design-system";
 
 const menuContent = (
-    <Menu.Content data-testid="menu-content-default">
+    <Menu.Content>
         <Menu.Section showDivider={false} data-testid="menu-section-profile">
             <Menu.Item
                 data-testid="menu-item-profile"
