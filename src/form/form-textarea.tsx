@@ -1,10 +1,9 @@
-import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
 import React, { useEffect, useState } from "react";
 
 import { TextareaBase } from "../input-textarea/textarea";
 import { TextareaCounter } from "../input-textarea/textarea-counter";
 import type { TextareaRef } from "../input-textarea/types";
-import * as labelStyles from "./form-label.styles";
+import { FormErrorMessage } from "./form-label";
 import * as styles from "./form-textarea.styles";
 import { FormWrapper } from "./form-wrapper";
 import type { FormTextareaProps } from "./types";
@@ -76,18 +75,12 @@ const FormTextareaComponent = (
         return (
             <div className={styles.labelContainer}>
                 {errorMessage && (
-                    <div className={styles.errorMessageContainer}>
-                        <ExclamationCircleFillIcon
-                            className={labelStyles.errorIcon}
-                            aria-hidden
-                        />
-                        <p
-                            className={styles.errorMessageLabel}
-                            data-testid={getErrorTestMessageId()}
-                        >
-                            {errorMessage}
-                        </p>
-                    </div>
+                    <FormErrorMessage
+                        className={styles.errorMessageLabel}
+                        data-testid={getErrorTestMessageId()}
+                    >
+                        {errorMessage}
+                    </FormErrorMessage>
                 )}
                 {otherProps.maxLength && (
                     <TextareaCounter

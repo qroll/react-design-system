@@ -4,13 +4,11 @@
  *
  */
 
-import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
 import type { ComponentType } from "react";
 import { Children, cloneElement, useState } from "react";
 
 import { SimpleIdGenerator } from "../util";
-import { FormLabel } from "./form-label";
-import * as labelStyles from "./form-label.styles";
+import { FormErrorMessage, FormLabel } from "./form-label";
 import * as styles from "./form-wrapper.styles";
 import type { FormElementLayoutType, FormWrapperProps } from "./types";
 
@@ -175,24 +173,18 @@ export const FormWrapper = ({
             {label && renderFormLabel()}
             {renderChildren()}
             {errorMessage && (
-                <div className={labelStyles.errorMessageContainer}>
-                    <ExclamationCircleFillIcon
-                        className={labelStyles.errorIcon}
-                        aria-hidden
-                    />
-                    <p
-                        id={errorMessageId}
-                        tabIndex={0}
-                        data-testid={
-                            errorTestId ??
-                            // FIXME: kept for backwards-compatibility
-                            // in most cases data-testid should be separate from id
-                            (id ? `${id}-error-message` : "error-message")
-                        }
-                    >
-                        {errorMessage}
-                    </p>
-                </div>
+                <FormErrorMessage
+                    id={errorMessageId}
+                    tabIndex={0}
+                    data-testid={
+                        errorTestId ??
+                        // FIXME: kept for backwards-compatibility
+                        // in most cases data-testid should be separate from id
+                        (id ? `${id}-error-message` : "error-message")
+                    }
+                >
+                    {errorMessage}
+                </FormErrorMessage>
             )}
         </ContainerComponent>
     );
