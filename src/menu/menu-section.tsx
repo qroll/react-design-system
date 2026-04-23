@@ -1,13 +1,16 @@
+import clsx from "clsx";
 import { useState } from "react";
 
+import { Typography } from "../typography";
 import { SimpleIdGenerator } from "../util";
-import { Label, Section } from "./menu-section.styles";
+import * as styles from "./menu-section.styles";
 import type { MenuSectionProps } from "./types";
 
 export const MenuSection = ({
     children,
     label,
     showDivider = true,
+    className,
     "data-testid": testId = "menu-section",
     ...otherProps
 }: MenuSectionProps): JSX.Element => {
@@ -20,19 +23,27 @@ export const MenuSection = ({
     // RENDER FUNCTIONS
     // =============================================================================
     return (
-        <Section
-            $showDivider={showDivider}
+        <ul
             data-testid={testId}
             aria-labelledby={internalId}
+            className={clsx(
+                styles.section,
+                showDivider && styles.sectionWithDivider,
+                className
+            )}
             {...otherProps}
         >
             {label && (
-                <Label weight="semibold" id={internalId}>
+                <Typography.BodyXS
+                    className={styles.label}
+                    weight="semibold"
+                    id={internalId}
+                >
                     {label}
-                </Label>
+                </Typography.BodyXS>
             )}
             {children}
-        </Section>
+        </ul>
     );
 };
 
