@@ -397,7 +397,11 @@ const Component = (
             </PaginationList>
             {showPageSizeChanger && !isMobile && (
                 <InputSelectWrapper>
+                    <VisuallyHidden id={`${paginationId}-page-size`}>
+                        Items per page
+                    </VisuallyHidden>
                     <InputSelect
+                        aria-labelledby={`${paginationId}-page-size`}
                         options={pageSizeOptions}
                         valueExtractor={(item) => item.value}
                         listExtractor={(item) => item.label}

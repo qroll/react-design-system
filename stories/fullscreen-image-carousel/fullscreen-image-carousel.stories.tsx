@@ -136,3 +136,101 @@ export const Configurable: StoryObj<Component> = {
         );
     },
 };
+
+export const WithFileInfo: StoryObj<Component> = {
+    render: (_args) => {
+        const [show, setShow] = useState(false);
+        return (
+            <>
+                <Button.Default
+                    onClick={() => {
+                        setShow((old) => !old);
+                    }}
+                >
+                    Show carousel
+                </Button.Default>
+                <FullscreenImageCarousel
+                    items={[
+                        {
+                            src: "https://picsum.photos/id/157/1600/900",
+                            fileName: "landscape-photo.jpg",
+                            fileSize: "1.2 MB",
+                        },
+                        {
+                            src: "https://picsum.photos/id/10/1600/900",
+                            fileName:
+                                "this-is-a-very-long-file-name-that-should-be-truncated-when-it-exceeds-the-available-width-in-the-bar.jpg",
+                            fileSize:
+                                "234,567,890.12 MB (123,456,789.99 MB compressed)",
+                        },
+                        {
+                            src: "https://picsum.photos/id/369/1000/1000",
+                        },
+                    ]}
+                    show={show}
+                    onClose={() => setShow(false)}
+                />
+            </>
+        );
+    },
+};
+
+export const WithCustomContent: StoryObj<Component> = {
+    render: (_args) => {
+        const [show, setShow] = useState(false);
+        return (
+            <>
+                <Button.Default
+                    onClick={() => {
+                        setShow((old) => !old);
+                    }}
+                >
+                    Show carousel
+                </Button.Default>
+                <FullscreenImageCarousel
+                    items={[
+                        {
+                            type: "custom",
+                            itemLabel: "PDF",
+                            thumbnailSrc:
+                                "https://assets.life.gov.sg/react-design-system/img/upload/pdf.svg",
+                            renderContent: () => (
+                                <iframe
+                                    src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+                                    title="PDF preview"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        border: "none",
+                                    }}
+                                />
+                            ),
+                        },
+                        {
+                            type: "custom",
+                            itemLabel: "document",
+                            renderContent: () => (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: "100%",
+                                        height: "100%",
+                                        color: "#fff",
+                                        fontSize: 24,
+                                    }}
+                                >
+                                    No thumbnail provided
+                                </div>
+                            ),
+                        },
+                    ]}
+                    show={show}
+                    onDelete={() => undefined}
+                    onClose={() => setShow(false)}
+                />
+            </>
+        );
+    },
+};

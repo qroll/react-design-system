@@ -202,6 +202,10 @@ export const HeaderCell = styled.th<HeaderCellProps>`
             `;
         }
     }};
+    &:focus-within {
+        outline: 2px solid ${Colour["focus-ring"]};
+        outline-offset: -3px;
+    }
 `;
 
 export const HeaderCellWrapper = styled.div`

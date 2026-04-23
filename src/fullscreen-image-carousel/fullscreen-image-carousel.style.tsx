@@ -7,6 +7,7 @@ import { Typography } from "../typography";
 import {
     V3_Border,
     V3_Colour,
+    V3_Font,
     V3_MediaQuery,
     V3_Radius,
     V3_Shadow,
@@ -23,6 +24,14 @@ interface ArrowButtonStyleProps extends InsetStyleProps {
 
 interface ThumbnailItemStyleProps {
     $active?: boolean;
+}
+
+interface TopActionButtonsStyleProps extends InsetStyleProps {
+    $hasFileInfo?: boolean | undefined;
+}
+
+interface FileInfoTextWrapperStyleProps {
+    $centerContent?: boolean | undefined;
 }
 
 // =============================================================================
@@ -52,25 +61,61 @@ const IconButton = styled(ClickableIcon)`
     }
 `;
 
-export const TopActionButtons = styled.div<InsetStyleProps>`
-    position: absolute;
-    top: ${(props) =>
-        css`calc(${V3_Spacing["spacing-48"]} + ${props.$insetTop || 0}px)`};
-    right: ${(props) =>
-        css`calc(${V3_Spacing["spacing-48"]} + ${props.$insetRight || 0}px)`};
-    z-index: 5;
+export const TopActionButtons = styled.div<TopActionButtonsStyleProps>`
+    order: -1;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: ${V3_Spacing["spacing-16"]};
 
-    ${V3_MediaQuery.MaxWidth.sm} {
-        top: ${(props) =>
-            css`calc(${V3_Spacing["spacing-20"]} + ${props.$insetTop || 0}px)`};
-        right: ${(props) =>
-            css`calc(${V3_Spacing["spacing-20"]} + ${
-                props.$insetRight || 0
-            }px)`};
-    }
+    ${(props) =>
+        props.$hasFileInfo
+            ? css`
+                  flex-shrink: 0;
+                  background-color: ${V3_Colour["bg-inverse"]};
+                  padding-top: calc(
+                      ${V3_Spacing["spacing-24"]} + ${props.$insetTop || 0}px
+                  );
+                  padding-bottom: ${V3_Spacing["spacing-24"]};
+                  padding-left: calc(
+                      ${V3_Spacing["spacing-32"]} + ${props.$insetLeft || 0}px
+                  );
+                  padding-right: calc(
+                      ${V3_Spacing["spacing-32"]} + ${props.$insetRight || 0}px
+                  );
+
+                  ${V3_MediaQuery.MaxWidth.sm} {
+                      padding-top: calc(
+                          ${V3_Spacing["spacing-16"]} + ${props.$insetTop || 0}px
+                      );
+                      padding-bottom: ${V3_Spacing["spacing-16"]};
+                      padding-left: calc(
+                          ${V3_Spacing["spacing-20"]} + ${props.$insetLeft || 0}px
+                      );
+                      padding-right: calc(
+                          ${V3_Spacing["spacing-20"]} + ${props.$insetRight || 0}px
+                      );
+                  }
+              `
+            : css`
+                  position: absolute;
+                  top: calc(
+                      ${V3_Spacing["spacing-48"]} + ${props.$insetTop || 0}px
+                  );
+                  right: calc(
+                      ${V3_Spacing["spacing-48"]} + ${props.$insetRight || 0}px
+                  );
+                  z-index: 5;
+
+                  ${V3_MediaQuery.MaxWidth.sm} {
+                      top: calc(
+                          ${V3_Spacing["spacing-20"]} + ${props.$insetTop || 0}px
+                      );
+                      right: calc(
+                          ${V3_Spacing["spacing-20"]} + ${props.$insetRight || 0}px
+                      );
+                  }
+              `}
 `;
 
 export const CloseButton = styled(IconButton)``;
@@ -128,7 +173,8 @@ export const ImageGalleryContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
 `;
 
 export const ImageGalleryWrapper = styled.div`
@@ -325,4 +371,42 @@ export const ThumbnailItem = styled.div<ThumbnailItemStyleProps>`
 export const ThumbnailImage = styled(StatefulImage)`
     height: 100%;
     width: 100%;
+`;
+
+// -----------------------------------------------------------------------------
+// FILE INFO BAR STYLING
+// -----------------------------------------------------------------------------
+
+export const FileInfoTextWrapper = styled.div<FileInfoTextWrapperStyleProps>`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: ${V3_Spacing["spacing-8"]};
+    overflow: hidden;
+    min-width: 0;
+    min-height: calc(
+        ${V3_Font.Spec["body-lh-baseline"]} + ${V3_Spacing["spacing-8"]} +
+            ${V3_Font.Spec["body-lh-md"]}
+    );
+    ${(props) =>
+        props.$centerContent &&
+        css`
+            justify-content: center;
+        `}
+`;
+
+export const FileInfoFileName = styled(Typography.BodyBL)`
+    color: ${V3_Colour["text-inverse"]};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+`;
+
+export const FileInfoFileSize = styled(Typography.BodyMD)`
+    color: ${V3_Colour["text-inverse"]};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
 `;
