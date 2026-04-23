@@ -1,7 +1,6 @@
 "use client";
 
 import { Menu } from "@lifesg/react-design-system/menu";
-import styles from "./menu.module.css";
 import { Button } from "@lifesg/react-design-system";
 
 const menuContent = (
@@ -39,7 +38,7 @@ const menuContent = (
 export default function Story() {
     return (
         <div className="story-column-container">
-            <div className={styles.defaultRow}>
+            <div>
                 <Menu menuContent={menuContent}>
                     <Button data-testid="menu-trigger-default">
                         Open menu
