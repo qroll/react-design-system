@@ -115,51 +115,21 @@ describe("TimepickerDropdown", () => {
         expect(confirmBtn).not.toBeDisabled();
     });
 
-    it("should prevent special characters in time inputs", () => {
-        renderDropdown({ value: "" });
+    it("should prevent special characters in time inputs", async () => {
+        const user = userEvent.setup();
+
+        renderDropdown({ value: "03:15AM" });
 
         const hourInput = getHourInput();
         const minuteInput = getMinuteInput();
 
-        const specialKeyAtEvent = new KeyboardEvent("keydown", {
-            key: "@",
-            code: "KeyA",
-            bubbles: true,
-            cancelable: true,
-        });
-        const specialKeyPeriodEvent = new KeyboardEvent("keydown", {
-            key: ".",
-            code: "Period",
-            bubbles: true,
-            cancelable: true,
-        });
-        const specialKeyDashEvent = new KeyboardEvent("keydown", {
-            key: "-",
-            code: "Minus",
-            bubbles: true,
-            cancelable: true,
-        });
+        await user.click(hourInput);
+        await user.keyboard("@.-");
+        expect(hourInput).toHaveValue(3);
 
-        const numberKeyEvent = new KeyboardEvent("keydown", {
-            key: "1",
-            code: "Digit1",
-            bubbles: true,
-            cancelable: true,
-        });
-
-        const isSpecialKeyAtPrevented =
-            !hourInput.dispatchEvent(specialKeyAtEvent);
-        const isSpecialKeyPeriodPrevented = !hourInput.dispatchEvent(
-            specialKeyPeriodEvent
-        );
-        const isSpecialKeyDashPrevented =
-            !hourInput.dispatchEvent(specialKeyDashEvent);
-        const isNumberKeyPrevented = !minuteInput.dispatchEvent(numberKeyEvent);
-
-        expect(isSpecialKeyAtPrevented).toBe(true);
-        expect(isSpecialKeyPeriodPrevented).toBe(true);
-        expect(isSpecialKeyDashPrevented).toBe(true);
-        expect(isNumberKeyPrevented).toBe(false);
+        await user.click(minuteInput);
+        await user.keyboard("-1");
+        expect(minuteInput).toHaveValue(1);
     });
 
     it("should keep hour value on blur when hour is valid", async () => {
