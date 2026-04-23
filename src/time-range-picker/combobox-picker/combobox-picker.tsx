@@ -2,7 +2,7 @@ import type { OpenChangeReason } from "@floating-ui/react";
 import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import * as styles from "../../form/form-label.styles";
+import * as labelStyles from "../../form/form-label.styles";
 import { ClearIcon } from "../../input/input.style";
 import { ClearIconContainer } from "../../input-range-select/input-range-select.style";
 import { concatIds, VisuallyHidden } from "../../shared/accessibility";
@@ -14,7 +14,7 @@ import { SimpleIdGenerator } from "../../util";
 import { TimeHelper } from "../../util/time-helper";
 import { SelectorInput, Wrapper } from "../common.styles";
 import type { TimeRangePickerProps, TimeRangePickerValue } from "../types";
-import { TimeFieldContainer } from "./combobox-picker.styles";
+import * as styles from "./combobox-picker.styles";
 
 type TimeRangeInputType = "start" | "end";
 interface TimeChangeOptions {
@@ -392,7 +392,7 @@ export const ComboboxPicker = ({
     };
 
     const renderElement = () => (
-        <TimeFieldContainer
+        <styles.TimeFieldContainer
             ref={nodeRef}
             disabled={disabled}
             error={error || !!validationError}
@@ -471,21 +471,21 @@ export const ComboboxPicker = ({
                 />
             </RangeInputInnerContainer>
             {renderClearButton()}
-        </TimeFieldContainer>
+        </styles.TimeFieldContainer>
     );
 
     const renderError = () =>
         // Only display internal error message if user does not provide one
         !error &&
         validationError && (
-            <div className={styles.errorMessageContainer}>
+            <div className={labelStyles.errorMessageContainer}>
                 <ExclamationCircleFillIcon
-                    className={styles.errorIcon}
+                    className={labelStyles.errorIcon}
                     aria-hidden
                 />
                 <p
                     id={errorId}
-                    className={styles.errorMessage}
+                    className={labelStyles.errorMessage}
                     tabIndex={0}
                     data-testid={id ? `${id}-error-message` : "error-message"}
                 >

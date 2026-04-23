@@ -182,7 +182,6 @@ export const FormWrapper = ({
                     />
                     <p
                         id={errorMessageId}
-                        className={labelStyles.errorMessage}
                         tabIndex={0}
                         data-testid={
                             errorTestId ??

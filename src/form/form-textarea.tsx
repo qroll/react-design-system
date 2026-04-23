@@ -1,5 +1,4 @@
 import { ExclamationCircleFillIcon } from "@lifesg/react-icons";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
 import { TextareaBase } from "../input-textarea/textarea";
@@ -83,10 +82,7 @@ const FormTextareaComponent = (
                             aria-hidden
                         />
                         <p
-                            className={clsx(
-                                labelStyles.errorMessage,
-                                styles.errorMessageLabel
-                            )}
+                            className={styles.errorMessageLabel}
                             data-testid={getErrorTestMessageId()}
                         >
                             {errorMessage}
