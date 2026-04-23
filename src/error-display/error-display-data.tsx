@@ -683,29 +683,25 @@ export const generateErrorDisplayData = (
 export const getErrorDisplayData = (
     type: ErrorDisplayType,
     resourceScheme: ThemeType,
-    _mobile: string,
-    _tablet: string
+    mobile: string,
+    tablet: string
 ) => {
     switch (resourceScheme) {
         case "bookingsg":
-            return generateErrorDisplayData(BsgImgPaths, _mobile, _tablet).get(
+            return generateErrorDisplayData(BsgImgPaths, mobile, tablet).get(
                 type
             );
         case "ccube":
-            return generateErrorDisplayData(
-                CCubeImgPaths,
-                _mobile,
-                _tablet
-            ).get(type);
+            return generateErrorDisplayData(CCubeImgPaths, mobile, tablet).get(
+                type
+            );
         case "mylegacy":
             return generateErrorDisplayData(
                 MyLegacyImgPaths,
-                _mobile,
-                _tablet
+                mobile,
+                tablet
             ).get(type);
         default:
-            return generateErrorDisplayData(ImgPaths, _mobile, _tablet).get(
-                type
-            );
+            return generateErrorDisplayData(ImgPaths, mobile, tablet).get(type);
     }
 };
